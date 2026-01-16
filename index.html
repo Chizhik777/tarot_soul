@@ -65,7 +65,16 @@
         }
         #custom-cursor.active { width: 40px; height: 40px; }
 
-        #preloader { transition: opacity 0.8s ease-out, visibility 0.8s; z-index: 9999; position: fixed; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; }
+        #preloader { 
+            transition: opacity 0.8s ease-out, visibility 0.8s; 
+            z-index: 9999; 
+            position: fixed; 
+            inset: 0; 
+            background: #000; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
         #preloader.loaded { opacity: 0; visibility: hidden; }
 
         #chaos-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; background: #000; }
@@ -87,7 +96,6 @@
             text-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
         }
 
-        /* --- TAROT CARDS --- */
         .tarot-card-wrapper { perspective: 1200px; }
         .tarot-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
         .flipped .tarot-card-inner { transform: rotateY(180deg); }
@@ -111,7 +119,7 @@
         }
         .card-back { background: #000; transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; justify-content: center; border-color: #D4AF37; }
 
-        /* --- PORTAL --- */
+        /* PORTAL */
         .portal-container { position: relative; width: 220px; height: 220px; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
         .portal-ring { position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; border-top-color: #D4AF37; border-bottom-color: #997B1E; animation: spin-fx 10s linear infinite; filter: drop-shadow(0 0 10px #D4AF37); }
         .portal-ring:nth-child(2) { inset: 15px; border-left-color: #333; border-right-color: #666; animation: spin-fx 7s linear infinite reverse; border-top-color: transparent; border-bottom-color: transparent; }
@@ -119,7 +127,6 @@
         .portal-mist { position: absolute; inset: -50%; background: conic-gradient(transparent, rgba(212, 175, 55, 0.3), transparent, rgba(255, 255, 255, 0.1), transparent); animation: spin-fx 4s linear infinite; filter: blur(20px); }
         @keyframes spin-fx { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* --- UI ELEMENTS --- */
         .btn-gold {
             background: transparent; border: 1px solid #D4AF37; color: #D4AF37; padding: 12px 24px;
             font-family: 'Cinzel Decorative', serif; transition: all 0.4s ease;
@@ -140,7 +147,7 @@
         .time-slot.selected { background: #D4AF37; color: #000; font-weight: bold; }
         .time-slot.disabled { opacity: 0.15; cursor: not-allowed; text-decoration: line-through; border-color: transparent; background: rgba(255,255,255,0.05); }
 
-        /* --- BUTTERFLY --- */
+        /* BUTTERFLY */
         .magical-scene { height: 140px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
         .butterfly-container { position: relative; width: 80px; height: 80px; animation: b-hover 4s ease-in-out infinite; }
         .butterfly { width: 100%; height: 100%; transform-style: preserve-3d; }
@@ -183,7 +190,7 @@
     <section class="min-h-screen flex flex-col items-center justify-center text-center px-4 relative pt-20">
         <div class="absolute top-1/4 left-10 opacity-20 text-gold-700 text-6xl animate-bounce" style="animation-duration: 8s">☾</div>
         <div class="absolute bottom-1/4 right-10 opacity-20 text-gold-700 text-6xl animate-bounce" style="animation-duration: 12s">🜁</div>
-        <h1 class="font-heading text-5xl md:text-8xl text-gold-glow">Таро с Душой</h1>
+        <h1 class="font-heading text-5xl md:text-8xl text-gold-glow uppercase">Таро с Душой</h1>
         <p class="text-xl md:text-2xl text-gold-100 italic max-w-2xl font-light mb-12">"Там, где Тьма встречается со Светом, рождается Истина."</p>
         <div class="animate-bounce text-gold-500/50 mt-10"><i class="fas fa-chevron-down text-2xl"></i></div>
     </section>
@@ -210,7 +217,7 @@
                 <div class="portal-ring"></div>
                 <div class="portal-core">
                     <div class="portal-mist" id="portal-mist"></div>
-                    <span id="portal-text" class="relative z-20 font-heading text-3xl text-white">?</span>
+                    <span id="portal-text" class="relative z-20 font-heading text-4xl text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]">?</span>
                 </div>
             </div>
             <p class="mt-6 text-xs text-gold-700 tracking-[0.4em] uppercase opacity-50">Нажми для ответа</p>
@@ -239,13 +246,13 @@
                              <p id="time-error" class="text-red-500 text-xs mt-1 hidden text-center uppercase tracking-tighter">Пожалуйста, выберите время</p>
                         </div>
                     </div>
-                    <textarea id="book-notes" rows="3" class="input-gold" placeholder="Ваш вопрос или тема расклада..."></textarea>
+                    <textarea id="book-notes" rows="3" class="input-gold" placeholder="Ваш запрос или тема расклада..."></textarea>
                     <button type="submit" id="submit-booking-btn" class="w-full btn-gold rounded-lg font-heading text-lg font-bold shadow-gold-900/40 transition-all">Оформить заявку</button>
                 </form>
             </div>
         </section>
 
-        <!-- 4. REVIEWS (SIDE ARROWS) -->
+        <!-- 4. REVIEWS -->
         <section class="relative">
             <h2 class="font-heading text-3xl text-center text-gold-300 mb-12 uppercase tracking-widest">Книга Благодарности</h2>
             
@@ -284,14 +291,14 @@
             <div class="magical-scene">
                 <div class="butterfly-container"><div class="butterfly"><div class="wing left"></div><div class="b-body"></div><div class="wing right"></div></div></div>
             </div>
-            <h3 class="font-heading text-2xl text-gold-300 mb-2 uppercase">Остался шаг!</h3>
+            <h3 class="font-heading text-2xl text-gold-300 mb-2 uppercase tracking-widest">Остался шаг!</h3>
             <p class="text-gray-300 text-sm mb-8 leading-relaxed">Чтобы я увидела вашу заявку, <span class="text-white font-bold">подтвердите её в Telegram</span>.</p>
             <button id="success-telegram-btn" class="w-full btn-gold rounded-lg font-bold uppercase animate-pulse">Перейти в Telegram</button>
         </div>
     </div>
 
     <div id="review-modal" class="fixed inset-0 z-[100] hidden bg-black/80 flex items-center justify-center p-4">
-        <div class="glass-panel w-full max-w-md p-8 relative">
+        <div class="glass-panel w-full max-w-md p-8 relative border-gold-500/50 shadow-2xl">
             <button onclick="window.closeReviewModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fas fa-times text-xl"></i></button>
             <h3 class="font-heading text-2xl text-gold-300 mb-6 text-center tracking-wider uppercase">Ваш Отзыв</h3>
             <form onsubmit="window.submitReview(event)" class="space-y-4">
@@ -310,7 +317,7 @@
     </div>
 
     <div id="image-modal" class="fixed inset-0 z-[110] hidden bg-black/95 flex items-center justify-center p-4 cursor-pointer" onclick="window.closeImageModal()">
-        <img id="modal-image" src="" class="max-h-[90vh] max-w-full rounded-lg border border-gold-500/30 shadow-2xl">
+        <img id="modal-image" src="" class="max-h-[90vh] max-w-full rounded-lg border border-gold-500/30">
     </div>
 
     <!-- CORE LOGIC (FIREBASE) -->
@@ -333,20 +340,24 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = "taro-soul-live-production"; // Уникальный ключ проекта
+        const appId = "taro-soul-live-production-v2";
 
         let user = null;
         let isAuthReady = false;
 
+        // Инициализация
         const init = async () => {
             try {
                 const u = await signInAnonymously(auth);
                 user = u.user;
                 isAuthReady = true;
                 loadReviews();
+                // Удаляем прелоадер после входа
+                document.getElementById('preloader').classList.add('loaded');
             } catch (e) { 
-                console.error("Firebase restricted.");
+                console.error("Firebase connection error.");
                 isAuthReady = true; 
+                document.getElementById('preloader').classList.add('loaded');
             }
         };
 
@@ -355,7 +366,7 @@
             const hiddenInput = document.getElementById('selected-time');
             if(!container) return;
 
-            container.innerHTML = '<div class="col-span-3 text-center text-gold-500 text-xs py-2"><i class="fas fa-spinner fa-spin"></i> Считываем записи...</div>';
+            container.innerHTML = '<div class="col-span-3 text-center text-gold-500 text-xs py-2"><i class="fas fa-spinner fa-spin"></i> Синхронизация...</div>';
             hiddenInput.value = '';
 
             // Ждем авторизацию
@@ -368,23 +379,26 @@
             let bookedTimes = [];
             if (db && user) {
                 try {
-                    // Путь: /artifacts/{appId}/public/data/{collectionName}
                     const q = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
                     const snap = await getDocs(q);
                     snap.forEach(docSnap => {
                         const d = docSnap.data();
                         if (d.date === dateString) bookedTimes.push(d.time);
                     });
-                } catch (e) { console.error("Cloud check failed."); }
+                } catch (e) { console.error("Database sync failed."); }
             }
 
             container.innerHTML = '';
-            const todayStr = new Date().toISOString().split('T')[0];
-            const hourNow = new Date().getHours();
+            const now = new Date();
+            const todayStr = now.toISOString().split('T')[0];
+            const hourNow = now.getHours();
 
             for(let h = 11; h <= 19; h++) {
                 const timeStr = `${h}:00`;
-                const isDisabled = (dateString === todayStr && h <= hourNow) || bookedTimes.includes(timeStr);
+                const isPast = (dateString === todayStr && h <= hourNow);
+                const isBooked = bookedTimes.includes(timeStr);
+                const isDisabled = isPast || isBooked;
+
                 const slot = document.createElement('div');
                 slot.className = `time-slot ${isDisabled ? 'disabled' : ''}`;
                 slot.innerText = timeStr;
@@ -417,7 +431,8 @@
 
             if (db && user) {
                 try {
-                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), {
+                    const q = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
+                    await addDoc(q, {
                         name, contact: handle, date, time, notes, createdAt: serverTimestamp()
                     });
                 } catch(err) { console.error("Cloud save failed"); }
@@ -429,7 +444,7 @@
             document.getElementById('success-telegram-btn').onclick = () => window.open(link, '_blank');
             document.getElementById('success-modal').classList.remove('hidden');
             e.target.reset();
-            document.getElementById('time-slots-container').innerHTML = '<div class="col-span-3 text-center text-gray-600 text-sm py-2">Заявка отправлена</div>';
+            document.getElementById('time-slots-container').innerHTML = '<div class="col-span-3 text-center text-gray-600 text-sm py-2 italic">Сначала выберите дату</div>';
             btn.disabled = false;
             btn.innerText = "Оформить заявку";
         };
@@ -443,7 +458,7 @@
                 let html = '';
                 snap.forEach(docSnap => {
                     const r = docSnap.data();
-                    html += `<div class="glass-panel p-6 animate-float">
+                    html += `<div class="glass-panel p-6 animate-float" style="animation-duration: 6s">
                         <div class="flex justify-between items-center mb-4">
                             <span class="font-bold text-white uppercase text-xs">${r.name}</span>
                             <div class="text-gold-300 text-xs">${"★".repeat(r.rating || 5)}</div>
@@ -471,69 +486,59 @@
         init();
     </script>
 
-    <!-- VISUAL SCRIPTS -->
+    <!-- VISUAL LOGIC -->
     <script>
-        window.addEventListener('load', () => { 
-            setTimeout(() => { document.getElementById('preloader').classList.add('loaded'); }, 500); 
-            const dIn = document.getElementById('book-date');
-            if (dIn) dIn.min = new Date().toISOString().split('T')[0];
-        });
+        // 1. DUAL BACKGROUNDS
+        const canvasA = document.getElementById('chaos-bg'), ctxA = canvasA.getContext('2d');
+        const canvasB = document.getElementById('magic-dust'), ctxB = canvasB.getContext('2d');
+        let viewW, viewH, myBlobs = [], myDust = [];
 
-        // 1. DUAL CANVAS BACKGROUNDS
-        const canvasA = document.getElementById('chaos-bg');
-        const ctxA = canvasA.getContext('2d');
-        const canvasB = document.getElementById('magic-dust');
-        const ctxB = canvasB.getContext('2d');
-        let vW, vH, vBlobs = [], vDust = [];
-
-        function resize() {
-            vW = canvasA.width = canvasB.width = window.innerWidth;
-            vH = canvasA.height = canvasB.height = window.innerHeight;
-            vBlobs = Array.from({length: 8}, () => ({
-                x: Math.random()*vW, y: Math.random()*vH, r: Math.random()*300+150,
-                vx: (Math.random()-0.5)*0.6, vy: (Math.random()-0.5)*0.6,
+        function fit() {
+            viewW = canvasA.width = canvasB.width = window.innerWidth;
+            viewH = canvasA.height = canvasB.height = window.innerHeight;
+            myBlobs = Array.from({length: 8}, () => ({
+                x: Math.random()*viewW, y: Math.random()*viewH, r: Math.random()*300+150,
+                vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5,
                 c: Math.random() > 0.5 ? 'rgba(212, 175, 55, 0.12)' : 'rgba(255, 255, 255, 0.05)'
             }));
         }
 
-        class DustParticle {
+        class DustBit {
             constructor(x, y) {
-                this.x = x || Math.random()*vW; this.y = y || Math.random()*vH;
-                this.vx = (Math.random()-0.5)*1.5; this.vy = (Math.random()-0.5)*1.5;
+                this.x = x || Math.random()*viewW; this.y = y || Math.random()*viewH;
+                this.vX = (Math.random()-0.5)*1.5; this.vY = (Math.random()-0.5)*1.5;
                 this.s = Math.random()*2; this.l = 100;
             }
-            u() { this.x += this.vx; this.y += this.vy; this.l--; }
+            u() { this.x += this.vX; this.y += this.vY; this.l--; }
             d() { ctxB.fillStyle = '#D4AF37'; ctxB.globalAlpha = this.l/100; ctxB.beginPath(); ctxB.arc(this.x, this.y, this.s, 0, Math.PI*2); ctxB.fill(); }
         }
 
-        function loop() {
-            ctxA.fillStyle = '#000'; ctxA.fillRect(0,0,vW,vH);
-            vBlobs.forEach(b => {
+        function run() {
+            ctxA.fillStyle = '#000'; ctxA.fillRect(0,0,viewW,viewH);
+            myBlobs.forEach(b => {
                 b.x += b.vx; b.y += b.vy;
-                if(b.x<0 || b.x>vW) b.vx *= -1; if(b.y<0 || b.y>vH) b.vy *= -1;
+                if(b.x<0 || b.x>viewW) b.vx *= -1; if(b.y<0 || b.y>viewH) b.vy *= -1;
                 let g = ctxA.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
                 g.addColorStop(0, b.c); g.addColorStop(1, 'transparent');
                 ctxA.fillStyle = g; ctxA.beginPath(); ctxA.arc(b.x, b.y, b.r, 0, Math.PI*2); ctxA.fill();
             });
-            ctxB.clearRect(0,0,vW,vH);
-            if(vDust.length < 80) vDust.push(new DustParticle());
-            vDust.forEach((p, i) => { p.u(); p.d(); if(p.l<=0) vDust.splice(i, 1); });
-            requestAnimationFrame(loop);
+            ctxB.clearRect(0,0,viewW,viewH);
+            if(myDust.length < 90) myDust.push(new DustBit());
+            myDust.forEach((p, i) => { p.u(); p.d(); if(p.l<=0) myDust.splice(i, 1); });
+            requestAnimationFrame(run);
         }
-        window.addEventListener('resize', resize); resize(); loop();
+        window.addEventListener('resize', fit); fit(); run();
 
         // 2. CURSOR
-        const cursorEl = document.getElementById('custom-cursor');
+        const curEl = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', e => {
-            if(cursorEl) { cursorEl.style.left = e.clientX + 'px'; cursorEl.style.top = e.clientY + 'px'; }
-            if(Math.random() > 0.8) vDust.push(new DustParticle(e.clientX, e.clientY));
+            if(curEl) { curEl.style.left = e.clientX + 'px'; curEl.style.top = e.clientY + 'px'; }
+            if(Math.random() > 0.8) myDust.push(new DustBit(e.clientX, e.clientY));
         });
 
-        // 3. TAROT Logic
-        const tarotItems = [
-            { n: "Солнце", icon: "fa-sun" }, { n: "Луна", icon: "fa-moon" }, { n: "Звезда", icon: "fa-star" }
-        ];
-        function initTarot() {
+        // 3. TAROT
+        const tList = [ { n: "Солнце", i: "fa-sun" }, { n: "Луна", i: "fa-moon" }, { n: "Звезда", i: "fa-star" } ];
+        function initCards() {
             const dck = document.getElementById('tarot-deck');
             if(!dck) return; dck.innerHTML = '';
             for(let i=0; i<3; i++) {
@@ -542,22 +547,22 @@
                 c.innerHTML = `<div class="tarot-card-inner"><div class="card-face card-front-design"><div class="eye-symbol"></div></div><div class="card-face card-back"></div></div>`;
                 c.onclick = () => {
                     if(document.querySelector('.flipped')) return;
-                    const itm = tarotItems[Math.floor(Math.random()*3)];
+                    const d = tList[Math.floor(Math.random()*3)];
                     c.classList.add('flipped');
-                    c.querySelector('.card-back').innerHTML = `<i class="fas ${itm.icon} text-6xl text-gold-500 mb-6 animate-pulse"></i><div class="font-heading text-xl text-gold-100 uppercase tracking-widest">${itm.n}</div>`;
+                    c.querySelector('.card-back').innerHTML = `<i class="fas ${d.i} text-6xl text-gold-500 mb-6 animate-pulse"></i><div class="font-heading text-xl text-gold-100 uppercase tracking-widest">${d.n}</div>`;
                     setTimeout(() => {
-                        document.getElementById('result-icon').className = 'fas '+itm.icon;
-                        document.getElementById('result-title').innerText = itm.n;
+                        document.getElementById('result-icon').className = 'fas '+d.i;
+                        document.getElementById('result-title').innerText = d.n;
                         document.getElementById('tarot-result').classList.remove('hidden');
                     }, 600);
                 };
                 dck.appendChild(c);
             }
         }
-        window.resetTarot = () => { document.getElementById('tarot-result').classList.add('hidden'); initTarot(); };
-        initTarot();
+        window.resetTarot = () => { document.getElementById('tarot-result').classList.add('hidden'); initCards(); };
+        initCards();
 
-        // 4. Portal Logic
+        // 4. PORTAL
         window.activatePortal = () => {
             const pt = document.getElementById('portal-text'), mst = document.getElementById('portal-mist');
             const answers = ["ДА", "НЕТ", "ВЕРЬ", "ЖДИ", "ШАНС"];
@@ -565,12 +570,12 @@
             setTimeout(() => { pt.innerText = answers[Math.floor(Math.random()*answers.length)]; pt.style.opacity = '1'; mst.style.animationDuration = '4s'; }, 600);
         };
 
-        // 5. UI Modals & Gallery
-        window.openReviewModal = () => document.getElementById('review-modal').classList.remove('hidden');
-        window.closeReviewModal = () => document.getElementById('review-modal').classList.add('hidden');
+        // 5. MISC
+        window.scrollGallery = d => document.getElementById('gallery-container').scrollBy({ left: d * 320, behavior: 'smooth' });
         window.openImageModal = el => { const img = el.querySelector('img'); if (img) { document.getElementById('modal-image').src = img.src; document.getElementById('image-modal').classList.remove('hidden'); } };
         window.closeImageModal = () => document.getElementById('image-modal').classList.add('hidden');
-        window.scrollGallery = d => document.getElementById('gallery-container').scrollBy({ left: d * 320, behavior: 'smooth' });
+        window.openReviewModal = () => document.getElementById('review-modal').classList.remove('hidden');
+        window.closeReviewModal = () => document.getElementById('review-modal').classList.add('hidden');
         window.currentRating = 5;
         window.setRating = r => { window.currentRating = r; document.querySelectorAll('#star-rating i').forEach((s, idx) => s.className = idx < r ? 'fas fa-star text-gold-300' : 'fas fa-star text-gray-600'); };
     </script>
