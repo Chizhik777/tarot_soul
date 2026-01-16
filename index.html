@@ -123,6 +123,7 @@
         .btn-gold {
             background: transparent; border: 1px solid #D4AF37; color: #D4AF37; padding: 12px 24px;
             font-family: 'Cinzel Decorative', serif; transition: all 0.4s ease;
+            cursor: pointer;
         }
         .btn-gold:hover { background: #D4AF37; color: #000; box-shadow: 0 0 30px rgba(212, 175, 55, 0.5); }
 
@@ -211,6 +212,7 @@
         <section class="flex flex-col items-center">
             <h2 class="font-heading text-3xl text-gold-300 mb-8">Портал Ответов</h2>
             <div class="portal-container cursor-pointer" onclick="window.activatePortal()">
+                <div class="portal-ring"></div>
                 <div class="portal-ring"></div>
                 <div class="portal-core">
                     <span id="portal-text" class="font-heading text-2xl text-white">?</span>
@@ -337,6 +339,7 @@
 
         const initAuth = async () => {
             try {
+                // Пытаемся получить конфиг из среды (в чате) или используем пустую проверку для GitHub
                 const configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
                 if (configStr) {
                     const config = JSON.parse(configStr);
@@ -353,22 +356,25 @@
 
                     onAuthStateChanged(auth, (u) => {
                         user = u;
-                        if (u) {
-                            loadReviews();
-                        }
+                        if (u) loadReviews();
                     });
                 }
-            } catch (e) { console.warn("Firebase restricted. Demo mode."); }
+            } catch (e) { 
+                console.warn("Firebase restricted (External Host). Demo mode enabled."); 
+            }
         };
 
         window.generateTimeSlots = async function(dateString) {
             const container = document.getElementById('time-slots-container');
             const hiddenInput = document.getElementById('selected-time');
+            if(!container) return;
+
             container.innerHTML = '<div class="col-span-3 text-center text-gold-500 text-xs"><i class="fas fa-spinner fa-spin"></i> Проверяем...</div>';
             hiddenInput.value = '';
 
             let bookedTimes = [];
-            // Only try if authenticated and db is available
+            
+            // Если мы в чате с Firebase и пользователь залогинен - проверяем базу
             if (db && user) {
                 try {
                     const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'));
@@ -376,24 +382,26 @@
                         const d = docSnap.data();
                         if (d.date === dateString) bookedTimes.push(d.time);
                     });
-                } catch (e) { console.error("Permission error - skipping live check:", e); }
+                } catch (e) { 
+                    console.error("Firebase error, switching to offline slots"); 
+                }
             }
 
             container.innerHTML = '';
-            const todayStr = new Date().toDateString();
-            const selectedStr = new Date(dateString).toDateString();
-            const isToday = todayStr === selectedStr;
-            const hourNow = new Date().getHours();
+            const today = new Date();
+            const todayStr = today.toISOString().split('T')[0];
+            const hourNow = today.getHours();
 
             for(let h = 11; h <= 19; h++) {
                 const timeStr = `${h}:00`;
-                const isPast = isToday && h <= hourNow;
+                const isPast = (dateString === todayStr && h <= hourNow);
                 const isBooked = bookedTimes.includes(timeStr);
                 const isDisabled = isPast || isBooked;
 
                 const slot = document.createElement('div');
                 slot.className = `time-slot ${isDisabled ? 'disabled' : ''}`;
                 slot.innerText = timeStr;
+                
                 if(!isDisabled) {
                     slot.onclick = () => {
                         Array.from(container.children).forEach(c => c.classList.remove('selected'));
@@ -403,6 +411,10 @@
                     };
                 }
                 container.appendChild(slot);
+            }
+
+            if(container.children.length === 0) {
+                container.innerHTML = '<div class="col-span-3 text-center text-gray-500 text-xs">Нет свободных окон</div>';
             }
         };
 
@@ -422,11 +434,11 @@
                 createdAt: serverTimestamp() || new Date()
             };
 
+            // Сохраняем в Firebase только если он есть
             if (db && user) {
-                try { await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), data); } catch(e) {}
+                try { await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), data); } catch(err) {}
             }
 
-            // Message includes the handle explicitly
             const msg = `Запись на расклад (Donation):%0A%0AИмя: ${data.name}%0AАккаунт: ${handle}%0AДата: ${data.date}%0AВремя: ${data.time}%0AЗапрос: ${data.notes}`;
             const link = `https://t.me/elena_soul_tarot?text=${msg}`;
             
@@ -440,6 +452,7 @@
             if (!db || !user) return;
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'reviews'), (snap) => {
                 const list = document.getElementById('reviews-list');
+                if(!list) return;
                 let html = '';
                 snap.forEach(docSnap => {
                     const r = docSnap.data();
@@ -457,7 +470,7 @@
 
         window.submitReview = async function(e) {
             e.preventDefault();
-            if(!db || !user) { alert("Демо-режим."); window.closeReviewModal(); return; }
+            if(!db || !user) { alert("Демо-режим: База данных не подключена."); window.closeReviewModal(); return; }
             await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'reviews'), {
                 name: document.getElementById('review-name').value,
                 text: document.getElementById('review-text').value,
@@ -468,6 +481,7 @@
             e.target.reset();
         }
 
+        // Запуск
         initAuth();
     </script>
 
@@ -475,12 +489,16 @@
     <script>
         window.addEventListener('load', () => { document.getElementById('preloader').classList.add('loaded'); });
 
+        // Кастомный курсор
         const customCursor = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', e => {
-            customCursor.style.left = e.clientX + 'px';
-            customCursor.style.top = e.clientY + 'px';
+            if(customCursor) {
+                customCursor.style.left = e.clientX + 'px';
+                customCursor.style.top = e.clientY + 'px';
+            }
         });
 
+        // Карты Таро
         const tarotList = [
             { name: "Солнце", icon: "fas fa-sun", desc: "Успех и ясность." },
             { name: "Луна", icon: "fas fa-moon", desc: "Интуиция и тайны." },
@@ -538,7 +556,7 @@
         };
         window.closeImageModal = () => document.getElementById('image-modal').classList.add('hidden');
 
-        // Background
+        // Фон Canvas
         const chaosCanvas = document.getElementById('chaos-bg');
         const chaosCtx = chaosCanvas.getContext('2d');
         let canvW, canvH, energyBlobs = [];
