@@ -87,7 +87,7 @@
             text-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
         }
 
-        /* --- ТАРО (ОРИГИНАЛЬНАЯ РУБАШКА) --- */
+        /* --- TAROT CARDS --- */
         .tarot-card-wrapper { perspective: 1200px; }
         .tarot-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
         .flipped .tarot-card-inner { transform: rotateY(180deg); }
@@ -111,7 +111,7 @@
         }
         .card-back { background: #000; transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; justify-content: center; border-color: #D4AF37; }
 
-        /* --- ПОРТАЛ --- */
+        /* --- PORTAL --- */
         .portal-container { position: relative; width: 220px; height: 220px; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
         .portal-ring { position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; border-top-color: #D4AF37; border-bottom-color: #997B1E; animation: spin-fx 10s linear infinite; filter: drop-shadow(0 0 10px #D4AF37); }
         .portal-ring:nth-child(2) { inset: 15px; border-left-color: #333; border-right-color: #666; animation: spin-fx 7s linear infinite reverse; border-top-color: transparent; border-bottom-color: transparent; }
@@ -119,7 +119,7 @@
         .portal-mist { position: absolute; inset: -50%; background: conic-gradient(transparent, rgba(212, 175, 55, 0.3), transparent, rgba(255, 255, 255, 0.1), transparent); animation: spin-fx 4s linear infinite; filter: blur(20px); }
         @keyframes spin-fx { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* --- UI --- */
+        /* --- UI ELEMENTS --- */
         .btn-gold {
             background: transparent; border: 1px solid #D4AF37; color: #D4AF37; padding: 12px 24px;
             font-family: 'Cinzel Decorative', serif; transition: all 0.4s ease;
@@ -140,7 +140,7 @@
         .time-slot.selected { background: #D4AF37; color: #000; font-weight: bold; }
         .time-slot.disabled { opacity: 0.15; cursor: not-allowed; text-decoration: line-through; border-color: transparent; background: rgba(255,255,255,0.05); }
 
-        /* --- БАБОЧКА --- */
+        /* --- BUTTERFLY --- */
         .magical-scene { height: 140px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
         .butterfly-container { position: relative; width: 80px; height: 80px; animation: b-hover 4s ease-in-out infinite; }
         .butterfly { width: 100%; height: 100%; transform-style: preserve-3d; }
@@ -183,7 +183,7 @@
     <section class="min-h-screen flex flex-col items-center justify-center text-center px-4 relative pt-20">
         <div class="absolute top-1/4 left-10 opacity-20 text-gold-700 text-6xl animate-bounce" style="animation-duration: 8s">☾</div>
         <div class="absolute bottom-1/4 right-10 opacity-20 text-gold-700 text-6xl animate-bounce" style="animation-duration: 12s">🜁</div>
-        <h1 class="font-heading text-5xl md:text-8xl text-gold-glow animate-pulse" style="animation-duration: 4s">Таро с Душой</h1>
+        <h1 class="font-heading text-5xl md:text-8xl text-gold-glow">Таро с Душой</h1>
         <p class="text-xl md:text-2xl text-gold-100 italic max-w-2xl font-light mb-12">"Там, где Тьма встречается со Светом, рождается Истина."</p>
         <div class="animate-bounce text-gold-500/50 mt-10"><i class="fas fa-chevron-down text-2xl"></i></div>
     </section>
@@ -195,7 +195,7 @@
             <h2 class="font-heading text-3xl md:text-4xl text-gold-300 text-center mb-12 uppercase tracking-widest">Золотой Расклад</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 h-[400px]" id="tarot-deck"></div>
             <div id="tarot-result" class="hidden glass-panel p-8 mt-8 text-center max-w-2xl mx-auto border-gold-500/30">
-                <div class="text-6xl text-gold-500 mb-4"><i id="result-icon"></i></div>
+                <div class="text-6xl text-gold-500 mb-4"><i id="result-icon" class=""></i></div>
                 <h3 id="result-title" class="font-heading text-3xl text-gold-100 mb-4"></h3>
                 <p id="result-desc" class="text-lg text-gray-300 italic mb-8"></p>
                 <button onclick="window.resetTarot()" class="btn-gold rounded-full text-sm">Новый вопрос</button>
@@ -210,7 +210,7 @@
                 <div class="portal-ring"></div>
                 <div class="portal-core">
                     <div class="portal-mist" id="portal-mist"></div>
-                    <span id="portal-text" class="relative z-20 font-heading text-4xl text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]">?</span>
+                    <span id="portal-text" class="relative z-20 font-heading text-3xl text-white">?</span>
                 </div>
             </div>
             <p class="mt-6 text-xs text-gold-700 tracking-[0.4em] uppercase opacity-50">Нажми для ответа</p>
@@ -218,8 +218,8 @@
 
         <!-- 3. BOOKING -->
         <section id="booking-section" class="scroll-mt-24">
-            <h2 class="font-heading text-3xl md:text-4xl text-gold-300 text-center mb-12 uppercase tracking-widest">Запись на расклад</h2>
-            <div class="glass-panel p-8 max-w-3xl mx-auto relative border-gold-500/30">
+            <h2 class="font-heading text-3xl md:text-4xl text-gold-300 text-center mb-12 uppercase tracking-widest">Запись на прием</h2>
+            <div class="glass-panel p-8 max-w-3xl mx-auto relative border-gold-500/30 shadow-2xl">
                 <form id="booking-form" class="space-y-8" onsubmit="window.submitBooking(event)">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <input type="text" id="book-name" required class="input-gold" placeholder="Ваше Имя">
@@ -239,8 +239,8 @@
                              <p id="time-error" class="text-red-500 text-xs mt-1 hidden text-center uppercase tracking-tighter">Пожалуйста, выберите время</p>
                         </div>
                     </div>
-                    <textarea id="book-notes" rows="3" class="input-gold" placeholder="Ваш запрос или тема расклада..."></textarea>
-                    <button type="submit" id="submit-booking-btn" class="w-full btn-gold rounded-lg font-heading text-lg font-bold shadow-gold-900/40">Оформить заявку</button>
+                    <textarea id="book-notes" rows="3" class="input-gold" placeholder="Ваш вопрос или тема расклада..."></textarea>
+                    <button type="submit" id="submit-booking-btn" class="w-full btn-gold rounded-lg font-heading text-lg font-bold shadow-gold-900/40 transition-all">Оформить заявку</button>
                 </form>
             </div>
         </section>
@@ -250,10 +250,10 @@
             <h2 class="font-heading text-3xl text-center text-gold-300 mb-12 uppercase tracking-widest">Книга Благодарности</h2>
             
             <div class="relative group/gallery">
-                <button onclick="window.scrollGallery(-1)" class="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-300 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-2xl transition-all">
+                <button onclick="window.scrollGallery(-1)" class="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all">
                     <i class="fas fa-chevron-left text-xl"></i>
                 </button>
-                <button onclick="window.scrollGallery(1)" class="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-300 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-2xl transition-all">
+                <button onclick="window.scrollGallery(1)" class="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all">
                     <i class="fas fa-chevron-right text-xl"></i>
                 </button>
 
@@ -313,13 +313,13 @@
         <img id="modal-image" src="" class="max-h-[90vh] max-w-full rounded-lg border border-gold-500/30 shadow-2xl">
     </div>
 
-    <!-- CORE MODULE (FIREBASE) -->
+    <!-- CORE LOGIC (FIREBASE) -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
         import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, getDocs } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
-        // КЛИЕНТСКИЙ КОНФИГУРАТОР
+        // КЛИЕНТСКИЙ КОНФИГ
         const firebaseConfig = {
           apiKey: "AIzaSyD6JtCMJQnvhhf5H59qtSLWiSMdlXl6VmE",
           authDomain: "taro-7c548.firebaseapp.com",
@@ -333,19 +333,21 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = "oracle-live-production"; // Уникальный ключ приложения
+        const appId = "taro-soul-live-production"; // Уникальный ключ проекта
 
         let user = null;
+        let isAuthReady = false;
 
-        // Инициализация
         const init = async () => {
             try {
-                await signInAnonymously(auth);
-                onAuthStateChanged(auth, (u) => {
-                    user = u;
-                    if (u) loadReviews();
-                });
-            } catch (e) { console.warn("Cloud connection limited."); }
+                const u = await signInAnonymously(auth);
+                user = u.user;
+                isAuthReady = true;
+                loadReviews();
+            } catch (e) { 
+                console.error("Firebase restricted.");
+                isAuthReady = true; 
+            }
         };
 
         window.generateTimeSlots = async function(dateString) {
@@ -356,22 +358,29 @@
             container.innerHTML = '<div class="col-span-3 text-center text-gold-500 text-xs py-2"><i class="fas fa-spinner fa-spin"></i> Считываем записи...</div>';
             hiddenInput.value = '';
 
+            // Ждем авторизацию
+            if (!isAuthReady) {
+                await new Promise(res => {
+                    const check = setInterval(() => { if(isAuthReady) { clearInterval(check); res(); } }, 100);
+                });
+            }
+
             let bookedTimes = [];
             if (db && user) {
                 try {
-                    // Глобальный путь Firestore
-                    const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'));
+                    // Путь: /artifacts/{appId}/public/data/{collectionName}
+                    const q = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
+                    const snap = await getDocs(q);
                     snap.forEach(docSnap => {
                         const d = docSnap.data();
                         if (d.date === dateString) bookedTimes.push(d.time);
                     });
-                } catch (e) { console.error("Firebase sync error"); }
+                } catch (e) { console.error("Cloud check failed."); }
             }
 
             container.innerHTML = '';
-            const now = new Date();
-            const todayStr = now.toISOString().split('T')[0];
-            const hourNow = now.getHours();
+            const todayStr = new Date().toISOString().split('T')[0];
+            const hourNow = new Date().getHours();
 
             for(let h = 11; h <= 19; h++) {
                 const timeStr = `${h}:00`;
@@ -411,7 +420,7 @@
                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), {
                         name, contact: handle, date, time, notes, createdAt: serverTimestamp()
                     });
-                } catch(err) { console.warn("Cloud save failed"); }
+                } catch(err) { console.error("Cloud save failed"); }
             }
 
             const msg = `Здравствуйте, Елена!%0A%0AХочу записаться на расклад:%0AИмя: ${name}%0ATelegram: ${handle}%0AДата: ${date}%0AВремя: ${time}%0AЗапрос: ${notes}`;
@@ -427,15 +436,22 @@
 
         function loadReviews() {
             if (!db || !user) return;
-            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'reviews'), (snap) => {
+            const ref = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
+            onSnapshot(ref, (snap) => {
                 const list = document.getElementById('reviews-list');
                 if(!list) return;
                 let html = '';
                 snap.forEach(docSnap => {
                     const r = docSnap.data();
-                    html += `<div class="glass-panel p-6 animate-float"><div class="flex justify-between items-center mb-4"><span class="font-bold text-white uppercase text-xs">${r.name}</span><div class="text-gold-300 text-xs">${"★".repeat(r.rating || 5)}</div></div><p class="text-gray-400 italic text-sm">"${r.text}"</p></div>`;
+                    html += `<div class="glass-panel p-6 animate-float">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="font-bold text-white uppercase text-xs">${r.name}</span>
+                            <div class="text-gold-300 text-xs">${"★".repeat(r.rating || 5)}</div>
+                        </div>
+                        <p class="text-gray-400 italic text-sm">"${r.text}"</p>
+                    </div>`;
                 });
-                list.innerHTML = html;
+                if (html) list.innerHTML = html;
             });
         }
 
@@ -455,82 +471,82 @@
         init();
     </script>
 
-    <!-- VISUAL SCRIPTS (BACKGROUNDS, CURSOR, CARDS, PORTAL) -->
+    <!-- VISUAL SCRIPTS -->
     <script>
         window.addEventListener('load', () => { 
-            setTimeout(() => { document.getElementById('preloader').classList.add('loaded'); }, 800); 
+            setTimeout(() => { document.getElementById('preloader').classList.add('loaded'); }, 500); 
             const dIn = document.getElementById('book-date');
             if (dIn) dIn.min = new Date().toISOString().split('T')[0];
         });
 
-        // Backgrounds
-        const canvas1 = document.getElementById('chaos-bg');
-        const ct1 = canvas1.getContext('2d');
-        const canvas2 = document.getElementById('magic-dust');
-        const ct2 = canvas2.getContext('2d');
-        let cw, ch, fxBlobs = [], fxDust = [];
+        // 1. DUAL CANVAS BACKGROUNDS
+        const canvasA = document.getElementById('chaos-bg');
+        const ctxA = canvasA.getContext('2d');
+        const canvasB = document.getElementById('magic-dust');
+        const ctxB = canvasB.getContext('2d');
+        let vW, vH, vBlobs = [], vDust = [];
 
-        function setRes() {
-            cw = canvas1.width = canvas2.width = window.innerWidth;
-            ch = canvas1.height = canvas2.height = window.innerHeight;
-            fxBlobs = Array.from({length: 8}, () => ({
-                x: Math.random()*cw, y: Math.random()*ch, r: Math.random()*300+150,
+        function resize() {
+            vW = canvasA.width = canvasB.width = window.innerWidth;
+            vH = canvasA.height = canvasB.height = window.innerHeight;
+            vBlobs = Array.from({length: 8}, () => ({
+                x: Math.random()*vW, y: Math.random()*vH, r: Math.random()*300+150,
                 vx: (Math.random()-0.5)*0.6, vy: (Math.random()-0.5)*0.6,
                 c: Math.random() > 0.5 ? 'rgba(212, 175, 55, 0.12)' : 'rgba(255, 255, 255, 0.05)'
             }));
         }
 
-        class Dust {
+        class DustParticle {
             constructor(x, y) {
-                this.x = x || Math.random()*cw; this.y = y || Math.random()*ch;
+                this.x = x || Math.random()*vW; this.y = y || Math.random()*vH;
                 this.vx = (Math.random()-0.5)*1.5; this.vy = (Math.random()-0.5)*1.5;
                 this.s = Math.random()*2; this.l = 100;
             }
             u() { this.x += this.vx; this.y += this.vy; this.l--; }
-            d() { ct2.fillStyle = '#D4AF37'; ct2.globalAlpha = this.l/100; ct2.beginPath(); ct2.arc(this.x, this.y, this.s, 0, Math.PI*2); ct2.fill(); }
+            d() { ctxB.fillStyle = '#D4AF37'; ctxB.globalAlpha = this.l/100; ctxB.beginPath(); ctxB.arc(this.x, this.y, this.s, 0, Math.PI*2); ctxB.fill(); }
         }
 
-        function drawLoop() {
-            ct1.fillStyle = '#000'; ct1.fillRect(0,0,cw,ch);
-            fxBlobs.forEach(b => {
+        function loop() {
+            ctxA.fillStyle = '#000'; ctxA.fillRect(0,0,vW,vH);
+            vBlobs.forEach(b => {
                 b.x += b.vx; b.y += b.vy;
-                if(b.x<0 || b.x>cw) b.vx *= -1; if(b.y<0 || b.y>ch) b.vy *= -1;
-                let g = ct1.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+                if(b.x<0 || b.x>vW) b.vx *= -1; if(b.y<0 || b.y>vH) b.vy *= -1;
+                let g = ctxA.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
                 g.addColorStop(0, b.c); g.addColorStop(1, 'transparent');
-                ct1.fillStyle = g; ct1.beginPath(); ct1.arc(b.x, b.y, b.r, 0, Math.PI*2); ct1.fill();
+                ctxA.fillStyle = g; ctxA.beginPath(); ctxA.arc(b.x, b.y, b.r, 0, Math.PI*2); ctxA.fill();
             });
-            ct2.clearRect(0,0,cw,ch);
-            if(fxDust.length < 80) fxDust.push(new Dust());
-            fxDust.forEach((p, i) => { p.u(); p.d(); if(p.l<=0) fxDust.splice(i, 1); });
-            requestAnimationFrame(drawLoop);
+            ctxB.clearRect(0,0,vW,vH);
+            if(vDust.length < 80) vDust.push(new DustParticle());
+            vDust.forEach((p, i) => { p.u(); p.d(); if(p.l<=0) vDust.splice(i, 1); });
+            requestAnimationFrame(loop);
         }
-        window.addEventListener('resize', setRes); setRes(); drawLoop();
+        window.addEventListener('resize', resize); resize(); loop();
 
-        // Cursor
-        const cCursor = document.getElementById('custom-cursor');
+        // 2. CURSOR
+        const cursorEl = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', e => {
-            if(cCursor) { cCursor.style.left = e.clientX + 'px'; cCursor.style.top = e.clientY + 'px'; }
-            if(Math.random() > 0.8) fxDust.push(new Dust(e.clientX, e.clientY));
+            if(cursorEl) { cursorEl.style.left = e.clientX + 'px'; cursorEl.style.top = e.clientY + 'px'; }
+            if(Math.random() > 0.8) vDust.push(new DustParticle(e.clientX, e.clientY));
         });
 
-        // Tarot Logic
-        const tItems = [
-            { n: "Солнце", i: "fa-sun" }, { n: "Луна", i: "fa-moon" }, { n: "Звезда", i: "fa-star" }
+        // 3. TAROT Logic
+        const tarotItems = [
+            { n: "Солнце", icon: "fa-sun" }, { n: "Луна", icon: "fa-moon" }, { n: "Звезда", icon: "fa-star" }
         ];
         function initTarot() {
             const dck = document.getElementById('tarot-deck');
             if(!dck) return; dck.innerHTML = '';
             for(let i=0; i<3; i++) {
                 const c = document.createElement('div');
-                c.className = 'tarot-card-wrapper h-full cursor-pointer';
+                c.className = 'tarot-card-wrapper h-full cursor-pointer group';
                 c.innerHTML = `<div class="tarot-card-inner"><div class="card-face card-front-design"><div class="eye-symbol"></div></div><div class="card-face card-back"></div></div>`;
                 c.onclick = () => {
                     if(document.querySelector('.flipped')) return;
-                    const itm = tItems[Math.floor(Math.random()*3)];
+                    const itm = tarotItems[Math.floor(Math.random()*3)];
                     c.classList.add('flipped');
-                    c.querySelector('.card-back').innerHTML = `<i class="fas ${itm.i} text-6xl text-gold-500 mb-6 animate-pulse"></i><div class="font-heading text-xl text-gold-100 uppercase tracking-widest">${itm.n}</div>`;
+                    c.querySelector('.card-back').innerHTML = `<i class="fas ${itm.icon} text-6xl text-gold-500 mb-6 animate-pulse"></i><div class="font-heading text-xl text-gold-100 uppercase tracking-widest">${itm.n}</div>`;
                     setTimeout(() => {
-                        document.getElementById('result-icon').className = 'fas '+itm.i;
+                        document.getElementById('result-icon').className = 'fas '+itm.icon;
                         document.getElementById('result-title').innerText = itm.n;
                         document.getElementById('tarot-result').classList.remove('hidden');
                     }, 600);
@@ -541,7 +557,7 @@
         window.resetTarot = () => { document.getElementById('tarot-result').classList.add('hidden'); initTarot(); };
         initTarot();
 
-        // Portal Logic
+        // 4. Portal Logic
         window.activatePortal = () => {
             const pt = document.getElementById('portal-text'), mst = document.getElementById('portal-mist');
             const answers = ["ДА", "НЕТ", "ВЕРЬ", "ЖДИ", "ШАНС"];
@@ -549,7 +565,7 @@
             setTimeout(() => { pt.innerText = answers[Math.floor(Math.random()*answers.length)]; pt.style.opacity = '1'; mst.style.animationDuration = '4s'; }, 600);
         };
 
-        // UI Modals
+        // 5. UI Modals & Gallery
         window.openReviewModal = () => document.getElementById('review-modal').classList.remove('hidden');
         window.closeReviewModal = () => document.getElementById('review-modal').classList.add('hidden');
         window.openImageModal = el => { const img = el.querySelector('img'); if (img) { document.getElementById('modal-image').src = img.src; document.getElementById('image-modal').classList.remove('hidden'); } };
