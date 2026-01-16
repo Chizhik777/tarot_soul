@@ -73,7 +73,7 @@
         @media (hover: none) and (pointer: coarse) {
             body { cursor: auto !important; }
             #custom-cursor { display: none !important; }
-            .btn-gold, .portal-container, .glass-panel, .cursor-pointer { cursor: pointer !important; }
+            .btn-gold, .portal-container, .glass-panel, .cursor-pointer, input, textarea, button { cursor: pointer !important; }
         }
 
         /* --- CUSTOM CURSOR (Искра) --- */
@@ -221,8 +221,107 @@
         .gallery-scroll::-webkit-scrollbar { height: 0px; background: transparent; }
         .gallery-scroll { scrollbar-width: none; }
 
-        #review-modal, #image-modal { backdrop-filter: blur(10px); cursor: auto !important; }
-        #review-modal *, #image-modal * { cursor: auto !important; }
+        #review-modal, #image-modal, #success-modal { backdrop-filter: blur(10px); cursor: auto !important; }
+        #review-modal *, #image-modal *, #success-modal * { cursor: auto !important; }
+
+        /* --- FORM STYLES --- */
+        .input-gold {
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: #F9F1D8;
+            padding: 12px;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        ::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+        .input-gold:focus {
+            border-color: #D4AF37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+        
+        .time-slot {
+            padding: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            background: rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            color: #E6C87C;
+        }
+        .time-slot:hover:not(.disabled) {
+            border-color: #D4AF37;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+            transform: translateY(-2px);
+            background: rgba(212, 175, 55, 0.1);
+        }
+        .time-slot.selected {
+            background: #D4AF37;
+            color: #000;
+            border-color: #D4AF37;
+            font-weight: bold;
+        }
+        .time-slot.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            border-color: rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.5);
+            text-decoration: line-through;
+        }
+
+        /* --- MAGICAL BUTTERFLY ANIMATION CSS --- */
+        .magical-scene {
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .butterfly-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            animation: butterfly-hover 4s ease-in-out infinite;
+        }
+
+        .butterfly {
+            width: 100%; height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(20deg) rotateY(10deg);
+        }
+
+        .wing {
+            position: absolute; top: 10px;
+            width: 50px; height: 70px;
+            background: radial-gradient(circle at 0% 50%, rgba(212, 175, 55, 0.95), transparent);
+            border-radius: 50% 50% 0 50%;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            filter: drop-shadow(0 0 10px gold);
+            opacity: 0.9;
+        }
+
+        .wing.left { left: -5px; transform-origin: right center; animation: wing-flap-left 1.5s ease-in-out infinite; }
+        .wing.right { right: -5px; transform-origin: left center; transform: scaleX(-1); animation: wing-flap-right 1.5s ease-in-out infinite; }
+
+        .butterfly-body {
+            position: absolute; left: 50%; top: 25px;
+            width: 4px; height: 40px;
+            background: #fff; transform: translateX(-50%);
+            border-radius: 10px; box-shadow: 0 0 15px gold;
+        }
+
+        @keyframes wing-flap-left { 0%, 100% { transform: rotateY(0deg); } 50% { transform: rotateY(70deg); } }
+        @keyframes wing-flap-right { 0%, 100% { transform: scaleX(-1) rotateY(0deg); } 50% { transform: scaleX(-1) rotateY(70deg); } }
+        @keyframes butterfly-hover { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(3deg); } }
 
     </style>
 </head>
@@ -250,8 +349,8 @@
                 <i class="fas fa-moon text-gold-500 text-xl animate-pulse-gold"></i>
                 <span class="font-heading text-xl text-gold-300 tracking-wider">Tarot Soul</span>
             </div>
-            <a href="https://t.me/elena_soul_tarot" target="_blank" class="btn-gold px-6 py-2 rounded-full text-xs font-bold tracking-widest uppercase hover:text-black hover:bg-gold-500 transition-all duration-300 cursor-pointer">
-                Связаться
+            <a href="#booking-section" class="btn-gold px-6 py-2 rounded-full text-xs font-bold tracking-widest uppercase hover:text-black hover:bg-gold-500 transition-all duration-300 cursor-pointer">
+                Записаться
             </a>
         </div>
     </header>
@@ -325,82 +424,103 @@
             </button>
         </section>
 
-        <!-- 4. REVIEWS & GALLERY -->
+        <!-- 4. SERVICES & BOOKING (UNIFIED & INTERACTIVE) -->
+        <section id="booking-section" class="scroll-mt-24">
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-3xl md:text-4xl text-gold-300 mb-2">Расклад за Донат</h2>
+                <p class="text-sm text-gray-400 uppercase tracking-[0.2em]">Оплата по сердцу</p>
+            </div>
+
+            <!-- Single Unified Service Card -->
+            <div class="glass-panel p-10 text-center max-w-4xl mx-auto mb-16 relative overflow-hidden group hover:border-gold-500 transition duration-500">
+                <div class="absolute -inset-1 bg-gold-500/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition duration-700"></div>
+                <div class="relative z-10">
+                    <i class="fas fa-hand-holding-heart text-5xl text-gold-500 mb-6 animate-pulse-gold"></i>
+                    <h3 class="text-2xl md:text-3xl font-heading text-gold-100 mb-4">Ответы Вселенной</h3>
+                    <p class="text-gray-300 text-lg font-light leading-relaxed mb-6 max-w-2xl mx-auto">
+                        Я верю, что помощь должна быть доступна каждому. Вы получаете разбор вашей ситуации, а благодарность определяете сами, исходя из возможностей и отклика в сердце.
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-4 text-sm text-gold-700 font-bold uppercase tracking-wider">
+                        <span><i class="fas fa-check mr-2"></i>Подробный текстовый ответ</span>
+                        <span><i class="fas fa-check mr-2"></i>Фото карт</span>
+                        <span><i class="fas fa-check mr-2"></i>Честность</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Booking Form -->
+            <div class="glass-panel p-8 max-w-3xl mx-auto relative border-gold-500/40">
+                <div class="text-center mb-8">
+                     <h4 class="font-heading text-xl text-gold-300">Запись на прием</h4>
+                     <p class="text-xs text-gray-500 mt-1">Ежедневно с 11:00 до 19:00</p>
+                </div>
+
+                <form id="booking-form" class="relative z-10 space-y-8" onsubmit="submitBooking(event)">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gold-300 text-xs uppercase tracking-widest mb-2">Ваше Имя</label>
+                            <input type="text" id="book-name" required class="input-gold" placeholder="Как к вам обращаться?">
+                        </div>
+                        <div>
+                            <label class="block text-gold-300 text-xs uppercase tracking-widest mb-2">Контакт (Telegram)</label>
+                            <input type="text" id="book-contact" required class="input-gold" placeholder="@username">
+                        </div>
+                    </div>
+                    
+                    <!-- Calendar & Slots -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <label class="block text-gold-300 text-xs uppercase tracking-widest mb-2">Выберите Дату</label>
+                            <input type="date" id="book-date" required class="input-gold cursor-pointer text-center" onchange="generateTimeSlots(this.value)">
+                        </div>
+                        
+                        <div>
+                             <label class="block text-gold-300 text-xs uppercase tracking-widest mb-2">Свободное время</label>
+                             <div id="slots-loader" class="hidden text-center text-gold-500 text-sm py-2">
+                                <i class="fas fa-circle-notch fa-spin"></i> Проверяем...
+                             </div>
+                             <div id="time-slots-container" class="grid grid-cols-3 gap-2">
+                                 <div class="col-span-3 text-center text-gray-600 text-sm py-2">Сначала выберите дату</div>
+                             </div>
+                             <input type="hidden" id="selected-time" required>
+                             <p id="time-error" class="text-red-500 text-xs mt-1 hidden">Пожалуйста, выберите время</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-gold-300 text-xs uppercase tracking-widest mb-2">Ваш Вопрос</label>
+                        <textarea id="book-notes" rows="3" class="input-gold" placeholder="Кратко опишите ситуацию..."></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full btn-gold py-4 rounded-lg font-heading text-lg font-bold hover:bg-gold-500 hover:text-black transition-all">
+                        Оформить заявку
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 5. REVIEWS & GALLERY -->
         <section class="relative">
             <div class="text-center mb-12">
                 <h2 class="font-heading text-3xl md:text-4xl text-gold-300 mb-2">Книга Благодарности</h2>
                 <p class="text-sm text-gray-400 uppercase tracking-[0.2em]">Истории и Отзывы</p>
             </div>
-
             <!-- Gallery -->
             <div class="mb-16 relative group">
-                <!-- Arrows -->
-                <button onclick="scrollGallery(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-black/50 text-gold-500 p-3 rounded-r-lg hover:bg-black/80 hover:text-white transition-all hidden md:block cursor-pointer">
-                    <i class="fas fa-chevron-left text-2xl"></i>
-                </button>
-                <button onclick="scrollGallery(1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-black/50 text-gold-500 p-3 rounded-l-lg hover:bg-black/80 hover:text-white transition-all hidden md:block cursor-pointer">
-                    <i class="fas fa-chevron-right text-2xl"></i>
-                </button>
-
+                <button onclick="scrollGallery(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-black/50 text-gold-500 p-3 rounded-r-lg hover:bg-black/80 hover:text-white transition-all hidden md:block cursor-pointer"><i class="fas fa-chevron-left text-2xl"></i></button>
+                <button onclick="scrollGallery(1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-black/50 text-gold-500 p-3 rounded-l-lg hover:bg-black/80 hover:text-white transition-all hidden md:block cursor-pointer"><i class="fas fa-chevron-right text-2xl"></i></button>
                 <div id="gallery-container" class="flex overflow-x-auto gap-6 py-8 px-4 gallery-scroll snap-x snap-mandatory scroll-pl-4">
-                    
-                    <!-- Screenshot 1 -->
-                    <div class="snap-center shrink-0 w-72 h-[500px] glass-panel p-2 cursor-pointer transition-all duration-500 transform hover:scale-105 hover:shadow-[0_0_30px_rgba(212,175,55,0.3)] group" onclick="openImageModal(this)">
-                        <div class="relative w-full h-full rounded-lg overflow-hidden border border-gold-500/30">
-                            <img src="photo_2026-01-16_12-10-08.jpg" alt="Отзыв 1" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <i class="fas fa-search-plus text-3xl text-gold-100"></i>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Screenshot 2 -->
-                    <div class="snap-center shrink-0 w-72 h-[500px] glass-panel p-2 cursor-pointer transition-all duration-500 transform hover:scale-105 hover:shadow-[0_0_30px_rgba(212,175,55,0.3)] group" onclick="openImageModal(this)">
-                        <div class="relative w-full h-full rounded-lg overflow-hidden border border-gold-500/30">
-                            <img src="photo_2026-01-16_12-10-09.jpg" alt="Отзыв 2" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <i class="fas fa-search-plus text-3xl text-gold-100"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Screenshot 3 -->
-                    <div class="snap-center shrink-0 w-72 h-[500px] glass-panel p-2 cursor-pointer transition-all duration-500 transform hover:scale-105 hover:shadow-[0_0_30px_rgba(212,175,55,0.3)] group" onclick="openImageModal(this)">
-                        <div class="relative w-full h-full rounded-lg overflow-hidden border border-gold-500/30">
-                            <img src="photo_2026-01-16_12-10-10.jpg" alt="Отзыв 3" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <i class="fas fa-search-plus text-3xl text-gold-100"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Screenshot 4 -->
-                    <div class="snap-center shrink-0 w-72 h-[500px] glass-panel p-2 cursor-pointer transition-all duration-500 transform hover:scale-105 hover:shadow-[0_0_30px_rgba(212,175,55,0.3)] group" onclick="openImageModal(this)">
-                        <div class="relative w-full h-full rounded-lg overflow-hidden border border-gold-500/30">
-                            <img src="photo_2026-01-16_12-10-11.jpg" alt="Отзыв 4" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <i class="fas fa-search-plus text-3xl text-gold-100"></i>
-                            </div>
-                        </div>
-                    </div>
-
+                    <div class="snap-center shrink-0 w-72 h-[500px] glass-panel p-2 cursor-pointer transition-all duration-500 transform hover:scale-105 group" onclick="openImageModal(this)"><div class="relative w-full h-full rounded-lg overflow-hidden border border-gold-500/30"><img src="photo_2026-01-16_12-10-08.jpg" alt="Отзыв 1" class="w-full h-full object-cover"></div></div>
+                    <div class="snap-center shrink-0 w-72 h-[500px] glass-panel p-2 cursor-pointer transition-all duration-500 transform hover:scale-105 group" onclick="openImageModal(this)"><div class="relative w-full h-full rounded-lg overflow-hidden border border-gold-500/30"><img src="photo_2026-01-16_12-10-09.jpg" alt="Отзыв 2" class="w-full h-full object-cover"></div></div>
+                    <div class="snap-center shrink-0 w-72 h-[500px] glass-panel p-2 cursor-pointer transition-all duration-500 transform hover:scale-105 group" onclick="openImageModal(this)"><div class="relative w-full h-full rounded-lg overflow-hidden border border-gold-500/30"><img src="photo_2026-01-16_12-10-10.jpg" alt="Отзыв 3" class="w-full h-full object-cover"></div></div>
+                    <div class="snap-center shrink-0 w-72 h-[500px] glass-panel p-2 cursor-pointer transition-all duration-500 transform hover:scale-105 group" onclick="openImageModal(this)"><div class="relative w-full h-full rounded-lg overflow-hidden border border-gold-500/30"><img src="photo_2026-01-16_12-10-11.jpg" alt="Отзыв 4" class="w-full h-full object-cover"></div></div>
                 </div>
-                <p class="text-center text-xs text-gray-500 mt-4 animate-pulse">
-                    <i class="fas fa-hand-pointer mr-1"></i> Нажмите на фото, чтобы увеличить
-                </p>
+                <p class="text-center text-xs text-gray-500 mt-4 animate-pulse">Нажмите на фото, чтобы увеличить</p>
             </div>
-
-            <!-- Text Reviews -->
-            <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-                <div class="col-span-1 md:col-span-2 text-center text-gray-500 italic py-10">
-                    <i class="fas fa-circle-notch fa-spin mr-2"></i> Загрузка текстовых отзывов...
-                </div>
-            </div>
-
+            <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10"></div>
             <div class="text-center">
-                <button onclick="openReviewModal()" class="btn-gold px-10 py-4 rounded-full text-sm font-bold tracking-widest uppercase cursor-pointer">
-                    Оставить Отзыв
-                </button>
+                <button onclick="openReviewModal()" class="btn-gold px-10 py-4 rounded-full text-sm font-bold tracking-widest uppercase cursor-pointer">Оставить Отзыв</button>
             </div>
         </section>
 
@@ -413,19 +533,50 @@
             <a href="https://t.me/elena_soul_tarot" target="_blank" class="hover:text-gold-500 transition cursor-pointer"><i class="fab fa-telegram text-xl"></i></a>
             <a href="#" class="hover:text-gold-500 transition cursor-pointer"><i class="fab fa-youtube text-xl"></i></a>
         </div>
-        <p class="text-gray-700 text-xs uppercase tracking-widest">&copy; 2026 Елена. Сделано с магией.</p>
+        <p class="text-gray-700 text-xs uppercase tracking-widest">&copy; 2026 Елена. Сделано с душой.</p>
     </footer>
 
-    <!-- MODALS -->
-    <div id="review-modal" class="fixed inset-0 z-[100] hidden bg-black/80 flex items-center justify-center p-4">
-        <div class="glass-panel w-full max-w-md p-8 relative border-gold-500/50">
-            <button onclick="closeReviewModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white cursor-pointer">
+    <!-- SUCCESS MODAL (CLEAN & SHORT) -->
+    <div id="success-modal" class="fixed inset-0 z-[120] hidden bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="glass-panel w-full max-w-sm p-8 relative border-gold-500/50 text-center transform scale-95 transition-transform duration-300 shadow-[0_0_50px_rgba(212,175,55,0.2)]">
+            
+            <!-- Close Button -->
+            <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-500 hover:text-white transition">
                 <i class="fas fa-times text-xl"></i>
             </button>
+
+            <!-- MAGICAL BUTTERFLY ANIMATION -->
+            <div class="magical-scene">
+                <div class="butterfly-container">
+                    <div class="butterfly">
+                        <div class="wing left"></div>
+                        <div class="butterfly-body"></div>
+                        <div class="wing right"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 class="font-heading text-2xl text-gold-300 mb-2">Остался шаг!</h3>
+            <p class="text-gray-300 text-sm mb-8 leading-relaxed">
+                Чтобы я получила вашу заявку, <span class="text-white font-bold">отправьте её в Telegram</span>.
+            </p>
+
+            <button id="success-telegram-btn" class="w-full btn-gold py-4 rounded-lg text-sm font-bold uppercase cursor-pointer shadow-[0_0_20px_rgba(212,175,55,0.4)] animate-pulse-gold">
+                <i class="fab fa-telegram-plane mr-2 text-lg"></i> Подтвердить в Telegram
+            </button>
+            
+            <p class="text-[10px] text-gray-600 mt-4 uppercase tracking-tighter">Запись будет подтверждена после сообщения</p>
+        </div>
+    </div>
+
+    <!-- REVIEW FORM MODAL -->
+    <div id="review-modal" class="fixed inset-0 z-[100] hidden bg-black/80 flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-md p-8 relative border-gold-500/50">
+            <button onclick="closeReviewModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white cursor-pointer"><i class="fas fa-times text-xl"></i></button>
             <h3 class="font-heading text-2xl text-gold-300 mb-6 text-center">Ваш Отзыв</h3>
             <form id="review-form" class="space-y-4" onsubmit="submitReview(event)">
-                <input type="text" id="review-name" placeholder="Ваше Имя" required class="w-full bg-black/40 border border-gold-500/20 rounded-lg p-3 text-gold-100 placeholder-gray-600 focus:outline-none focus:border-gold-500 transition">
-                <textarea id="review-text" rows="4" placeholder="Напишите пару теплых слов..." required class="w-full bg-black/40 border border-gold-500/20 rounded-lg p-3 text-gold-100 placeholder-gray-600 focus:outline-none focus:border-gold-500 transition"></textarea>
+                <input type="text" id="review-name" placeholder="Ваше Имя" required class="input-gold">
+                <textarea id="review-text" rows="4" placeholder="Напишите пару теплых слов..." required class="input-gold"></textarea>
                 <div class="flex justify-center gap-2 text-2xl mb-4" id="star-rating">
                     <i class="fas fa-star text-gray-600 cursor-pointer hover:text-gold-500 transition" onclick="setRating(1)"></i>
                     <i class="fas fa-star text-gray-600 cursor-pointer hover:text-gold-500 transition" onclick="setRating(2)"></i>
@@ -433,20 +584,20 @@
                     <i class="fas fa-star text-gray-600 cursor-pointer hover:text-gold-500 transition" onclick="setRating(4)"></i>
                     <i class="fas fa-star text-gray-600 cursor-pointer hover:text-gold-500 transition" onclick="setRating(5)"></i>
                 </div>
-                <button type="submit" class="w-full btn-gold py-3 rounded-lg text-sm font-bold uppercase cursor-pointer">Отправить в Вселенную</button>
+                <button type="submit" class="w-full btn-gold py-3 rounded-lg text-sm font-bold uppercase cursor-pointer">Отправить</button>
             </form>
         </div>
     </div>
 
     <div id="image-modal" class="fixed inset-0 z-[110] hidden bg-black/95 flex items-center justify-center p-4 cursor-pointer" onclick="closeImageModal()">
-        <img id="modal-image" src="" alt="Full Review" class="max-h-[85vh] max-w-full rounded-lg shadow-[0_0_50px_rgba(212,175,55,0.2)] border border-gold-500/30">
+        <img id="modal-image" src="" alt="Full Review" class="max-h-[85vh] max-w-full rounded-lg border border-gold-500/30">
     </div>
 
     <!-- LOGIC -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
-        import { getAuth, signInAnonymously, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
-        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, doc, deleteDoc } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
+        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, doc, deleteDoc, getDocs } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
         const firebaseConfig = JSON.parse(__firebase_config);
         const app = initializeApp(firebaseConfig);
@@ -464,12 +615,102 @@
                 } else {
                     await signInAnonymously(auth);
                 }
-                auth.onAuthStateChanged((user) => {
+                onAuthStateChanged(auth, (user) => {
                     currentUser = user;
                     if (user) loadReviews();
                 });
             } catch (e) { console.error("Auth error:", e); }
         }
+
+        window.generateTimeSlots = async function(dateString) {
+            const container = document.getElementById('time-slots-container');
+            const hiddenInput = document.getElementById('selected-time');
+            const loader = document.getElementById('slots-loader');
+            
+            container.innerHTML = '';
+            hiddenInput.value = '';
+            if(!dateString) return;
+
+            loader.classList.remove('hidden');
+
+            let bookedTimes = [];
+            try {
+                const querySnapshot = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'));
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    if (data.date === dateString) bookedTimes.push(data.time);
+                });
+            } catch (error) { console.error("Error:", error); }
+
+            loader.classList.add('hidden');
+
+            const selectedDate = new Date(dateString);
+            const today = new Date();
+            const isToday = selectedDate.toDateString() === today.toDateString();
+            const currentHour = today.getHours();
+
+            for(let h = 11; h <= 19; h++) {
+                const timeLabel = `${h}:00`;
+                const isPast = isToday && h <= currentHour;
+                const isBooked = bookedTimes.includes(timeLabel);
+                const isDisabled = isPast || isBooked;
+
+                const btn = document.createElement('div');
+                btn.className = `time-slot ${isDisabled ? 'disabled' : ''}`;
+                btn.textContent = timeLabel;
+                
+                if (!isDisabled) {
+                    btn.onclick = function() {
+                        Array.from(container.children).forEach(c => c.classList.remove('selected'));
+                        btn.classList.add('selected');
+                        hiddenInput.value = timeLabel;
+                        document.getElementById('time-error').classList.add('hidden');
+                    };
+                }
+                container.appendChild(btn);
+            }
+        }
+
+        window.submitBooking = async function(e) {
+            e.preventDefault();
+            if (!currentUser) return;
+            
+            const name = document.getElementById('book-name').value;
+            const contact = document.getElementById('book-contact').value;
+            const date = document.getElementById('book-date').value;
+            const time = document.getElementById('selected-time').value;
+            const notes = document.getElementById('book-notes').value;
+            const btn = e.target.querySelector('button');
+
+            if(!time) {
+                document.getElementById('time-error').classList.remove('hidden');
+                return;
+            }
+
+            btn.innerText = "Оформляем...";
+            btn.disabled = true;
+
+            try {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), {
+                    name, contact, service: 'Donation', date, time, notes, userId: currentUser.uid, createdAt: serverTimestamp()
+                });
+
+                const message = `Здравствуйте, Елена! Хочу записаться на расклад (Donation).%0A%0AИмя: ${name}%0AДата: ${date}%0AВремя: ${time}%0AЗапрос: ${notes}`;
+                const telegramLink = `https://t.me/elena_soul_tarot?text=${message}`;
+                
+                const modal = document.getElementById('success-modal');
+                const tgBtn = document.getElementById('success-telegram-btn');
+                
+                tgBtn.onclick = () => window.open(telegramLink, '_blank');
+                modal.classList.remove('hidden');
+                modal.querySelector('.glass-panel').classList.add('scale-100');
+                modal.querySelector('.glass-panel').classList.remove('scale-95');
+
+                document.getElementById('booking-form').reset();
+                document.getElementById('time-slots-container').innerHTML = '<div class="col-span-3 text-center text-gray-600 text-sm py-2">Сначала выберите дату</div>';
+            } catch (error) { console.error(error); } 
+            finally { btn.innerText = "Оформить заявку"; btn.disabled = false; }
+        };
 
         function loadReviews() {
             const reviewsRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
@@ -496,12 +737,9 @@
                                 </div>
                                 <div>
                                     <h4 class="font-bold text-white text-sm">${review.name}</h4>
-                                    <div class="flex text-xs text-gold-300">
-                                        ${Array(review.rating || 5).fill('<i class="fas fa-star"></i>').join('')}
-                                    </div>
+                                    <div class="flex text-xs text-gold-300">${Array(review.rating || 5).fill('<i class="fas fa-star"></i>').join('')}</div>
                                 </div>
                             </div>
-                            <i class="fas fa-quote-right text-white/10 text-2xl"></i>
                         </div>
                         <p class="text-blue-100 font-light italic leading-relaxed text-sm">"${review.text}"</p>
                     </div>
@@ -523,15 +761,13 @@
                 });
                 closeReviewModal();
                 document.getElementById('review-form').reset();
-            } catch (error) { alert("Ошибка отправки."); }
-            finally { btn.innerText = "Отправить в Вселенную"; btn.disabled = false; }
+            } catch (error) { console.error(error); }
+            finally { btn.innerText = "Отправить"; btn.disabled = false; }
         };
 
         window.deleteReview = async function(docId) {
-            if(!confirm("Удалить этот отзыв?")) return;
-            try {
-                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'reviews', docId));
-            } catch (e) { console.error(e); alert("Ошибка удаления"); }
+            if(!confirm("Удалить отзыв?")) return;
+            try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'reviews', docId)); } catch (e) { console.error(e); }
         }
 
         initAuth();
@@ -549,7 +785,6 @@
 
     <!-- VISUAL SCRIPTS -->
     <script>
-        // Preloader
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const pre = document.getElementById('preloader');
@@ -558,13 +793,11 @@
             }, 1000);
         });
 
-        // Gallery scroll
         window.scrollGallery = function(direction) {
             const container = document.getElementById('gallery-container');
             container.scrollBy({ left: direction * 320, behavior: 'smooth' });
         }
 
-        // Modals
         function openReviewModal() { document.getElementById('review-modal').classList.remove('hidden'); }
         function closeReviewModal() { document.getElementById('review-modal').classList.add('hidden'); }
         function openImageModal(el) {
@@ -573,7 +806,6 @@
         }
         function closeImageModal() { document.getElementById('image-modal').classList.add('hidden'); }
 
-        // --- 1. CHAOS BACKGROUND (Black/White/Gold) ---
         const chaosCanvas = document.getElementById('chaos-bg');
         const chaosCtx = chaosCanvas.getContext('2d');
         let cw, ch, blobs = [];
@@ -582,23 +814,13 @@
             constructor(type) { this.init(type); }
             init(type) {
                 this.type = type;
-                this.radius = Math.random() * 200 + 150; // Slightly smaller to look like "balls"
+                this.radius = Math.random() * 200 + 150;
                 this.x = Math.random() * cw; this.y = Math.random() * ch;
-                this.vx = (Math.random()-0.5)*0.8; // Slightly faster for "plasma" feel
-                this.vy = (Math.random()-0.5)*0.8;
+                this.vx = (Math.random()-0.5)*0.8; this.vy = (Math.random()-0.5)*0.8;
                 this.growth = (Math.random()-0.5)*0.3;
-                
-                if(type === 'white') {
-                    this.color1 = 'rgba(255, 255, 255, 0.3)'; // Bright White
-                    this.color2 = 'rgba(200, 200, 255, 0.1)';
-                } else if (type === 'gold') {
-                    this.color1 = 'rgba(255, 215, 0, 0.3)'; // Bright Gold
-                    this.color2 = 'rgba(218, 165, 32, 0.1)';
-                } else {
-                    // Dark
-                    this.color1 = 'rgba(0, 0, 0, 0.9)';
-                    this.color2 = 'rgba(20, 10, 30, 0.5)';
-                }
+                if(type === 'white') { this.color1 = 'rgba(255, 255, 255, 0.3)'; this.color2 = 'rgba(200, 200, 255, 0.1)'; } 
+                else if (type === 'gold') { this.color1 = 'rgba(255, 215, 0, 0.3)'; this.color2 = 'rgba(218, 165, 32, 0.1)'; } 
+                else { this.color1 = 'rgba(0, 0, 0, 0.9)'; this.color2 = 'rgba(20, 10, 30, 0.5)'; }
             }
             update() {
                 this.x += this.vx; this.y += this.vy; this.radius += this.growth;
@@ -608,13 +830,8 @@
             }
             draw() {
                 const g = chaosCtx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
-                if(this.type === 'white' || this.type === 'gold') {
-                    g.addColorStop(0, this.color1); g.addColorStop(1, 'transparent');
-                    chaosCtx.globalCompositeOperation = 'screen';
-                } else {
-                    g.addColorStop(0, this.color1); g.addColorStop(0.8, this.color2); g.addColorStop(1, 'transparent');
-                    chaosCtx.globalCompositeOperation = 'source-over';
-                }
+                if(this.type === 'white' || this.type === 'gold') { g.addColorStop(0, this.color1); g.addColorStop(1, 'transparent'); chaosCtx.globalCompositeOperation = 'screen'; } 
+                else { g.addColorStop(0, this.color1); g.addColorStop(0.8, this.color2); g.addColorStop(1, 'transparent'); chaosCtx.globalCompositeOperation = 'source-over'; }
                 chaosCtx.fillStyle = g; chaosCtx.beginPath(); chaosCtx.arc(this.x, this.y, this.radius, 0, Math.PI*2); chaosCtx.fill();
             }
         }
@@ -632,10 +849,8 @@
             blobs.forEach(b => { b.update(); b.draw(); });
             requestAnimationFrame(animateChaos);
         }
-        window.addEventListener('resize', initChaos);
-        initChaos(); animateChaos();
+        window.addEventListener('resize', initChaos); initChaos(); animateChaos();
 
-        // --- 2. PARTICLES & CURSOR ---
         const dCanvas = document.getElementById('magic-dust');
         const dCtx = dCanvas.getContext('2d');
         let dw, dh, particles = [], mouse = {x: -100, y: -100};
@@ -646,14 +861,9 @@
             if(cursor) { cursor.style.left = mouse.x+'px'; cursor.style.top = mouse.y+'px'; }
             for(let i=0; i<2; i++) particles.push(new Particle(mouse.x, mouse.y, true));
         });
-        document.querySelectorAll('a, button, .cursor-pointer').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor?.classList.add('active'));
-            el.addEventListener('mouseleave', () => cursor?.classList.remove('active'));
-        });
 
         function resizeDust() { dw = dCanvas.width = window.innerWidth; dh = dCanvas.height = window.innerHeight; }
-        window.addEventListener('resize', resizeDust);
-        resizeDust();
+        window.addEventListener('resize', resizeDust); resizeDust();
 
         class Particle {
             constructor(x, y, fromMouse) {
@@ -664,7 +874,7 @@
                 this.life = fromMouse ? 100 : Math.random()*200+100; this.maxLife = this.life;
                 this.color = Math.random()>0.3 ? '#D4AF37' : '#FFFFFF';
             }
-            update() { this.x+=this.speedX; this.y+=this.speedY; this.life--; if(this.life%10===0) this.size = Math.random()>0.5 ? this.size+0.2 : this.size-0.2; }
+            update() { this.x+=this.speedX; this.y+=this.speedY; this.life--; }
             draw() {
                 dCtx.fillStyle = this.color; dCtx.globalAlpha = (this.life/this.maxLife)*0.8;
                 dCtx.beginPath(); dCtx.arc(this.x, this.y, Math.abs(this.size), 0, Math.PI*2); dCtx.fill();
@@ -678,7 +888,6 @@
         }
         animateDust();
 
-        // --- 3. TAROT ---
         const tarotData = [
             { name: "Туз Пентаклей", desc: "Дверь к богатству открыта. Вселенная дарит тебе ресурс.", icon: "fas fa-coins" },
             { name: "Верховная Жрица", desc: "Тайные знания. Ответ придет во сне или через интуицию.", icon: "fas fa-scroll" },
@@ -713,24 +922,21 @@
                 res.classList.remove('hidden');
             }, 600);
         }
-        function resetTarot() { document.getElementById('tarot-result').classList.add('hidden'); initDeck(); }
+        window.resetTarot = function() { document.getElementById('tarot-result').classList.add('hidden'); initDeck(); }
         initDeck();
 
-        // --- 4. ORB & MSG ---
-        const orbAnswers = ["ДА", "НЕТ", "Верь", "Жди", "Действуй"];
-        let isOrb = false;
-        function activatePortal() {
-            if(isOrb) return; isOrb = true;
+        window.activatePortal = function() {
             const t = document.getElementById('portal-text'), c = document.querySelector('.portal-core');
-            t.style.opacity = '0'; c.style.transform = 'scale(0.8)'; c.style.background = '#fff';
+            const answers = ["ДА", "НЕТ", "Верь", "Жди", "Действуй"];
+            t.style.opacity = '0'; c.style.transform = 'scale(0.8)';
             setTimeout(() => {
-                c.style.transform = 'scale(1.1)'; c.style.background = 'radial-gradient(circle, #000 30%, #333 100%)';
-                t.innerText = orbAnswers[Math.floor(Math.random()*orbAnswers.length)];
-                t.style.opacity = '1'; isOrb = false;
+                c.style.transform = 'scale(1.1)';
+                t.innerText = answers[Math.floor(Math.random()*answers.length)];
+                t.style.opacity = '1';
             }, 400);
         }
         const msgs = ["Свет внутри тебя сильнее тьмы.", "Твой запрос услышан.", "Отпусти контроль.", "Магия начинается с веры."];
-        function getNewMessage() {
+        window.getNewMessage = function() {
             const el = document.getElementById('daily-msg');
             el.style.opacity = '0';
             setTimeout(() => { el.innerText = `"${msgs[Math.floor(Math.random()*msgs.length)]}"`; el.style.opacity = '1'; }, 500);
