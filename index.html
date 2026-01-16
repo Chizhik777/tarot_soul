@@ -123,7 +123,6 @@
         }
         .btn-gold:hover { background: #D4AF37; color: #000; box-shadow: 0 0 30px rgba(212, 175, 55, 0.5); }
 
-        /* --- INPUTS & CALENDAR ICON FIX --- */
         .input-gold {
             width: 100%; background: rgba(0,0,0,0.6); border: 1px solid rgba(212, 175, 55, 0.3);
             color: #F9F1D8; padding: 12px; border-radius: 8px; outline: none;
@@ -131,16 +130,13 @@
         }
         .input-gold:focus { border-color: #D4AF37; }
 
-        /* Делаем иконку выбора даты (календарик) видимой на темном фоне */
         ::-webkit-calendar-picker-indicator {
             filter: invert(1);
             cursor: pointer;
             opacity: 0.7;
             transition: opacity 0.3s;
         }
-        ::-webkit-calendar-picker-indicator:hover {
-            opacity: 1;
-        }
+        ::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 
         .time-slot {
             padding: 10px; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;
@@ -257,7 +253,6 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <label class="block text-gold-300 text-xs uppercase mb-2 text-center tracking-widest">Выберите Дату</label>
-                            <!-- Установим min дату динамически через JS -->
                             <input type="date" id="book-date" required class="input-gold text-center cursor-pointer" onchange="window.generateTimeSlots(this.value)">
                         </div>
                         <div>
@@ -269,7 +264,7 @@
                              <p id="time-error" class="text-red-500 text-xs mt-1 hidden text-center">Пожалуйста, выберите время</p>
                         </div>
                     </div>
-                    <textarea id="book-notes" rows="3" class="input-gold" placeholder="Ваш вопрос или краткое описание ситуации..."></textarea>
+                    <textarea id="book-notes" rows="3" class="input-gold" placeholder="Ваш запрос или краткое описание ситуации..."></textarea>
                     <button type="submit" class="w-full btn-gold rounded-lg font-heading text-lg font-bold">Оформить заявку</button>
                 </form>
             </div>
@@ -299,7 +294,7 @@
     <!-- SUCCESS MODAL -->
     <div id="success-modal" class="fixed inset-0 z-[120] hidden bg-black/95 flex items-center justify-center p-4">
         <div class="glass-panel w-full max-w-sm p-8 text-center relative shadow-[0_0_50px_rgba(212,175,55,0.2)]">
-            <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fas fa-times text-xl"></i></button>
+            <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-500 hover:text-white transition"><i class="fas fa-times text-xl"></i></button>
             <div class="magical-scene">
                 <div class="butterfly-container"><div class="butterfly"><div class="wing left"></div><div class="b-body"></div><div class="wing right"></div></div></div>
             </div>
@@ -344,12 +339,6 @@
         let user = null;
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'oracle-soul-tarot';
 
-        // Устанавливаем минимальную дату в календаре (сегодня)
-        const dateInput = document.getElementById('book-date');
-        if (dateInput) {
-            dateInput.min = new Date().toISOString().split('T')[0];
-        }
-
         const initAuth = async () => {
             try {
                 const configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
@@ -360,20 +349,15 @@
                     db = getFirestore(app);
 
                     const token = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-                    if (token) {
-                        await signInWithCustomToken(auth, token);
-                    } else {
-                        await signInAnonymously(auth);
-                    }
+                    if (token) { await signInWithCustomToken(auth, token); } 
+                    else { await signInAnonymously(auth); }
 
                     onAuthStateChanged(auth, (u) => {
                         user = u;
                         if (u) loadReviews();
                     });
                 }
-            } catch (e) { 
-                console.warn("Автономный режим: База данных недоступна."); 
-            }
+            } catch (e) { console.warn("Автономный режим активен."); }
         };
 
         window.generateTimeSlots = async function(dateString) {
@@ -381,12 +365,10 @@
             const hiddenInput = document.getElementById('selected-time');
             if(!container) return;
 
-            container.innerHTML = '<div class="col-span-3 text-center text-gold-500 text-xs py-2"><i class="fas fa-spinner fa-spin"></i> Проверяем записи...</div>';
+            container.innerHTML = '<div class="col-span-3 text-center text-gold-500 text-xs py-2"><i class="fas fa-spinner fa-spin"></i> Проверяем...</div>';
             hiddenInput.value = '';
 
             let bookedTimes = [];
-            
-            // Если есть доступ к базе - проверяем занятые часы
             if (db && user) {
                 try {
                     const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'));
@@ -394,9 +376,7 @@
                         const d = docSnap.data();
                         if (d.date === dateString) bookedTimes.push(d.time);
                     });
-                } catch (e) { 
-                    console.error("Firebase fetch failed, showing all slots"); 
-                }
+                } catch (e) { console.error("Firebase fetch error"); }
             }
 
             container.innerHTML = '';
@@ -424,22 +404,13 @@
                 }
                 container.appendChild(slot);
             }
-
-            if(container.children.length === 0) {
-                container.innerHTML = '<div class="col-span-3 text-center text-gray-500 text-xs py-2">На эту дату окон нет</div>';
-            }
         };
 
         window.submitBooking = async function(e) {
             e.preventDefault();
             const time = document.getElementById('selected-time').value;
             const handle = document.getElementById('book-contact').value;
-            
-            if(!time) { 
-                document.getElementById('time-error').classList.remove('hidden'); 
-                document.getElementById('time-slots-container').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return; 
-            }
+            if(!time) { document.getElementById('time-error').classList.remove('hidden'); return; }
 
             const data = {
                 name: document.getElementById('book-name').value,
@@ -450,12 +421,8 @@
                 createdAt: serverTimestamp() || new Date()
             };
 
-            // Пытаемся сохранить в базу
-            if (db && user) {
-                try { await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), data); } catch(err) {}
-            }
+            if (db && user) { try { await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), data); } catch(err) {} }
 
-            // Формируем ссылку в Telegram
             const msg = `Здравствуйте, Елена! Хочу записаться на расклад:%0A%0AИмя: ${data.name}%0AАккаунт: ${handle}%0AДата: ${data.date}%0AВремя: ${data.time}%0AЗапрос: ${data.notes}`;
             const link = `https://t.me/elena_soul_tarot?text=${msg}`;
             
@@ -487,7 +454,7 @@
 
         window.submitReview = async function(e) {
             e.preventDefault();
-            if(!db || !user) { alert("Демо-режим: Отзыв не сохранен в облако."); window.closeReviewModal(); return; }
+            if(!db || !user) { alert("Демо-режим."); window.closeReviewModal(); return; }
             try {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'reviews'), {
                     name: document.getElementById('review-name').value,
@@ -499,23 +466,20 @@
                 e.target.reset();
             } catch(err) { console.error(err); }
         }
-
         initAuth();
     </script>
 
     <!-- VISUAL LOGIC -->
     <script>
         window.addEventListener('load', () => { 
-            setTimeout(() => { document.getElementById('preloader').classList.add('loaded'); }, 500);
+            setTimeout(() => { document.getElementById('preloader').classList.add('loaded'); }, 500); 
+            const dateInput = document.getElementById('book-date');
+            if (dateInput) dateInput.min = new Date().toISOString().split('T')[0];
         });
 
-        // Кастомный курсор
         const customCursor = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', e => {
-            if(customCursor) {
-                customCursor.style.left = e.clientX + 'px';
-                customCursor.style.top = e.clientY + 'px';
-            }
+            if(customCursor) { customCursor.style.left = e.clientX + 'px'; customCursor.style.top = e.clientY + 'px'; }
         });
         
         document.querySelectorAll('button, a, input, textarea, .cursor-pointer').forEach(el => {
@@ -523,12 +487,11 @@
             el.addEventListener('mouseleave', () => customCursor?.classList.remove('active'));
         });
 
-        // Карты Таро
         const tarotList = [
-            { name: "Солнце", icon: "fas fa-sun", desc: "Абсолютный успех, ясность и радость. Все тени исчезают." },
-            { name: "Луна", icon: "fas fa-moon", desc: "Время интуиции и тайн. Слушайте свой внутренний голос." },
-            { name: "Звезда", icon: "fas fa-star", desc: "Надежда, вдохновение и путь к мечте. Вы под защитой небес." },
-            { name: "Маг", icon: "fas fa-hat-wizard", desc: "У вас есть все ресурсы для достижения цели. Действуйте." }
+            { name: "Солнце", icon: "fas fa-sun", desc: "Успех и ясность во всём." },
+            { name: "Луна", icon: "fas fa-moon", desc: "Слушайте интуицию." },
+            { name: "Звезда", icon: "fas fa-star", desc: "Ваши мечты под защитой." },
+            { name: "Маг", icon: "fas fa-magic", desc: "У вас есть все силы." }
         ];
         function initTarot() {
             const deck = document.getElementById('tarot-deck');
@@ -560,15 +523,10 @@
             const pt = document.getElementById('portal-text');
             const portalCore = document.querySelector('.portal-core');
             const answers = ["ДА", "НЕТ", "ВЕРЬ", "ЖДИ", "ДЕЙСТВУЙ"];
-            
             pt.style.opacity = '0';
-            portalCore.style.transform = 'scale(0.9)';
-            
             setTimeout(() => {
                 pt.innerText = answers[Math.floor(Math.random()*answers.length)];
                 pt.style.opacity = '1';
-                portalCore.style.transform = 'scale(1.1)';
-                setTimeout(() => portalCore.style.transform = 'scale(1)', 200);
             }, 400);
         };
 
@@ -587,14 +545,10 @@
         window.openImageModal = (el) => {
             const modal = document.getElementById('image-modal');
             const img = el.querySelector('img');
-            if (img) {
-                document.getElementById('modal-image').src = img.src;
-                modal.classList.remove('hidden');
-            }
+            if (img) { document.getElementById('modal-image').src = img.src; modal.classList.remove('hidden'); }
         };
         window.closeImageModal = () => document.getElementById('image-modal').classList.add('hidden');
 
-        // Background Canvas
         const chaosCanvas = document.getElementById('chaos-bg');
         const chaosCtx = chaosCanvas.getContext('2d');
         let canvW, canvH, energyBlobs = [];
@@ -620,7 +574,6 @@
         }
         window.addEventListener('resize', initChaos); initChaos(); drawChaos();
 
-        // Скролл галереи
         window.scrollGallery = function(direction) {
             const container = document.getElementById('gallery-container');
             container.scrollBy({ left: direction * 300, behavior: 'smooth' });
