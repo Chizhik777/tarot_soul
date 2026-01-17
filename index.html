@@ -103,7 +103,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            z-index: 50;
+            z-index: 100;
         }
         .crystal-ball-group {
             position: relative;
@@ -112,36 +112,34 @@
             animation: levitate 3s ease-in-out infinite;
         }
         .magic-sphere {
-            width: 90px;
-            height: 90px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, rgba(212, 175, 55, 0.3) 40%, rgba(0, 0, 0, 0.9) 100%);
-            box-shadow: 0 0 40px rgba(212, 175, 55, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.2);
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.7) 0%, rgba(212, 175, 55, 0.4) 40%, rgba(0, 0, 0, 0.9) 100%);
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.2);
             position: relative;
             margin: 0 auto;
             overflow: hidden;
-            border: 1px solid rgba(212, 175, 55, 0.4);
+            border: 1px solid rgba(212, 175, 55, 0.5);
         }
         .magic-sphere::before {
             content: '';
             position: absolute;
             inset: -50%;
-            background: conic-gradient(from 0deg, transparent, rgba(212, 175, 55, 0.4), transparent, rgba(255, 255, 255, 0.2), transparent);
+            background: conic-gradient(from 0deg, transparent, rgba(212, 175, 55, 0.5), transparent, rgba(255, 255, 255, 0.3), transparent);
             animation: spin-fx 4s linear infinite;
-            filter: blur(10px);
+            filter: blur(12px);
         }
         .sphere-stand {
             width: 80px;
             height: 35px;
-            background: linear-gradient(to bottom, #332200, #000);
+            background: linear-gradient(to bottom, #423206, #000);
             margin: -10px auto 0;
             border-radius: 50% 50% 20% 20%;
             border-top: 3px solid #D4AF37;
             position: relative;
-            z-index: 40;
             box-shadow: 0 10px 20px rgba(0,0,0,0.8);
         }
-
         @keyframes levitate {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); }
@@ -169,12 +167,25 @@
         }
         .card-back { background: #000; transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; justify-content: center; border-color: #D4AF37; }
 
+        /* PORTAL */
+        .portal-container { position: relative; width: 180px; height: 180px; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
+        .portal-ring { position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; border-top-color: #D4AF37; border-bottom-color: #997B1E; animation: spin-fx 10s linear infinite; filter: drop-shadow(0 0 10px #D4AF37); }
+        .portal-ring:nth-child(2) { inset: 15px; border-left-color: #333; border-right-color: #666; animation: spin-fx 7s linear infinite reverse; border-top-color: transparent; border-bottom-color: transparent; }
+        .portal-core { width: 120px; height: 120px; background: radial-gradient(circle, #000 30%, #1a1a1a 100%); border-radius: 50%; position: relative; z-index: 10; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 0 40px rgba(212, 175, 55, 0.2); transition: all 0.5s ease; }
+        .portal-mist { position: absolute; inset: -50%; background: conic-gradient(transparent, rgba(212, 175, 55, 0.3), transparent, rgba(255, 255, 255, 0.1), transparent); animation: spin-fx 4s linear infinite; filter: blur(20px); }
+        @keyframes spin-fx { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
         .btn-gold {
             background: transparent; border: 1px solid #D4AF37; color: #D4AF37; padding: 12px 24px;
             font-family: 'Cinzel Decorative', serif; transition: all 0.4s ease;
             cursor: pointer;
         }
         .btn-gold:hover { background: #D4AF37; color: #000; box-shadow: 0 0 30px rgba(212, 175, 55, 0.5); }
+
+        .input-gold {
+            width: 100%; background: rgba(0,0,0,0.6); border: 1px solid rgba(212, 175, 55, 0.3);
+            color: #F9F1D8; padding: 12px; border-radius: 8px; outline: none;
+        }
 
         /* --- FLOATING GRATITUDE BUTTON --- */
         .fab-gratitude {
@@ -196,6 +207,13 @@
         .fab-gratitude:hover { transform: scale(1.1); box-shadow: 0 0 45px #D4AF37; }
         @keyframes pulse-fav { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
+        .time-slot {
+            padding: 10px; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;
+            text-align: center; cursor: pointer; transition: all 0.3s; color: #E6C87C;
+        }
+        .time-slot.selected { background: #D4AF37; color: #000; font-weight: bold; }
+        .time-slot.disabled { opacity: 0.15; cursor: not-allowed; text-decoration: line-through; border-color: transparent; background: rgba(255,255,255,0.05); }
+
         .gallery-scroll::-webkit-scrollbar { display: none; }
         .gallery-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -213,7 +231,7 @@
     </div>
 
     <!-- КНОПКА ПОДДЕРЖКИ -->
-    <a href="#energy-exchange" class="fab-gratitude" title="Поддержать проект">
+    <a href="#energy-exchange" class="fab-gratitude" title="Поддержать через СБП">
         <i class="fas fa-heart"></i>
     </a>
 
@@ -224,13 +242,13 @@
     <!-- HEADER -->
     <header class="fixed w-full z-50 top-0 left-0 bg-void/80 backdrop-blur-md border-b border-white/5 py-4">
         <div class="container mx-auto px-6 flex justify-between items-center text-center">
-            <div class="flex items-center gap-3">
-                <i class="fas fa-moon text-gold-500 text-xl"></i>
-                <span class="font-heading text-xl text-gold-300 tracking-wider">Tarot Soul</span>
+            <div class="flex items-center gap-3 text-center">
+                <i class="fas fa-moon text-gold-500 text-xl text-center"></i>
+                <span class="font-heading text-xl text-gold-300 tracking-wider text-center text-center">Tarot Soul</span>
             </div>
-            <div class="flex gap-4 items-center">
-                 <a href="#energy-exchange" class="hidden md:block text-gold-300 text-xs font-bold uppercase tracking-widest hover:text-white transition">Поддержать ❤</a>
-                 <a href="#booking-section" class="btn-gold rounded-full text-xs font-bold tracking-widest uppercase">Записаться</a>
+            <div class="flex gap-4 items-center text-center">
+                 <a href="#energy-exchange" class="hidden md:block text-gold-300 text-xs font-bold uppercase tracking-widest hover:text-white transition text-center">Поддержать ❤</a>
+                 <a href="#booking-section" class="btn-gold rounded-full text-xs font-bold tracking-widest uppercase text-center text-center">Записаться</a>
             </div>
         </div>
     </header>
@@ -244,67 +262,67 @@
         <div class="animate-bounce text-gold-500/50 mt-10 text-center"><i class="fas fa-chevron-down text-2xl"></i></div>
     </section>
 
-    <div class="container mx-auto px-4 pb-20 max-w-5xl space-y-32 relative z-10">
+    <div class="container mx-auto px-4 pb-20 max-w-5xl space-y-32 relative z-10 text-center">
 
         <!-- 1. КАРТЫ -->
         <section>
             <h2 class="font-heading text-3xl md:text-4xl text-gold-300 text-center mb-12 uppercase tracking-widest text-center">Золотой Расклад</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 h-auto md:h-[400px]" id="tarot-deck"></div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 h-auto md:h-[400px] text-center" id="tarot-deck"></div>
             
-            <div id="tarot-result" class="hidden glass-panel p-8 mt-12 text-center max-w-2xl mx-auto border-gold-500/30">
-                <div class="text-6xl text-gold-500 mb-4 text-center"><i id="result-icon" class=""></i></div>
-                <h3 id="result-title" class="font-heading text-3xl text-gold-100 mb-4 tracking-wider text-center"></h3>
-                <p id="result-desc" class="text-lg text-gray-300 italic mb-8 leading-relaxed font-light text-center"></p>
-                <div class="flex justify-center text-center">
-                    <button onclick="window.resetTarot()" class="btn-gold rounded-full text-sm uppercase tracking-widest">Другой вопрос</button>
+            <div id="tarot-result" class="hidden glass-panel p-8 mt-12 text-center max-w-2xl mx-auto border-gold-500/30 text-center">
+                <div class="text-6xl text-gold-500 mb-4 text-center text-center"><i id="result-icon" class="text-center"></i></div>
+                <h3 id="result-title" class="font-heading text-3xl text-gold-100 mb-4 tracking-wider text-center text-center"></h3>
+                <p id="result-desc" class="text-lg text-gray-300 italic mb-8 leading-relaxed font-light text-center text-center"></p>
+                <div class="flex justify-center text-center text-center">
+                    <button onclick="window.resetTarot()" class="btn-gold rounded-full text-sm uppercase tracking-widest text-center text-center text-center">Другой вопрос</button>
                 </div>
             </div>
         </section>
 
         <!-- 2. ПОРТАЛ -->
-        <section class="flex flex-col items-center">
+        <section class="flex flex-col items-center text-center">
             <h2 class="font-heading text-3xl text-gold-300 mb-8 font-heading uppercase tracking-widest text-center text-center">Портал Ответов</h2>
-            <div class="portal-container cursor-pointer" onclick="window.activatePortal()">
-                <div class="portal-ring"></div>
-                <div class="portal-ring"></div>
-                <div class="portal-core">
-                    <div class="portal-mist" id="portal-mist"></div>
-                    <span id="portal-text" class="relative z-20 font-heading text-4xl text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] text-center">?</span>
+            <div class="portal-container cursor-pointer text-center" onclick="window.activatePortal()">
+                <div class="portal-ring text-center text-center"></div>
+                <div class="portal-ring text-center text-center text-center"></div>
+                <div class="portal-core text-center text-center text-center">
+                    <div class="portal-mist text-center text-center text-center" id="portal-mist"></div>
+                    <span id="portal-text" class="relative z-20 font-heading text-4xl text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] text-center text-center">?</span>
                 </div>
             </div>
-            <p class="mt-6 text-xs text-gold-700 tracking-[0.4em] uppercase opacity-50 text-center text-center">Нажми для ответа</p>
+            <p class="mt-6 text-xs text-gold-700 tracking-[0.4em] uppercase opacity-50 text-center text-center text-center text-center">Нажми для ответа</p>
         </section>
 
-        <!-- 3. ЭНЕРГООБМЕН (РЕКВИЗИТЫ: КАРТА ЮМАНИ) -->
-        <section id="energy-exchange" class="scroll-mt-32">
-            <div class="glass-panel p-8 md:p-12 max-w-3xl mx-auto text-center border-gold-500/30 bg-gradient-to-br from-gold-900/10 to-black relative overflow-hidden">
-                <div class="absolute -right-10 -bottom-10 opacity-5 text-9xl text-center"><i class="fas fa-heart text-center"></i></div>
+        <!-- 3. ЭНЕРГООБМЕН (АВТО-ГЕНЕРАЦИЯ QR) -->
+        <section id="energy-exchange" class="scroll-mt-32 text-center">
+            <div class="glass-panel p-8 md:p-12 max-w-3xl mx-auto text-center border-gold-500/30 bg-gradient-to-br from-gold-900/10 to-black relative overflow-hidden text-center">
+                <div class="absolute -right-10 -bottom-10 opacity-5 text-9xl text-center text-center"><i class="fas fa-heart text-center text-center text-center"></i></div>
                 <h2 class="font-heading text-3xl text-gold-300 mb-6 uppercase tracking-wider text-center text-center text-center">Энергообмен</h2>
-                <div class="space-y-6 text-lg md:text-xl text-gray-200 font-light italic leading-relaxed text-center text-center text-center text-center">
-                    <p>Дорогие, я верю в баланс. Мои расклады проводятся за <span class="text-gold-300 font-bold uppercase tracking-widest text-center text-center text-center">Donation</span> — вы сами определяете размер благодарности по зову сердца.</p>
+                <div class="space-y-6 text-lg md:text-xl text-gray-200 font-light italic leading-relaxed text-center text-center text-center">
+                    <p>Дорогие, я верю в баланс. Мои расклады проводятся за <span class="text-gold-300 font-bold uppercase tracking-widest text-center text-center text-center text-center text-center">Donation</span> — вы сами определяете размер благодарности по зову сердца.</p>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-8 text-center text-center">
                         <!-- QR Код -->
-                        <div class="flex flex-col items-center space-y-4">
-                            <div class="w-48 h-48 bg-white p-2 rounded-xl border-4 border-gold-500/50 shadow-[0_0_30px_rgba(212,175,55,0.2)]">
-                                <!-- QR Код на основе ссылки оплаты -->
-                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119434367950&quickpay-form=button&targets=Энергообмен&paymentType=AC" alt="QR СБП" class="w-full h-full object-contain">
+                        <div class="flex flex-col items-center space-y-4 text-center text-center">
+                            <div class="w-48 h-48 bg-white p-2 rounded-xl border-4 border-gold-500/50 shadow-[0_0_30px_rgba(212,175,55,0.2)] text-center">
+                                <!-- Авто-генерация QR через API на основе вашего ЮMoney счета -->
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119434367950&quickpay-form=button&targets=Donation&paymentType=AC" alt="QR СБП" class="w-full h-full object-contain">
                             </div>
-                            <p class="text-xs uppercase tracking-widest text-gold-500 font-bold text-center">Сканируйте для СБП</p>
+                            <p class="text-xs uppercase tracking-widest text-gold-500 font-bold text-center text-center">Сканируйте для СБП</p>
                         </div>
 
                         <!-- Номер карты -->
-                        <div class="flex flex-col items-center space-y-6">
-                            <p class="text-xs uppercase tracking-widest text-gold-500/60 italic text-center">Перевод по номеру карты:</p>
-                            <div class="bg-black/60 p-4 rounded-lg border border-gold-500/30 flex flex-col items-center space-y-3 w-full">
-                                <span class="text-xs text-gold-300 font-bold tracking-widest uppercase">ЮMoney</span>
-                                <span id="requisites-num" class="text-xl md:text-2xl font-mono text-white tracking-widest text-center">599002127322628</span>
-                                <button onclick="copyRequisites()" class="btn-gold py-2 px-6 rounded-full text-xs font-bold uppercase tracking-tighter hover:scale-105 transition text-center">
-                                    <i class="fas fa-copy mr-2"></i>Копировать номер
+                        <div class="flex flex-col items-center space-y-6 text-center text-center text-center">
+                            <p class="text-xs uppercase tracking-widest text-gold-500/60 italic text-center text-center">Перевод по номеру карты:</p>
+                            <div class="bg-black/60 p-4 rounded-lg border border-gold-500/30 flex flex-col items-center space-y-3 w-full text-center">
+                                <span class="text-xs text-gold-300 font-bold tracking-widest uppercase text-center text-center">ЮMoney</span>
+                                <span id="requisites-num" class="text-xl md:text-2xl font-mono text-white tracking-widest text-center text-center">599002127322628</span>
+                                <button onclick="copyRequisites()" class="btn-gold py-2 px-6 rounded-full text-xs font-bold uppercase tracking-tighter hover:scale-105 transition text-center text-center">
+                                    <i class="fas fa-copy mr-2 text-center"></i>Копировать номер
                                 </button>
-                                <span id="copy-status" class="text-green-500 text-[10px] uppercase font-bold opacity-0 transition-opacity text-center">Скопировано!</span>
+                                <span id="copy-status" class="text-green-500 text-[10px] uppercase font-bold opacity-0 transition-opacity text-center text-center">Скопировано!</span>
                             </div>
-                            <p class="text-xs text-gray-500 text-center leading-tight">Подходит любая банковская карта<br>или перевод через СБП</p>
+                            <p class="text-xs text-gray-500 text-center leading-tight text-center text-center">Подходит любая банковская карта<br>или перевод через СБП</p>
                         </div>
                     </div>
                 </div>
@@ -312,104 +330,104 @@
         </section>
 
         <!-- 4. ЗАПИСЬ -->
-        <section id="booking-section" class="scroll-mt-32">
-            <h2 class="font-heading text-3xl md:text-4xl text-gold-300 text-center mb-12 uppercase tracking-widest text-center">Запись на прием</h2>
-            <div class="glass-panel p-8 max-w-3xl mx-auto relative border-gold-500/30 shadow-2xl">
-                <form id="booking-form" class="space-y-8" onsubmit="window.submitBooking(event)">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <section id="booking-section" class="scroll-mt-32 text-center text-center">
+            <h2 class="font-heading text-3xl md:text-4xl text-gold-300 text-center mb-12 uppercase tracking-widest text-center text-center text-center text-center text-center">Запись на прием</h2>
+            <div class="glass-panel p-8 max-w-3xl mx-auto relative border-gold-500/30 shadow-2xl text-center">
+                <form id="booking-form" class="space-y-8 text-center text-center text-center" onsubmit="window.submitBooking(event)">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
                         <input type="text" id="book-name" required class="input-gold" placeholder="Ваше Имя">
                         <input type="text" id="book-contact" required class="input-gold" placeholder="Telegram @username">
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div>
-                            <label class="block text-gold-300 text-xs uppercase mb-2 text-center tracking-widest">Дата приема</label>
-                            <input type="date" id="book-date" required class="input-gold text-center" onchange="window.generateTimeSlots(this.value)">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+                        <div class="text-center">
+                            <label class="block text-gold-300 text-xs uppercase mb-2 text-center tracking-widest text-center text-center">Дата приема</label>
+                            <input type="date" id="book-date" required class="input-gold text-center text-center" onchange="window.generateTimeSlots(this.value)">
                         </div>
-                        <div>
-                             <label class="block text-gold-300 text-xs uppercase mb-2 text-center tracking-widest text-center">Свободное время</label>
-                             <div id="time-slots-container" class="grid grid-cols-3 gap-2">
-                                 <div class="col-span-3 text-center text-gray-600 text-sm py-2">Сначала выберите дату</div>
+                        <div class="text-center">
+                             <label class="block text-gold-300 text-xs uppercase mb-2 text-center tracking-widest text-center text-center text-center">Свободное время</label>
+                             <div id="time-slots-container" class="grid grid-cols-3 gap-2 text-center text-center">
+                                 <div class="col-span-3 text-center text-gray-600 text-sm py-2 text-center text-center text-center">Сначала выберите дату</div>
                              </div>
                              <input type="hidden" id="selected-time" required>
-                             <p id="time-error" class="text-red-500 text-xs mt-1 hidden text-center uppercase font-bold">Выберите время</p>
+                             <p id="time-error" class="text-red-500 text-xs mt-1 hidden text-center uppercase font-bold text-center text-center text-center text-center">Выберите время</p>
                         </div>
                     </div>
                     <textarea id="book-notes" rows="3" class="input-gold" placeholder="Ваш запрос или тема расклада..."></textarea>
-                    <button type="submit" id="submit-booking-btn" class="w-full btn-gold rounded-lg font-heading text-lg font-bold shadow-gold-900/40 transition-all uppercase text-center text-center">Оформить заявку</button>
+                    <button type="submit" id="submit-booking-btn" class="w-full btn-gold rounded-lg font-heading text-lg font-bold shadow-gold-900/40 transition-all uppercase text-center text-center text-center text-center text-center text-center">Оформить заявку</button>
                 </form>
             </div>
         </section>
 
         <!-- 5. ОТЗЫВЫ -->
-        <section class="relative text-center">
-            <h2 class="font-heading text-3xl text-center text-gold-300 mb-12 uppercase tracking-widest text-center">Книга Благодарности</h2>
-            <div class="relative group/gallery">
-                <button onclick="window.scrollGallery(-1)" class="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center cursor-pointer shadow-xl transition-all text-center"><i class="fas fa-chevron-left text-xl"></i></button>
-                <button onclick="window.scrollGallery(1)" class="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center cursor-pointer shadow-xl transition-all text-center"><i class="fas fa-chevron-right text-xl"></i></button>
-                <div id="gallery-container" class="flex overflow-x-auto gap-6 pb-8 gallery-scroll snap-x scroll-pl-4">
-                    <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-08.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+1'"></div>
-                    <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-09.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+2'"></div>
-                    <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-10.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+3'"></div>
-                    <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-11.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+4'"></div>
-                    <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_15-44-30.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+5'"></div>
+        <section class="relative text-center text-center text-center text-center text-center text-center">
+            <h2 class="font-heading text-3xl text-center text-gold-300 mb-12 uppercase tracking-widest text-center text-center text-center text-center text-center text-center">Книга Благодарности</h2>
+            <div class="relative group/gallery text-center">
+                <button onclick="window.scrollGallery(-1)" class="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center cursor-pointer shadow-xl transition-all text-center text-center"><i class="fas fa-chevron-left text-xl text-center text-center"></i></button>
+                <button onclick="window.scrollGallery(1)" class="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center cursor-pointer shadow-xl transition-all text-center text-center text-center text-center text-center"><i class="fas fa-chevron-right text-xl text-center text-center text-center"></i></button>
+                <div id="gallery-container" class="flex overflow-x-auto gap-6 pb-8 gallery-scroll snap-x scroll-pl-4 text-center text-center">
+                    <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group text-center text-center" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-08.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition text-center text-center" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+1'"></div>
+                    <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group text-center text-center text-center text-center text-center" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-09.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition text-center text-center text-center" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+2'"></div>
+                    <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group text-center text-center text-center" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-10.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition text-center text-center" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+3'"></div>
+                    <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group text-center text-center text-center text-center text-center text-center text-center text-center" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-11.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition text-center text-center text-center" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+4'"></div>
+                    <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group text-center text-center" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_15-44-30.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition text-center text-center" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+5'"></div>
                 </div>
             </div>
             <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 text-center"></div>
-            <div class="text-center mt-12"><button onclick="window.openReviewModal()" class="btn-gold rounded-full text-xs font-bold tracking-widest uppercase text-center">Оставить Отзыв</button></div>
+            <div class="text-center mt-12 text-center text-center text-center text-center text-center"><button onclick="window.openReviewModal()" class="btn-gold rounded-full text-xs font-bold tracking-widest uppercase text-center text-center text-center text-center text-center">Оставить Отзыв</button></div>
         </section>
 
     </div>
 
-    <footer class="border-t border-white/5 bg-black py-12 text-center relative z-10 text-center">
-        <div class="text-gold-700 text-2xl font-heading mb-4 uppercase tracking-widest text-center">Tarot Soul</div>
-        <p class="text-gray-700 text-xs uppercase tracking-widest text-center">&copy; 2026 Елена. Сделано с душой.</p>
+    <footer class="border-t border-white/5 bg-black py-12 text-center relative z-10 text-center text-center text-center">
+        <div class="text-gold-700 text-2xl font-heading mb-4 uppercase tracking-widest text-center text-center text-center text-center text-center text-center text-center text-center">Tarot Soul</div>
+        <p class="text-gray-700 text-xs uppercase tracking-widest text-center text-center text-center text-center text-center text-center text-center text-center text-center">&copy; 2026 Елена. Сделано с душой.</p>
     </footer>
 
-    <!-- SUCCESS MODAL (CRYSTAL BALL ON STAND) -->
-    <div id="success-modal" class="fixed inset-0 z-[150] hidden bg-black/95 flex items-center justify-center p-4 backdrop-blur-md">
-        <div class="glass-panel w-full max-w-sm p-8 text-center relative shadow-[0_0_80px_rgba(212,175,55,0.5)] border-gold-500/50">
-            <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-white transition cursor-pointer"><i class="fas fa-times text-xl"></i></button>
+    <!-- SUCCESS MODAL (CRYSTAL BALL - FIXED VISIBILITY) -->
+    <div id="success-modal" class="fixed inset-0 z-[150] hidden bg-black/95 flex items-center justify-center p-4 backdrop-blur-md text-center text-center text-center">
+        <div class="glass-panel w-full max-w-sm p-8 text-center relative shadow-[0_0_80px_rgba(212,175,55,0.5)] border-gold-500/50 text-center text-center text-center">
+            <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-white transition cursor-pointer text-center text-center text-center text-center"><i class="fas fa-times text-xl text-center text-center"></i></button>
             
-            <div class="ball-scene">
-                <div class="crystal-ball-group">
-                    <div class="magic-sphere"></div>
-                    <div class="sphere-stand"></div>
+            <div class="ball-scene text-center text-center text-center text-center">
+                <div class="crystal-ball-group text-center text-center text-center text-center">
+                    <div class="magic-sphere text-center text-center text-center text-center text-center"></div>
+                    <div class="sphere-stand text-center text-center text-center text-center text-center text-center"></div>
                 </div>
             </div>
 
-            <h3 class="font-heading text-2xl text-gold-300 mb-2 uppercase tracking-widest text-center">Магия в пути!</h3>
-            <p class="text-gray-300 text-sm mb-8 leading-relaxed text-center">Заявка создана. <span class="text-white font-bold underline italic">Чтобы я её увидела</span>, пожалуйста, обязательно нажмите кнопку ниже и подтвердите запись в Telegram.</p>
+            <h3 class="font-heading text-2xl text-gold-300 mb-2 uppercase tracking-widest text-center text-center text-center text-center text-center text-center text-center">Магия в пути!</h3>
+            <p class="text-gray-300 text-sm mb-8 leading-relaxed text-center text-center text-center text-center text-center text-center">Заявка создана. <span class="text-white font-bold underline italic text-center text-center text-center text-center">Чтобы я её увидела</span>, пожалуйста, обязательно нажмите кнопку ниже и подтвердите запись в Telegram.</p>
             
-            <button id="success-telegram-btn" class="w-full btn-gold rounded-lg font-bold uppercase animate-pulse py-4 text-sm tracking-widest bg-gold-500 text-black border-none shadow-[0_0_30px_rgba(212,175,55,0.5)] cursor-pointer hover:scale-105 transition-transform text-center">
+            <button id="success-telegram-btn" class="w-full btn-gold rounded-lg font-bold uppercase animate-pulse py-4 text-sm tracking-widest bg-gold-500 text-black border-none shadow-[0_0_30px_rgba(212,175,55,0.5)] cursor-pointer hover:scale-105 transition-transform text-center text-center text-center text-center">
                 ПОДТВЕРДИТЬ В TELEGRAM
             </button>
         </div>
     </div>
 
-    <div id="review-modal" class="fixed inset-0 z-[100] hidden bg-black/80 flex items-center justify-center p-4">
-        <div class="glass-panel w-full max-w-md p-8 relative border-gold-500/50 shadow-2xl text-center">
-            <button onclick="window.closeReviewModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition cursor-pointer text-center"><i class="fas fa-times text-xl"></i></button>
-            <h3 class="font-heading text-2xl text-gold-300 mb-6 text-center tracking-wider uppercase text-center">Ваш Отзыв</h3>
-            <form onsubmit="window.submitReview(event)" class="space-y-4">
-                <input type="text" id="review-name" placeholder="Имя" required class="input-gold text-center">
-                <textarea id="review-text" rows="4" placeholder="Ваши слова..." required class="input-gold text-center"></textarea>
-                <div class="flex justify-center gap-2 text-2xl mb-4 text-center" id="star-rating">
-                    <i class="fas fa-star text-gold-300 cursor-pointer" onclick="window.setRating(1)"></i>
-                    <i class="fas fa-star text-gold-300 cursor-pointer" onclick="window.setRating(2)"></i>
-                    <i class="fas fa-star text-gold-300 cursor-pointer" onclick="window.setRating(3)"></i>
-                    <i class="fas fa-star text-gold-300 cursor-pointer" onclick="window.setRating(4)"></i>
-                    <i class="fas fa-star text-gold-300 cursor-pointer" onclick="window.setRating(5)"></i>
+    <div id="review-modal" class="fixed inset-0 z-[100] hidden bg-black/80 flex items-center justify-center p-4 text-center">
+        <div class="glass-panel w-full max-w-md p-8 relative border-gold-500/50 shadow-2xl text-center text-center text-center">
+            <button onclick="window.closeReviewModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition cursor-pointer text-center text-center text-center text-center text-center text-center"><i class="fas fa-times text-xl text-center text-center text-center text-center"></i></button>
+            <h3 class="font-heading text-2xl text-gold-300 mb-6 text-center tracking-wider uppercase text-center text-center text-center text-center">Ваш Отзыв</h3>
+            <form onsubmit="window.submitReview(event)" class="space-y-4 text-center text-center">
+                <input type="text" id="review-name" placeholder="Имя" required class="input-gold text-center text-center">
+                <textarea id="review-text" rows="4" placeholder="Ваши слова..." required class="input-gold text-center text-center"></textarea>
+                <div class="flex justify-center gap-2 text-2xl mb-4 text-center text-center text-center" id="star-rating">
+                    <i class="fas fa-star text-gold-300 cursor-pointer text-center" onclick="window.setRating(1)"></i>
+                    <i class="fas fa-star text-gold-300 cursor-pointer text-center text-center" onclick="window.setRating(2)"></i>
+                    <i class="fas fa-star text-gold-300 cursor-pointer text-center text-center" onclick="window.setRating(3)"></i>
+                    <i class="fas fa-star text-gold-300 cursor-pointer text-center text-center" onclick="window.setRating(4)"></i>
+                    <i class="fas fa-star text-gold-300 cursor-pointer text-center text-center" onclick="window.setRating(5)"></i>
                 </div>
-                <button type="submit" class="w-full btn-gold rounded-lg uppercase text-xs font-bold tracking-widest text-center cursor-pointer">Отправить</button>
+                <button type="submit" class="w-full btn-gold rounded-lg uppercase text-xs font-bold tracking-widest text-center cursor-pointer text-center text-center text-center">Отправить</button>
             </form>
         </div>
     </div>
 
-    <div id="image-modal" class="fixed inset-0 z-[110] hidden bg-black/95 flex items-center justify-center p-4 cursor-pointer text-center" onclick="window.closeImageModal()">
-        <img id="modal-image" src="" class="max-h-[90vh] max-w-full rounded-lg border border-gold-500/30 text-center">
+    <div id="image-modal" class="fixed inset-0 z-[110] hidden bg-black/95 flex items-center justify-center p-4 cursor-pointer text-center text-center text-center text-center" onclick="window.closeImageModal()">
+        <img id="modal-image" src="" class="max-h-[90vh] max-w-full rounded-lg border border-gold-500/30 text-center text-center text-center text-center text-center">
     </div>
 
-    <!-- CORE SCRIPTS -->
+    <!-- CORE LOGIC -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
@@ -468,7 +486,7 @@
                 const timeStr = `${h}:00`;
                 const isDisabled = (dateString === todayStr && h <= hourNow) || bookedTimes.includes(timeStr);
                 const slot = document.createElement('div');
-                slot.className = `time-slot ${isDisabled ? 'disabled text-center' : 'text-center'}`;
+                slot.className = `time-slot ${isDisabled ? 'disabled text-center' : 'text-center text-center'}`;
                 slot.innerText = timeStr;
                 if(!isDisabled) {
                     slot.onclick = () => {
@@ -520,7 +538,7 @@
                 let html = '';
                 snap.forEach(docSnap => {
                     const r = docSnap.data();
-                    html += `<div class="glass-panel p-6 animate-float text-center" style="animation-duration: 6s">
+                    html += `<div class="glass-panel p-6 animate-float text-center text-center" style="animation-duration: 6s">
                         <div class="flex justify-between items-center mb-4 text-center">
                             <span class="font-bold text-white uppercase text-xs text-center">${r.name}</span>
                             <div class="text-gold-300 text-xs text-center">${"★".repeat(r.rating || 5)}</div>
@@ -571,7 +589,7 @@
         const curEl = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', e => { if(curEl) { curEl.style.left = e.clientX + 'px'; curEl.style.top = e.clientY + 'px'; } if(Math.random() > 0.8) myDust.push(new DustBit(e.clientX, e.clientY)); });
 
-        // COPY FUNCTION (REQUISTES: CARD)
+        // COPY REQUISITES
         window.copyRequisites = () => {
             const num = "599002127322628";
             const el = document.createElement('textarea');
@@ -580,7 +598,6 @@
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            
             const status = document.getElementById('copy-status');
             status.style.opacity = '1';
             setTimeout(() => { status.style.opacity = '0'; }, 2000);
@@ -601,7 +618,7 @@
             for(let i=0; i<3; i++) {
                 const c = document.createElement('div');
                 c.className = 'tarot-card-wrapper h-[450px] md:h-full cursor-pointer group text-center';
-                c.innerHTML = `<div class="tarot-card-inner text-center"><div class="card-face card-front-design text-center"><div class="eye-symbol text-center"></div></div><div class="card-face card-back text-center"></div></div>`;
+                c.innerHTML = `<div class="tarot-card-inner text-center"><div class="card-face card-front-design text-center"><div class="eye-symbol text-center text-center"></div></div><div class="card-face card-back text-center text-center"></div></div>`;
                 c.onclick = () => { if(document.querySelector('.flipped')) return; const d = tItems[Math.floor(Math.random()*tItems.length)]; c.classList.add('flipped'); c.querySelector('.card-back').innerHTML = `<i class="fas ${d.i} text-6xl text-gold-500 mb-6 animate-pulse text-center"></i><div class="font-heading text-xl text-gold-100 uppercase tracking-widest text-center px-4 text-center">${d.n}</div>`; setTimeout(() => { const resultEl = document.getElementById('tarot-result'); document.getElementById('result-icon').className = 'fas '+d.i; document.getElementById('result-title').innerText = d.n; document.getElementById('result-desc').innerText = d.desc; resultEl.classList.remove('hidden'); resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 600); };
                 dck.appendChild(c);
             }
