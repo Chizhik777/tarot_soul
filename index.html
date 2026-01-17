@@ -96,7 +96,7 @@
             text-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
         }
 
-        /* --- КАРТЫ ТАРО --- */
+        /* --- КАРТЫ ТАРО (ОРИГИНАЛЬНАЯ РУБАШКА) --- */
         .tarot-card-wrapper { perspective: 1200px; }
         .tarot-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
         .flipped .tarot-card-inner { transform: rotateY(180deg); }
@@ -124,7 +124,7 @@
         .portal-container { position: relative; width: 200px; height: 200px; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
         .portal-ring { position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; border-top-color: #D4AF37; border-bottom-color: #997B1E; animation: spin-fx 10s linear infinite; filter: drop-shadow(0 0 10px #D4AF37); }
         .portal-ring:nth-child(2) { inset: 15px; border-left-color: #333; border-right-color: #666; animation: spin-fx 7s linear infinite reverse; border-top-color: transparent; border-bottom-color: transparent; }
-        .portal-core { width: 140px; height: 140px; background: radial-gradient(circle, #000 30%, #1a1a1a 100%); border-radius: 50%; position: relative; z-index: 10; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 0 40px rgba(212, 175, 55, 0.2); transition: all 0.5s ease; }
+        .portal-core { width: 150px; height: 150px; background: radial-gradient(circle, #000 30%, #1a1a1a 100%); border-radius: 50%; position: relative; z-index: 10; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 0 40px rgba(212, 175, 55, 0.2); transition: all 0.5s ease; }
         .portal-mist { position: absolute; inset: -50%; background: conic-gradient(transparent, rgba(212, 175, 55, 0.3), transparent, rgba(255, 255, 255, 0.1), transparent); animation: spin-fx 4s linear infinite; filter: blur(20px); }
         @keyframes spin-fx { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
@@ -148,7 +148,7 @@
         .time-slot.selected { background: #D4AF37; color: #000; font-weight: bold; }
         .time-slot.disabled { opacity: 0.15; cursor: not-allowed; text-decoration: line-through; border-color: transparent; background: rgba(255,255,255,0.05); }
 
-        /* --- MAGIC CRYSTAL BALL --- */
+        /* --- MAGIC CRYSTAL BALL (ЗОЛОТОЙ ШАР) --- */
         .ball-scene {
             height: 180px;
             display: flex;
@@ -229,7 +229,7 @@
     <section class="min-h-screen flex flex-col items-center justify-center text-center px-4 relative pt-20">
         <div class="absolute top-1/4 left-10 opacity-20 text-gold-700 text-6xl animate-bounce" style="animation-duration: 8s">☾</div>
         <div class="absolute bottom-1/4 right-10 opacity-20 text-gold-700 text-6xl animate-bounce" style="animation-duration: 12s">🜁</div>
-        <h1 class="font-heading text-5xl md:text-8xl text-gold-glow uppercase">Таро с Душой</h1>
+        <h1 class="font-heading text-5xl md:text-8xl text-gold-glow uppercase tracking-wide">Таро с Душой</h1>
         <p class="text-xl md:text-2xl text-gold-100 italic max-w-2xl font-light mb-12">"Там, где Тьма встречается со Светом, рождается Истина."</p>
         <div class="animate-bounce text-gold-500/50 mt-10"><i class="fas fa-chevron-down text-2xl"></i></div>
     </section>
@@ -285,7 +285,7 @@
                                  <div class="col-span-3 text-center text-gray-600 text-sm py-2 italic text-sm py-2 text-center">Сначала выберите дату</div>
                              </div>
                              <input type="hidden" id="selected-time" required>
-                             <p id="time-error" class="text-red-500 text-xs mt-1 hidden text-center uppercase tracking-tighter text-center">Выберите время</p>
+                             <p id="time-error" class="text-red-500 text-xs mt-1 hidden text-center uppercase tracking-tighter text-center font-bold">Выберите время</p>
                         </div>
                     </div>
                     <textarea id="book-notes" rows="3" class="input-gold" placeholder="Ваш запрос или тема расклада..."></textarea>
@@ -299,10 +299,10 @@
             <h2 class="font-heading text-3xl text-center text-gold-300 mb-12 uppercase tracking-widest text-center">Книга Благодарности</h2>
             
             <div class="relative group/gallery">
-                <button onclick="window.scrollGallery(-1)" class="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-300 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all">
+                <button onclick="window.scrollGallery(-1)" class="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all">
                     <i class="fas fa-chevron-left text-xl"></i>
                 </button>
-                <button onclick="window.scrollGallery(1)" class="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-300 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all">
+                <button onclick="window.scrollGallery(1)" class="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all">
                     <i class="fas fa-chevron-right text-xl"></i>
                 </button>
 
@@ -339,9 +339,9 @@
             </div>
 
             <h3 class="font-heading text-2xl text-gold-300 mb-2 uppercase tracking-widest text-center">Магия сработала!</h3>
-            <p class="text-gray-300 text-sm mb-8 leading-relaxed text-center">Заявка создана. <span class="text-white font-bold underline italic">Чтобы я её увидела</span>, пожалуйста, обязательно нажмите кнопку ниже и завершите запись в Telegram.</p>
+            <p class="text-gray-300 text-sm mb-8 leading-relaxed text-center">Заявка создана. <span class="text-white font-bold underline italic">Чтобы я её увидела</span>, пожалуйста, обязательно нажмите кнопку ниже и подтвердите запись в Telegram.</p>
             
-            <button id="success-telegram-btn" class="w-full btn-gold rounded-lg font-bold uppercase animate-pulse py-4 text-sm tracking-widest bg-gold-500 text-black border-none shadow-[0_0_30px_rgba(212,175,55,0.5)] cursor-pointer">
+            <button id="success-telegram-btn" class="w-full btn-gold rounded-lg font-bold uppercase animate-pulse py-4 text-sm tracking-widest bg-gold-500 text-black border-none shadow-[0_0_30px_rgba(212,175,55,0.5)] cursor-pointer hover:scale-105 transition-transform">
                 ПОДТВЕРДИТЬ ЗАПИСЬ В TELEGRAM
             </button>
         </div>
@@ -376,6 +376,7 @@
         import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
         import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, getDocs } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
+        // КЛИЕНТСКИЙ КОНФИГ
         const firebaseConfig = {
           apiKey: "AIzaSyD6JtCMJQnvhhf5H59qtSLWiSMdlXl6VmE",
           authDomain: "taro-7c548.firebaseapp.com",
@@ -483,7 +484,7 @@
             document.getElementById('success-telegram-btn').onclick = () => window.open(link, '_blank');
             document.getElementById('success-modal').classList.remove('hidden');
             e.target.reset();
-            document.getElementById('time-slots-container').innerHTML = '<div class="col-span-3 text-center text-gray-600 text-sm py-2 italic text-center">Сначала выберите дату</div>';
+            document.getElementById('time-slots-container').innerHTML = '<div class="col-span-3 text-center text-gray-600 text-sm py-2 italic text-center text-center">Запись принята</div>';
             btn.disabled = false;
         };
 
@@ -528,13 +529,13 @@
     <script>
         const canvasA = document.getElementById('chaos-bg'), ctxA = canvasA.getContext('2d');
         const canvasB = document.getElementById('magic-dust'), ctxB = canvasB.getContext('2d');
-        let vW, vH, blobs = [], dust = [];
+        let viewW, viewH, myBlobs = [], myDust = [];
 
-        function resize() {
-            vW = canvasA.width = canvasB.width = window.innerWidth;
-            vH = canvasA.height = canvasB.height = window.innerHeight;
-            blobs = Array.from({length: 8}, () => ({
-                x: Math.random()*vW, y: Math.random()*vH, r: Math.random()*300+150,
+        function fit() {
+            viewW = canvasA.width = canvasB.width = window.innerWidth;
+            viewH = canvasA.height = canvasB.height = window.innerHeight;
+            myBlobs = Array.from({length: 8}, () => ({
+                x: Math.random()*viewW, y: Math.random()*viewH, r: Math.random()*300+150,
                 vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5,
                 c: Math.random() > 0.5 ? 'rgba(212, 175, 55, 0.12)' : 'rgba(255, 255, 255, 0.05)'
             }));
@@ -542,7 +543,7 @@
 
         class DustBit {
             constructor(x, y) {
-                this.x = x || Math.random()*vW; this.y = y || Math.random()*vH;
+                this.x = x || Math.random()*viewW; this.y = y || Math.random()*viewH;
                 this.vx = (Math.random()-0.5)*1.5; this.vy = (Math.random()-0.5)*1.5;
                 this.s = Math.random()*2; this.l = 100;
             }
@@ -550,26 +551,26 @@
             draw() { ctxB.fillStyle = '#D4AF37'; ctxB.globalAlpha = this.l/100; ctxB.beginPath(); ctxB.arc(this.x, this.y, this.s, 0, Math.PI*2); ctxB.fill(); }
         }
 
-        function loop() {
-            ctxA.fillStyle = '#000'; ctxA.fillRect(0,0,vW,vH);
-            blobs.forEach(b => {
+        function run() {
+            ctxA.fillStyle = '#000'; ctxA.fillRect(0,0,viewW,viewH);
+            myBlobs.forEach(b => {
                 b.x += b.vx; b.y += b.vy;
-                if(b.x<0 || b.x>vW) b.vx *= -1; if(b.y<0 || b.y>vH) b.vy *= -1;
+                if(b.x<0 || b.x>viewW) b.vx *= -1; if(b.y<0 || b.y>viewH) b.vy *= -1;
                 let g = ctxA.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
                 g.addColorStop(0, b.c); g.addColorStop(1, 'transparent');
                 ctxA.fillStyle = g; ctxA.beginPath(); ctxA.arc(b.x, b.y, b.r, 0, Math.PI*2); ctxA.fill();
             });
-            ctxB.clearRect(0,0,vW,vH);
-            if(dust.length < 80) dust.push(new DustBit());
-            dust.forEach((p, i) => { p.update(); p.draw(); if(p.l<=0) dust.splice(i, 1); });
-            requestAnimationFrame(loop);
+            ctxB.clearRect(0,0,viewW,viewH);
+            if(myDust.length < 80) myDust.push(new DustBit());
+            myDust.forEach((p, i) => { p.update(); p.draw(); if(p.l<=0) myDust.splice(i, 1); });
+            requestAnimationFrame(run);
         }
-        window.addEventListener('resize', resize); resize(); loop();
+        window.addEventListener('resize', fit); fit(); run();
 
-        const cursorEl = document.getElementById('custom-cursor');
+        const curEl = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', e => {
-            if(cursorEl) { cursorEl.style.left = e.clientX + 'px'; cursorEl.style.top = e.clientY + 'px'; }
-            if(Math.random() > 0.8) dust.push(new DustBit(e.clientX, e.clientY));
+            if(curEl) { curEl.style.left = e.clientX + 'px'; curEl.style.top = e.clientY + 'px'; }
+            if(Math.random() > 0.8) myDust.push(new DustBit(e.clientX, e.clientY));
         });
 
         // TAROT Logic
