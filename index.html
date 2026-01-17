@@ -96,6 +96,7 @@
             text-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
         }
 
+        /* --- КАРТЫ ТАРО --- */
         .tarot-card-wrapper { perspective: 1200px; }
         .tarot-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
         .flipped .tarot-card-inner { transform: rotateY(180deg); }
@@ -197,15 +198,17 @@
 
     <div class="container mx-auto px-4 pb-20 max-w-5xl space-y-32 relative z-10">
 
-        <!-- 1. CARDS -->
+        <!-- 1. CARDS (UPDATED FOR VERTICAL MOBILE) -->
         <section>
             <h2 class="font-heading text-3xl md:text-4xl text-gold-300 text-center mb-12 uppercase tracking-widest">Золотой Расклад</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 h-[400px]" id="tarot-deck"></div>
-            <div id="tarot-result" class="hidden glass-panel p-8 mt-8 text-center max-w-2xl mx-auto border-gold-500/30">
+            <!-- Сетка: 1 колонка на мобильном, 3 на десктопе. Высота: авто на мобильном, фиксированная на десктопе -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 h-auto md:h-[400px]" id="tarot-deck"></div>
+            
+            <div id="tarot-result" class="hidden glass-panel p-8 mt-12 text-center max-w-2xl mx-auto border-gold-500/30">
                 <div class="text-6xl text-gold-500 mb-4"><i id="result-icon" class=""></i></div>
-                <h3 id="result-title" class="font-heading text-3xl text-gold-100 mb-4"></h3>
-                <p id="result-desc" class="text-lg text-gray-300 italic mb-8"></p>
-                <button onclick="window.resetTarot()" class="btn-gold rounded-full text-sm">Новый вопрос</button>
+                <h3 id="result-title" class="font-heading text-3xl text-gold-100 mb-4 tracking-wider"></h3>
+                <p id="result-desc" class="text-lg text-gray-300 italic mb-8 leading-relaxed font-light"></p>
+                <button onclick="window.resetTarot()" class="btn-gold rounded-full text-sm uppercase tracking-widest">Другой вопрос</button>
             </div>
         </section>
 
@@ -240,7 +243,7 @@
                         <div>
                              <label class="block text-gold-300 text-xs uppercase mb-2 text-center tracking-widest">Свободное время</label>
                              <div id="time-slots-container" class="grid grid-cols-3 gap-2">
-                                 <div class="col-span-3 text-center text-gray-600 text-sm py-2">Сначала выберите дату</div>
+                                 <div class="col-span-3 text-center text-gray-600 text-sm py-2 italic text-sm py-2">Сначала выберите дату</div>
                              </div>
                              <input type="hidden" id="selected-time" required>
                              <p id="time-error" class="text-red-500 text-xs mt-1 hidden text-center uppercase tracking-tighter">Пожалуйста, выберите время</p>
@@ -255,15 +258,9 @@
         <!-- 4. REVIEWS -->
         <section class="relative">
             <h2 class="font-heading text-3xl text-center text-gold-300 mb-12 uppercase tracking-widest">Книга Благодарности</h2>
-            
             <div class="relative group/gallery">
-                <button onclick="window.scrollGallery(-1)" class="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all">
-                    <i class="fas fa-chevron-left text-xl"></i>
-                </button>
-                <button onclick="window.scrollGallery(1)" class="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all">
-                    <i class="fas fa-chevron-right text-xl"></i>
-                </button>
-
+                <button onclick="window.scrollGallery(-1)" class="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all"><i class="fas fa-chevron-left text-xl"></i></button>
+                <button onclick="window.scrollGallery(1)" class="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all"><i class="fas fa-chevron-right text-xl"></i></button>
                 <div id="gallery-container" class="flex overflow-x-auto gap-6 pb-8 gallery-scroll snap-x scroll-pl-4">
                     <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-08.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+1'"></div>
                     <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-09.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+2'"></div>
@@ -272,7 +269,6 @@
                     <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_15-44-30.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+5'"></div>
                 </div>
             </div>
-
             <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12"></div>
             <div class="text-center mt-12"><button onclick="window.openReviewModal()" class="btn-gold rounded-full text-xs font-bold tracking-widest uppercase">Оставить Отзыв</button></div>
         </section>
@@ -280,7 +276,7 @@
     </div>
 
     <footer class="border-t border-white/5 bg-black py-12 text-center relative z-10">
-        <div class="text-gold-700 text-2xl font-heading mb-4 uppercase tracking-widest">Tarot Soul</div>
+        <div class="text-gold-700 text-2xl font-heading mb-4 uppercase tracking-widest text-xl">Tarot Soul</div>
         <p class="text-gray-700 text-xs uppercase tracking-widest">&copy; 2026 Елена. Сделано с душой.</p>
     </footer>
 
@@ -326,7 +322,6 @@
         import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
         import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, getDocs } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
-        // КЛИЕНТСКИЙ КОНФИГ
         const firebaseConfig = {
           apiKey: "AIzaSyD6JtCMJQnvhhf5H59qtSLWiSMdlXl6VmE",
           authDomain: "taro-7c548.firebaseapp.com",
@@ -345,14 +340,12 @@
         let user = null;
         let isAuthReady = false;
 
-        // Инициализация
         const init = async () => {
             try {
                 const u = await signInAnonymously(auth);
                 user = u.user;
                 isAuthReady = true;
                 loadReviews();
-                // Удаляем прелоадер после входа
                 document.getElementById('preloader').classList.add('loaded');
             } catch (e) { 
                 console.error("Firebase connection error.");
@@ -369,7 +362,6 @@
             container.innerHTML = '<div class="col-span-3 text-center text-gold-500 text-xs py-2"><i class="fas fa-spinner fa-spin"></i> Синхронизация...</div>';
             hiddenInput.value = '';
 
-            // Ждем авторизацию
             if (!isAuthReady) {
                 await new Promise(res => {
                     const check = setInterval(() => { if(isAuthReady) { clearInterval(check); res(); } }, 100);
@@ -536,30 +528,48 @@
             if(Math.random() > 0.8) myDust.push(new DustBit(e.clientX, e.clientY));
         });
 
-        // 3. TAROT
-        const tList = [ { n: "Солнце", i: "fa-sun" }, { n: "Луна", i: "fa-moon" }, { n: "Звезда", i: "fa-star" } ];
+        // 3. TAROT SYSTEM (UPDATED WITH INTERPRETATIONS)
+        const tList = [ 
+            { n: "Солнце", i: "fa-sun", desc: "Абсолютный успех, ясность и огромная энергия. В вашей ситуации наступает период триумфа — все тени исчезают, а путь становится светлым и понятным. Время сиять!" }, 
+            { n: "Луна", i: "fa-moon", desc: "Время интуиции, снов и тайных предчувствий. Не всё сейчас является тем, чем кажется. Слушайте свой внутренний голос, он поможет пройти сквозь туман неопределенности к истине." }, 
+            { n: "Звезда", i: "fa-star", desc: "Символ надежды и высшего покровительства. Ваша мечта находится под защитой Вселенной. Даже в самую темную ночь вы не одиноки — верный путь укажет свет вдохновения." },
+            { n: "Маг", i: "fa-magic", desc: "У вас есть все инструменты, чтобы изменить реальность. Эта карта говорит о воле, мастерстве и способности превращать идеи в действия. Всё в ваших руках — действуйте смело!" },
+            { n: "Влюбленные", i: "fa-heart", desc: "Карта выбора сердца и гармонии. Она предвещает важное решение, основанное на любви и ценностях. Доверьтесь своим чувствам — они ведут вас к правильному союзу." }
+        ];
+
         function initCards() {
             const dck = document.getElementById('tarot-deck');
             if(!dck) return; dck.innerHTML = '';
             for(let i=0; i<3; i++) {
                 const c = document.createElement('div');
-                c.className = 'tarot-card-wrapper h-full cursor-pointer group';
+                // Добавляем класс h-[450px] для мобильных и md:h-full для десктопа
+                c.className = 'tarot-card-wrapper h-[450px] md:h-full cursor-pointer group';
                 c.innerHTML = `<div class="tarot-card-inner"><div class="card-face card-front-design"><div class="eye-symbol"></div></div><div class="card-face card-back"></div></div>`;
                 c.onclick = () => {
                     if(document.querySelector('.flipped')) return;
-                    const d = tList[Math.floor(Math.random()*3)];
+                    const d = tList[Math.floor(Math.random()*tList.length)];
                     c.classList.add('flipped');
                     c.querySelector('.card-back').innerHTML = `<i class="fas ${d.i} text-6xl text-gold-500 mb-6 animate-pulse"></i><div class="font-heading text-xl text-gold-100 uppercase tracking-widest">${d.n}</div>`;
+                    
+                    // Установка текста трактовки
                     setTimeout(() => {
+                        const resultEl = document.getElementById('tarot-result');
                         document.getElementById('result-icon').className = 'fas '+d.i;
                         document.getElementById('result-title').innerText = d.n;
-                        document.getElementById('tarot-result').classList.remove('hidden');
+                        document.getElementById('result-desc').innerText = d.desc; // Трактовка!
+                        resultEl.classList.remove('hidden');
+                        // Скролл к результату
+                        resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }, 600);
                 };
                 dck.appendChild(c);
             }
         }
-        window.resetTarot = () => { document.getElementById('tarot-result').classList.add('hidden'); initCards(); };
+        window.resetTarot = () => { 
+            document.getElementById('tarot-result').classList.add('hidden'); 
+            initCards(); 
+            document.getElementById('tarot-deck').scrollIntoView({ behavior: 'smooth' });
+        };
         initCards();
 
         // 4. PORTAL
