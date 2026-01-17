@@ -96,7 +96,7 @@
             text-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
         }
 
-        /* --- КАРТЫ ТАРО --- */
+        /* --- ТАРО --- */
         .tarot-card-wrapper { perspective: 1200px; }
         .tarot-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
         .flipped .tarot-card-inner { transform: rotateY(180deg); }
@@ -148,17 +148,45 @@
         .time-slot.selected { background: #D4AF37; color: #000; font-weight: bold; }
         .time-slot.disabled { opacity: 0.15; cursor: not-allowed; text-decoration: line-through; border-color: transparent; background: rgba(255,255,255,0.05); }
 
-        /* BUTTERFLY */
-        .magical-scene { height: 140px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
-        .butterfly-container { position: relative; width: 80px; height: 80px; animation: b-hover 4s ease-in-out infinite; }
-        .butterfly { width: 100%; height: 100%; transform-style: preserve-3d; }
-        .wing { position: absolute; width: 50px; height: 70px; background: radial-gradient(circle at 0% 50%, #D4AF37, transparent); border-radius: 50% 50% 0 50%; opacity: 0.8; }
-        .wing.left { left: -5px; transform-origin: right center; animation: w-flap-l 1.5s ease-in-out infinite; }
-        .wing.right { right: -5px; transform-origin: left center; transform: scaleX(-1); animation: w-flap-r 1.5s ease-in-out infinite; }
-        .b-body { position: absolute; left: 50%; top: 25px; width: 4px; height: 40px; background: #fff; transform: translateX(-50%); border-radius: 10px; box-shadow: 0 0 15px gold; }
-        @keyframes w-flap-l { 0%, 100% { transform: rotateY(0deg); } 50% { transform: rotateY(70deg); } }
-        @keyframes w-flap-r { 0%, 100% { transform: scaleX(-1) rotateY(0deg); } 50% { transform: scaleX(-1) rotateY(70deg); } }
-        @keyframes b-hover { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        /* --- MAGIC WAND ANIMATION --- */
+        .wand-scene {
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 10px;
+        }
+        .wand-container {
+            position: relative;
+            transform-origin: bottom right;
+            animation: wand-wave 2.5s ease-in-out infinite;
+        }
+        .wand-svg {
+            width: 100px;
+            height: 100px;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.6));
+        }
+        .wand-sparkle {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 6px; height: 6px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff, 0 0 20px gold;
+            opacity: 0;
+            animation: wand-sparks 2.5s infinite;
+        }
+        @keyframes wand-wave {
+            0%, 100% { transform: rotate(-10deg) translate(0, 0); }
+            50% { transform: rotate(25deg) translate(5px, -10px); }
+        }
+        @keyframes wand-sparks {
+            40% { opacity: 0; transform: scale(0) translate(0,0); }
+            50% { opacity: 1; transform: scale(1.2) translate(-20px, -20px); }
+            100% { opacity: 0; transform: scale(0) translate(-40px, -60px); }
+        }
 
         .gallery-scroll::-webkit-scrollbar { display: none; }
         .gallery-scroll { -ms-overflow-style: none; scrollbar-width: none; }
@@ -198,10 +226,9 @@
 
     <div class="container mx-auto px-4 pb-20 max-w-5xl space-y-32 relative z-10">
 
-        <!-- 1. CARDS (UPDATED FOR VERTICAL MOBILE) -->
+        <!-- 1. CARDS -->
         <section>
             <h2 class="font-heading text-3xl md:text-4xl text-gold-300 text-center mb-12 uppercase tracking-widest">Золотой Расклад</h2>
-            <!-- Сетка: 1 колонка на мобильном, 3 на десктопе. Высота: авто на мобильном, фиксированная на десктопе -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 h-auto md:h-[400px]" id="tarot-deck"></div>
             
             <div id="tarot-result" class="hidden glass-panel p-8 mt-12 text-center max-w-2xl mx-auto border-gold-500/30">
@@ -243,7 +270,7 @@
                         <div>
                              <label class="block text-gold-300 text-xs uppercase mb-2 text-center tracking-widest">Свободное время</label>
                              <div id="time-slots-container" class="grid grid-cols-3 gap-2">
-                                 <div class="col-span-3 text-center text-gray-600 text-sm py-2 italic text-sm py-2">Сначала выберите дату</div>
+                                 <div class="col-span-3 text-center text-gray-600 text-sm py-2">Сначала выберите дату</div>
                              </div>
                              <input type="hidden" id="selected-time" required>
                              <p id="time-error" class="text-red-500 text-xs mt-1 hidden text-center uppercase tracking-tighter">Пожалуйста, выберите время</p>
@@ -258,9 +285,15 @@
         <!-- 4. REVIEWS -->
         <section class="relative">
             <h2 class="font-heading text-3xl text-center text-gold-300 mb-12 uppercase tracking-widest">Книга Благодарности</h2>
+            
             <div class="relative group/gallery">
-                <button onclick="window.scrollGallery(-1)" class="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all"><i class="fas fa-chevron-left text-xl"></i></button>
-                <button onclick="window.scrollGallery(1)" class="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all"><i class="fas fa-chevron-right text-xl"></i></button>
+                <button onclick="window.scrollGallery(-1)" class="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all">
+                    <i class="fas fa-chevron-left text-xl"></i>
+                </button>
+                <button onclick="window.scrollGallery(1)" class="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all">
+                    <i class="fas fa-chevron-right text-xl"></i>
+                </button>
+
                 <div id="gallery-container" class="flex overflow-x-auto gap-6 pb-8 gallery-scroll snap-x scroll-pl-4">
                     <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-08.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+1'"></div>
                     <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-09.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+2'"></div>
@@ -280,13 +313,27 @@
         <p class="text-gray-700 text-xs uppercase tracking-widest">&copy; 2026 Елена. Сделано с душой.</p>
     </footer>
 
-    <!-- SUCCESS MODAL (Butterfly) -->
+    <!-- SUCCESS MODAL (WAND ANIMATION) -->
     <div id="success-modal" class="fixed inset-0 z-[120] hidden bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="glass-panel w-full max-w-sm p-8 text-center relative shadow-[0_0_60px_rgba(212,175,55,0.3)] border-gold-500/50">
             <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-500 hover:text-white transition"><i class="fas fa-times text-xl"></i></button>
-            <div class="magical-scene">
-                <div class="butterfly-container"><div class="butterfly"><div class="wing left"></div><div class="b-body"></div><div class="wing right"></div></div></div>
+            
+            <!-- MAGIC WAND -->
+            <div class="wand-scene">
+                <div class="wand-container">
+                    <svg class="wand-svg" viewBox="0 0 100 100">
+                        <!-- Stick -->
+                        <rect x="75" y="30" width="4" height="60" rx="2" fill="#423206" transform="rotate(-45 77 60)" />
+                        <!-- Star Tip -->
+                        <path d="M50 15 L53 24 L62 24 L55 30 L58 39 L50 33 L42 39 L45 30 L38 24 L47 24 Z" fill="#D4AF37" stroke="#fff" stroke-width="1" />
+                    </svg>
+                    <!-- Sparks from tip -->
+                    <div class="wand-sparkle"></div>
+                    <div class="wand-sparkle" style="animation-delay: 0.2s; left: 15px; top: 5px;"></div>
+                    <div class="wand-sparkle" style="animation-delay: 0.4s; left: 5px; top: 15px;"></div>
+                </div>
             </div>
+
             <h3 class="font-heading text-2xl text-gold-300 mb-2 uppercase tracking-widest">Остался шаг!</h3>
             <p class="text-gray-300 text-sm mb-8 leading-relaxed">Чтобы я увидела вашу заявку, <span class="text-white font-bold">подтвердите её в Telegram</span>.</p>
             <button id="success-telegram-btn" class="w-full btn-gold rounded-lg font-bold uppercase animate-pulse">Перейти в Telegram</button>
@@ -423,8 +470,20 @@
 
             if (db && user) {
                 try {
-                    const q = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
-                    await addDoc(q, {
+                    const qCheck = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
+                    const snapCheck = await getDocs(qCheck);
+                    let isConflict = false;
+                    snapCheck.forEach(ds => { if(ds.data().date === date && ds.data().time === time) isConflict = true; });
+
+                    if (isConflict) {
+                        alert("Это время только что заняли! Пожалуйста, выберите другое.");
+                        window.generateTimeSlots(date);
+                        btn.disabled = false;
+                        btn.innerText = "Оформить заявку";
+                        return;
+                    }
+
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), {
                         name, contact: handle, date, time, notes, createdAt: serverTimestamp()
                     });
                 } catch(err) { console.error("Cloud save failed"); }
@@ -542,23 +601,21 @@
             if(!dck) return; dck.innerHTML = '';
             for(let i=0; i<3; i++) {
                 const c = document.createElement('div');
-                // Добавляем класс h-[450px] для мобильных и md:h-full для десктопа
+                // h-[450px] для мобилок
                 c.className = 'tarot-card-wrapper h-[450px] md:h-full cursor-pointer group';
                 c.innerHTML = `<div class="tarot-card-inner"><div class="card-face card-front-design"><div class="eye-symbol"></div></div><div class="card-face card-back"></div></div>`;
                 c.onclick = () => {
                     if(document.querySelector('.flipped')) return;
                     const d = tList[Math.floor(Math.random()*tList.length)];
                     c.classList.add('flipped');
-                    c.querySelector('.card-back').innerHTML = `<i class="fas ${d.i} text-6xl text-gold-500 mb-6 animate-pulse"></i><div class="font-heading text-xl text-gold-100 uppercase tracking-widest">${d.n}</div>`;
+                    c.querySelector('.card-back').innerHTML = `<i class="fas ${d.i} text-6xl text-gold-500 mb-6 animate-pulse"></i><div class="font-heading text-xl text-gold-100 uppercase tracking-widest text-center px-4">${d.n}</div>`;
                     
-                    // Установка текста трактовки
                     setTimeout(() => {
                         const resultEl = document.getElementById('tarot-result');
                         document.getElementById('result-icon').className = 'fas '+d.i;
                         document.getElementById('result-title').innerText = d.n;
-                        document.getElementById('result-desc').innerText = d.desc; // Трактовка!
+                        document.getElementById('result-desc').innerText = d.desc;
                         resultEl.classList.remove('hidden');
-                        // Скролл к результату
                         resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }, 600);
                 };
