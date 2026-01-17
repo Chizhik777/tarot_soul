@@ -96,7 +96,7 @@
             text-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
         }
 
-        /* --- TAROT CARDS --- */
+        /* --- ТАРО --- */
         .tarot-card-wrapper { perspective: 1200px; }
         .tarot-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
         .flipped .tarot-card-inner { transform: rotateY(180deg); }
@@ -148,7 +148,7 @@
         .time-slot.selected { background: #D4AF37; color: #000; font-weight: bold; }
         .time-slot.disabled { opacity: 0.15; cursor: not-allowed; text-decoration: line-through; border-color: transparent; background: rgba(255,255,255,0.05); }
 
-        /* --- MAGIC CAT ANIMATION (UPDATED VISIBILITY) --- */
+        /* --- MAGIC CAT ANIMATION (СВЕТЛЫЙ КОТ) --- */
         .cat-scene {
             height: 180px;
             display: flex;
@@ -161,52 +161,55 @@
             height: 120px;
             position: relative;
             animation: cat-float 3.5s ease-in-out infinite;
-            /* Свечение, чтобы кот не сливался с фоном */
-            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4));
+            /* Золотое свечение вокруг светлого кота */
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
         }
         .cat-head {
-            width: 80px; height: 70px;
-            background: #1a1a1a; /* Чуть светлее черного */
+            width: 80px; height: 75px;
+            background: #fdf6e3; /* Кремовый/светлый цвет */
             border-radius: 50% 50% 45% 45%;
             position: absolute; bottom: 10px; left: 20px;
-            border: 2px solid rgba(212, 175, 55, 0.6);
+            border: 2px solid #D4AF37;
             z-index: 2;
         }
         .cat-ear {
             width: 0; height: 0;
             border-left: 15px solid transparent;
             border-right: 15px solid transparent;
-            border-bottom: 25px solid #1a1a1a;
+            border-bottom: 25px solid #fdf6e3;
             position: absolute; top: -15px;
             z-index: 1;
         }
         .cat-ear.left { left: 5px; transform: rotate(-20deg); }
         .cat-ear.right { right: 5px; transform: rotate(20deg); }
         .cat-eye {
-            width: 12px; height: 12px;
-            background: #FFD700; /* Ярко-золотой */
+            width: 14px; height: 14px;
+            background: #00bfff; /* Ярко-голубые глаза */
             border-radius: 50%;
             position: absolute; top: 25px;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 1);
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.8);
             animation: cat-blink 4s infinite;
         }
-        .cat-eye.left { left: 20px; }
-        .cat-eye.right { right: 48px; }
+        .cat-eye.left { left: 18px; }
+        .cat-eye.right { right: 18px; }
+        .cat-eye::after { /* Зрачок */
+            content: ''; position: absolute; width: 4px; height: 8px; background: #000;
+            border-radius: 50%; top: 3px; left: 5px;
+        }
         .cat-nose {
             width: 6px; height: 4px;
             background: #ffb6c1;
             border-radius: 50%;
-            position: absolute; top: 40px; left: 37px;
+            position: absolute; top: 42px; left: 37px;
         }
         .wiz-hat {
-            position: absolute; top: -35px; left: 15px;
+            position: absolute; top: -38px; left: 15px;
             width: 0; height: 0;
             border-left: 25px solid transparent;
             border-right: 25px solid transparent;
-            border-bottom: 45px solid #222;
+            border-bottom: 45px solid #333;
             transform: rotate(-10deg);
             z-index: 3;
-            border-bottom-color: #2a2a2a;
         }
         .wiz-hat::after {
             content: '★'; position: absolute; bottom: -40px; left: -8px;
@@ -215,12 +218,12 @@
         .cat-sparkle {
             position: absolute; background: white; border-radius: 50%;
             width: 4px; height: 4px; box-shadow: 0 0 10px gold;
-            opacity: 0; animation: cat-sparks 2s infinite;
+            opacity: 0; animation: cat-sparks 2.5s infinite;
         }
 
         @keyframes cat-float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(3deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
         }
         @keyframes cat-blink {
             0%, 90%, 100% { transform: scaleY(1); }
@@ -242,7 +245,7 @@
     <div id="preloader">
         <div class="text-center">
             <i class="fas fa-moon text-6xl text-gold-500 animate-pulse mb-4"></i>
-            <h2 class="font-heading text-2xl text-gold-100 tracking-widest uppercase text-center px-4">Tarot Soul</h2>
+            <h2 class="font-heading text-2xl text-gold-100 tracking-widest uppercase px-4">Tarot Soul</h2>
         </div>
     </div>
 
@@ -277,11 +280,9 @@
             
             <div id="tarot-result" class="hidden glass-panel p-8 mt-12 text-center max-w-2xl mx-auto border-gold-500/30">
                 <div class="text-6xl text-gold-500 mb-4"><i id="result-icon" class=""></i></div>
-                <h3 id="result-title" class="font-heading text-3xl text-gold-100 mb-4 tracking-wider text-center"></h3>
-                <p id="result-desc" class="text-lg text-gray-300 italic mb-8 leading-relaxed font-light text-center"></p>
-                <div class="flex justify-center">
-                    <button onclick="window.resetTarot()" class="btn-gold rounded-full text-sm uppercase tracking-widest">Другой вопрос</button>
-                </div>
+                <h3 id="result-title" class="font-heading text-3xl text-gold-100 mb-4 tracking-wider"></h3>
+                <p id="result-desc" class="text-lg text-gray-300 italic mb-8 leading-relaxed font-light"></p>
+                <button onclick="window.resetTarot()" class="btn-gold rounded-full text-sm uppercase tracking-widest">Другой вопрос</button>
             </div>
         </section>
 
@@ -296,7 +297,7 @@
                     <span id="portal-text" class="relative z-20 font-heading text-4xl text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]">?</span>
                 </div>
             </div>
-            <p class="mt-6 text-xs text-gold-700 tracking-[0.4em] uppercase opacity-50 text-center">Нажми для ответа</p>
+            <p class="mt-6 text-xs text-gold-700 tracking-[0.4em] uppercase opacity-50">Нажми для ответа</p>
         </section>
 
         <!-- 3. BOOKING -->
@@ -316,21 +317,21 @@
                         <div>
                              <label class="block text-gold-300 text-xs uppercase mb-2 text-center tracking-widest">Свободное время</label>
                              <div id="time-slots-container" class="grid grid-cols-3 gap-2">
-                                 <div class="col-span-3 text-center text-gray-600 text-sm py-2 italic text-sm py-2">Сначала выберите дату</div>
+                                 <div class="col-span-3 text-center text-gray-600 text-sm py-2 italic">Сначала выберите дату</div>
                              </div>
                              <input type="hidden" id="selected-time" required>
-                             <p id="time-error" class="text-red-500 text-xs mt-1 hidden text-center uppercase tracking-tighter">Пожалуйста, выберите время</p>
+                             <p id="time-error" class="text-red-500 text-xs mt-1 hidden text-center uppercase tracking-tighter">Выберите время</p>
                         </div>
                     </div>
-                    <textarea id="book-notes" rows="3" class="input-gold" placeholder="Ваш вопрос или тема расклада..."></textarea>
-                    <button type="submit" id="submit-booking-btn" class="w-full btn-gold rounded-lg font-heading text-lg font-bold shadow-gold-900/40 transition-all">Оформить заявку</button>
+                    <textarea id="book-notes" rows="3" class="input-gold" placeholder="Ваш запрос или тема расклада..."></textarea>
+                    <button type="submit" id="submit-booking-btn" class="w-full btn-gold rounded-lg font-heading text-lg font-bold shadow-gold-900/40">Оформить заявку</button>
                 </form>
             </div>
         </section>
 
         <!-- 4. REVIEWS (SIDE ARROWS) -->
         <section class="relative">
-            <h2 class="font-heading text-3xl text-center text-gold-300 mb-12 uppercase tracking-widest text-center">Книга Благодарности</h2>
+            <h2 class="font-heading text-3xl text-center text-gold-300 mb-12 uppercase tracking-widest">Книга Благодарности</h2>
             
             <div class="relative group/gallery">
                 <button onclick="window.scrollGallery(-1)" class="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all">
@@ -349,22 +350,22 @@
                 </div>
             </div>
             <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12"></div>
-            <div class="text-center mt-12"><button onclick="window.openReviewModal()" class="btn-gold rounded-full text-xs font-bold tracking-widest uppercase text-center">Оставить Отзыв</button></div>
+            <div class="text-center mt-12"><button onclick="window.openReviewModal()" class="btn-gold rounded-full text-xs font-bold tracking-widest uppercase">Оставить Отзыв</button></div>
         </section>
 
     </div>
 
     <footer class="border-t border-white/5 bg-black py-12 text-center relative z-10">
-        <div class="text-gold-700 text-2xl font-heading mb-4 uppercase tracking-widest text-xl">Tarot Soul</div>
-        <p class="text-gray-700 text-xs uppercase tracking-widest text-center">&copy; 2026 Елена. Сделано с душой.</p>
+        <div class="text-gold-700 text-2xl font-heading mb-4 uppercase tracking-widest">Tarot Soul</div>
+        <p class="text-gray-700 text-xs uppercase tracking-widest">&copy; 2026 Елена. Сделано с душой.</p>
     </footer>
 
-    <!-- SUCCESS MODAL (CUTE MAGIC CAT) -->
+    <!-- SUCCESS MODAL (LIGHT MAGIC CAT) -->
     <div id="success-modal" class="fixed inset-0 z-[120] hidden bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="glass-panel w-full max-w-sm p-8 text-center relative shadow-[0_0_60px_rgba(212,175,55,0.3)] border-gold-500/50">
             <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fas fa-times text-xl"></i></button>
             
-            <!-- CUTE MAGIC CAT -->
+            <!-- NEW LIGHT MAGIC CAT -->
             <div class="cat-scene">
                 <div class="magic-cat">
                     <div class="cat-ear left"></div>
@@ -382,16 +383,19 @@
                 </div>
             </div>
 
-            <h3 class="font-heading text-2xl text-gold-300 mb-2 uppercase tracking-widest text-center">Мяугия сработала!</h3>
-            <p class="text-gray-300 text-sm mb-8 leading-relaxed text-center">Заявка создана. Пожалуйста, <span class="text-white font-bold underline">нажмите кнопку ниже</span>, чтобы завершить запись в Telegram.</p>
-            <button id="success-telegram-btn" class="w-full btn-gold rounded-lg font-bold uppercase animate-pulse py-4 text-sm tracking-widest">ПОДТВЕРДИТЬ ЗАПИСЬ В TELEGRAM</button>
+            <h3 class="font-heading text-2xl text-gold-300 mb-2 uppercase tracking-widest">Мяугия сработала!</h3>
+            <p class="text-gray-300 text-sm mb-8 leading-relaxed">Заявка создана. <span class="text-white font-bold underline italic">Чтобы я её увидела</span>, пожалуйста, обязательно подтвердите её в Telegram.</p>
+            
+            <button id="success-telegram-btn" class="w-full btn-gold rounded-lg font-bold uppercase animate-pulse py-4 text-sm tracking-widest bg-gold-500 text-black border-none shadow-[0_0_20px_rgba(212,175,55,0.4)]">
+                ПОДТВЕРДИТЬ ЗАПИСЬ В TELEGRAM
+            </button>
         </div>
     </div>
 
     <div id="review-modal" class="fixed inset-0 z-[100] hidden bg-black/80 flex items-center justify-center p-4">
         <div class="glass-panel w-full max-w-md p-8 relative border-gold-500/50 shadow-2xl">
             <button onclick="window.closeReviewModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fas fa-times text-xl"></i></button>
-            <h3 class="font-heading text-2xl text-gold-300 mb-6 text-center tracking-wider uppercase text-center">Ваш Отзыв</h3>
+            <h3 class="font-heading text-2xl text-gold-300 mb-6 text-center tracking-wider uppercase">Ваш Отзыв</h3>
             <form onsubmit="window.submitReview(event)" class="space-y-4">
                 <input type="text" id="review-name" placeholder="Имя" required class="input-gold">
                 <textarea id="review-text" rows="4" placeholder="Ваши слова..." required class="input-gold"></textarea>
@@ -402,7 +406,7 @@
                     <i class="fas fa-star text-gold-300 cursor-pointer" onclick="window.setRating(4)"></i>
                     <i class="fas fa-star text-gold-300 cursor-pointer" onclick="window.setRating(5)"></i>
                 </div>
-                <button type="submit" class="w-full btn-gold rounded-lg uppercase text-xs font-bold tracking-widest text-center">Отправить</button>
+                <button type="submit" class="w-full btn-gold rounded-lg uppercase text-xs font-bold tracking-widest">Отправить</button>
             </form>
         </div>
     </div>
@@ -482,10 +486,7 @@
 
             for(let h = 11; h <= 19; h++) {
                 const timeStr = `${h}:00`;
-                const isPast = (dateString === todayStr && h <= hourNow);
-                const isBooked = bookedTimes.includes(timeStr);
-                const isDisabled = isPast || isBooked;
-
+                const isDisabled = (dateString === todayStr && h <= hourNow) || bookedTimes.includes(timeStr);
                 const slot = document.createElement('div');
                 slot.className = `time-slot ${isDisabled ? 'disabled' : ''}`;
                 slot.innerText = timeStr;
@@ -516,8 +517,21 @@
 
             if (db && user) {
                 try {
-                    const q = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
-                    await addDoc(q, { name, contact: handle, date, time, notes, createdAt: serverTimestamp() });
+                    const qCheck = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
+                    const snapCheck = await getDocs(qCheck);
+                    let isConflict = false;
+                    snapCheck.forEach(ds => { if(ds.data().date === date && ds.data().time === time) isConflict = true; });
+
+                    if (isConflict) {
+                        alert("Это время только что заняли! Пожалуйста, выберите другое.");
+                        window.generateTimeSlots(date);
+                        btn.disabled = false;
+                        return;
+                    }
+
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), {
+                        name, contact: handle, date, time, notes, createdAt: serverTimestamp()
+                    });
                 } catch(err) { console.error("Cloud save failed"); }
             }
 
@@ -570,6 +584,7 @@
 
     <!-- VISUAL LOGIC -->
     <script>
+        // Backgrounds
         const canvasA = document.getElementById('chaos-bg'), ctxA = canvasA.getContext('2d');
         const canvasB = document.getElementById('magic-dust'), ctxB = canvasB.getContext('2d');
         let viewW, viewH, myBlobs = [], myDust = [];
@@ -667,6 +682,11 @@
         window.closeReviewModal = () => document.getElementById('review-modal').classList.add('hidden');
         window.currentRating = 5;
         window.setRating = r => { window.currentRating = r; document.querySelectorAll('#star-rating i').forEach((s, idx) => s.className = idx < r ? 'fas fa-star text-gold-300' : 'fas fa-star text-gray-600'); };
+        
+        window.addEventListener('load', () => { 
+            const dIn = document.getElementById('book-date');
+            if (dIn) dIn.min = new Date().toISOString().split('T')[0];
+        });
     </script>
 </body>
 </html>
