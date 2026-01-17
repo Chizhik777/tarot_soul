@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Таро с Душой | Елена</title>
-    <!-- FAVICON (Луна) -->
+    <!-- FAVICON -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌙</text></svg>">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -96,7 +96,58 @@
             text-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
         }
 
-        /* --- КАРТЫ --- */
+        /* --- MAGIC CRYSTAL BALL --- */
+        .ball-scene {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 50;
+        }
+        .crystal-ball-group {
+            position: relative;
+            width: 100px;
+            height: 140px;
+            animation: levitate 3s ease-in-out infinite;
+        }
+        .magic-sphere {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, rgba(212, 175, 55, 0.3) 40%, rgba(0, 0, 0, 0.9) 100%);
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.2);
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+        }
+        .magic-sphere::before {
+            content: '';
+            position: absolute;
+            inset: -50%;
+            background: conic-gradient(from 0deg, transparent, rgba(212, 175, 55, 0.4), transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: spin-fx 4s linear infinite;
+            filter: blur(10px);
+        }
+        .sphere-stand {
+            width: 80px;
+            height: 35px;
+            background: linear-gradient(to bottom, #332200, #000);
+            margin: -10px auto 0;
+            border-radius: 50% 50% 20% 20%;
+            border-top: 3px solid #D4AF37;
+            position: relative;
+            z-index: 40;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+        }
+
+        @keyframes levitate {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* --- CARDS --- */
         .tarot-card-wrapper { perspective: 1200px; }
         .tarot-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
         .flipped .tarot-card-inner { transform: rotateY(180deg); }
@@ -118,95 +169,11 @@
         }
         .card-back { background: #000; transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; justify-content: center; border-color: #D4AF37; }
 
-        /* --- MAGIC CRYSTAL BALL ON STAND --- */
-        .ball-scene {
-            height: 200px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            margin-bottom: 20px;
-        }
-        .crystal-ball-group {
-            position: relative;
-            width: 120px;
-            height: 150px;
-            animation: levitate 3.5s ease-in-out infinite;
-        }
-        .magic-sphere {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.5) 0%, rgba(212, 175, 55, 0.2) 50%, rgba(0, 0, 0, 0.9) 100%);
-            box-shadow: 
-                inset 0 0 25px rgba(212, 175, 55, 0.8),
-                0 0 50px rgba(212, 175, 55, 0.4);
-            position: relative;
-            margin: 0 auto;
-            overflow: hidden;
-            border: 2px solid rgba(212, 175, 55, 0.5);
-            backdrop-filter: blur(4px);
-            z-index: 5;
-        }
-        .magic-sphere::before {
-            content: '';
-            position: absolute;
-            inset: -50%;
-            background: conic-gradient(from 0deg, transparent, rgba(212, 175, 55, 0.6), transparent, rgba(255, 255, 255, 0.4), transparent);
-            animation: spin-fx 5s linear infinite;
-            filter: blur(15px);
-        }
-        .magic-sphere::after {
-            content: '';
-            position: absolute;
-            top: 15%; left: 20%;
-            width: 30px; height: 15px;
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
-            transform: rotate(-30deg);
-        }
-        .sphere-stand {
-            width: 90px;
-            height: 45px;
-            background: linear-gradient(to bottom, #423206, #1a1a1a);
-            margin: -15px auto 0;
-            border-radius: 50% 50% 30% 30%;
-            border-top: 4px solid #D4AF37;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.9);
-        }
-        @keyframes levitate {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* --- FLOATING GRATITUDE BUTTON --- */
-        .fab-gratitude {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 40;
-            width: 60px; height: 60px;
-            background: #D4AF37;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
-            color: #000;
-            font-size: 24px;
-            animation: pulse-fav 2s infinite;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .fab-gratitude:hover { transform: scale(1.1); box-shadow: 0 0 40px #D4AF37; }
-        @keyframes pulse-fav { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
-
-        /* PORTAL & BUTTONS */
-        .portal-container { position: relative; width: 200px; height: 200px; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
+        /* PORTAL */
+        .portal-container { position: relative; width: 180px; height: 180px; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
         .portal-ring { position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; border-top-color: #D4AF37; border-bottom-color: #997B1E; animation: spin-fx 10s linear infinite; filter: drop-shadow(0 0 10px #D4AF37); }
         .portal-ring:nth-child(2) { inset: 15px; border-left-color: #333; border-right-color: #666; animation: spin-fx 7s linear infinite reverse; border-top-color: transparent; border-bottom-color: transparent; }
-        .portal-core { width: 140px; height: 140px; background: radial-gradient(circle, #000 30%, #1a1a1a 100%); border-radius: 50%; position: relative; z-index: 10; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 0 40px rgba(212, 175, 55, 0.2); transition: all 0.5s ease; }
+        .portal-core { width: 120px; height: 120px; background: radial-gradient(circle, #000 30%, #1a1a1a 100%); border-radius: 50%; position: relative; z-index: 10; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 0 40px rgba(212, 175, 55, 0.2); transition: all 0.5s ease; }
         .portal-mist { position: absolute; inset: -50%; background: conic-gradient(transparent, rgba(212, 175, 55, 0.3), transparent, rgba(255, 255, 255, 0.1), transparent); animation: spin-fx 4s linear infinite; filter: blur(20px); }
         @keyframes spin-fx { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
@@ -221,6 +188,26 @@
             width: 100%; background: rgba(0,0,0,0.6); border: 1px solid rgba(212, 175, 55, 0.3);
             color: #F9F1D8; padding: 12px; border-radius: 8px; outline: none;
         }
+
+        /* --- FLOATING GRATITUDE BUTTON --- */
+        .fab-gratitude {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            width: 65px; height: 65px;
+            background: #D4AF37;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.7);
+            color: #000;
+            font-size: 26px;
+            animation: pulse-fav 2s infinite;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .fab-gratitude:hover { transform: scale(1.1); box-shadow: 0 0 45px #D4AF37; }
+        @keyframes pulse-fav { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
         .time-slot {
             padding: 10px; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;
@@ -244,8 +231,8 @@
         </div>
     </div>
 
-    <!-- ПЛАВАЮЩАЯ КНОПКА (СБП / Карта) -->
-    <a href="https://yoomoney.ru/to/4100119434367950" target="_blank" class="fab-gratitude" title="Поддержать через СБП или картой">
+    <!-- КНОПКА ПОДДЕРЖКИ (СБП / Карта) -->
+    <a href="https://yoomoney.ru/to/4100119434367950" target="_blank" class="fab-gratitude" title="Поддержать через СБП">
         <i class="fas fa-heart"></i>
     </a>
 
@@ -260,9 +247,7 @@
                 <i class="fas fa-moon text-gold-500 text-xl"></i>
                 <span class="font-heading text-xl text-gold-300 tracking-wider">Tarot Soul</span>
             </div>
-            <div class="flex gap-4">
-                <a href="#booking-section" class="btn-gold rounded-full text-xs font-bold tracking-widest uppercase transition-all">Записаться</a>
-            </div>
+            <a href="#booking-section" class="btn-gold rounded-full text-xs font-bold tracking-widest uppercase">Записаться</a>
         </div>
     </header>
 
@@ -283,8 +268,8 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 h-auto md:h-[400px]" id="tarot-deck"></div>
             
             <div id="tarot-result" class="hidden glass-panel p-8 mt-12 text-center max-w-2xl mx-auto border-gold-500/30">
-                <div class="text-6xl text-gold-500 mb-4"><i id="result-icon" class=""></i></div>
-                <h3 id="result-title" class="font-heading text-3xl text-gold-100 mb-4 tracking-wider"></h3>
+                <div class="text-6xl text-gold-500 mb-4 text-center"><i id="result-icon" class=""></i></div>
+                <h3 id="result-title" class="font-heading text-3xl text-gold-100 mb-4 tracking-wider text-center"></h3>
                 <p id="result-desc" class="text-lg text-gray-300 italic mb-8 leading-relaxed font-light text-center"></p>
                 <div class="flex justify-center">
                     <button onclick="window.resetTarot()" class="btn-gold rounded-full text-sm uppercase tracking-widest">Другой вопрос</button>
@@ -303,61 +288,66 @@
                     <span id="portal-text" class="relative z-20 font-heading text-4xl text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]">?</span>
                 </div>
             </div>
-            <p class="mt-6 text-xs text-gold-700 tracking-[0.4em] uppercase opacity-50 text-center text-center text-center text-center">Нажми для ответа</p>
+            <p class="mt-6 text-xs text-gold-700 tracking-[0.4em] uppercase opacity-50 text-center">Нажми для ответа</p>
         </section>
 
-        <!-- 3. ЭНЕРГООБМЕН (СБП / Карты) -->
+        <!-- 3. ЭНЕРГООБМЕН (УПРОЩЕННЫЙ) -->
         <section>
-            <div class="glass-panel p-8 md:p-12 max-w-3xl mx-auto text-center border-gold-500/30 bg-gradient-to-br from-gold-900/10 to-black">
-                <h2 class="font-heading text-3xl text-gold-300 mb-6 uppercase tracking-wider underline decoration-gold-500/30 underline-offset-8 text-center">Энергообмен</h2>
+            <div class="glass-panel p-8 md:p-12 max-w-3xl mx-auto text-center border-gold-500/30 bg-gradient-to-br from-gold-900/10 to-black relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 opacity-5 text-9xl"><i class="fas fa-heart"></i></div>
+                <h2 class="font-heading text-3xl text-gold-300 mb-6 uppercase tracking-wider text-center">Энергообмен</h2>
                 <div class="space-y-6 text-lg md:text-xl text-gray-200 font-light italic leading-relaxed text-center">
-                    <p>Дорогие, я верю в баланс энергий. Моя помощь должна быть доступна каждому, кто ищет ответы.</p>
-                    <p>Поэтому все мои расклады проводятся за <span class="text-gold-300 font-bold uppercase tracking-widest text-center">Donation (донат)</span>. Вы сами определяете размер благодарности, исходя из своего сердца.</p>
-                    <div class="h-px w-24 bg-gold-500/50 mx-auto"></div>
-                    <p class="text-xs uppercase tracking-[0.3em] text-gold-500 font-bold opacity-80 mb-6 text-center">Любым удобным способом: СБП или картой.</p>
+                    <p>Дорогие, я верю в баланс. Мои расклады проводятся за <span class="text-gold-300 font-bold uppercase tracking-widest">Donation</span> — вы сами определяете размер благодарности по зову сердца.</p>
                     
-                    <a href="https://yoomoney.ru/to/4100119434367950" target="_blank" class="inline-block btn-gold rounded-full font-bold uppercase py-3 px-10 text-sm shadow-[0_0_30px_rgba(212,175,55,0.3)]">Отправить благодарность</a>
+                    <div class="max-w-md mx-auto pt-4">
+                         <p class="text-xs uppercase tracking-widest text-gold-500/60 mb-6 italic text-center text-center">Быстрая поддержка через СБП или картой любого банка</p>
+                         <div class="flex flex-wrap justify-center gap-6 mb-8">
+                             <div class="flex items-center gap-2 text-white text-sm"><i class="fas fa-qrcode text-gold-300"></i> СБП</div>
+                             <div class="flex items-center gap-2 text-white text-sm"><i class="fas fa-credit-card text-gold-300"></i> Банковская карта</div>
+                         </div>
+                         <a href="https://yoomoney.ru/to/4100119434367950" target="_blank" class="w-full block btn-gold rounded-full font-bold uppercase py-4 text-sm shadow-[0_0_30px_rgba(212,175,55,0.3)] hover:scale-105 transition-all text-center">
+                            ОТПРАВИТЬ БЛАГОДАРНОСТЬ
+                         </a>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- 4. BOOKING -->
         <section id="booking-section" class="scroll-mt-24">
-            <h2 class="font-heading text-3xl md:text-4xl text-gold-300 text-center mb-12 uppercase tracking-widest text-center text-center text-center">Запись на прием</h2>
+            <h2 class="font-heading text-3xl md:text-4xl text-gold-300 text-center mb-12 uppercase tracking-widest text-center">Запись на прием</h2>
             <div class="glass-panel p-8 max-w-3xl mx-auto relative border-gold-500/30 shadow-2xl">
                 <form id="booking-form" class="space-y-8" onsubmit="window.submitBooking(event)">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <input type="text" id="book-name" required class="input-gold" placeholder="Ваше Имя">
-                        <input type="text" id="book-contact" required class="input-gold" placeholder="Telegram @username (обязательно)">
+                        <input type="text" id="book-contact" required class="input-gold" placeholder="Telegram @username">
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
-                            <label class="block text-gold-300 text-xs uppercase mb-2 text-center tracking-widest text-center text-center">Дата приема</label>
-                            <input type="date" id="book-date" required class="input-gold text-center cursor-pointer" onchange="window.generateTimeSlots(this.value)">
+                            <label class="block text-gold-300 text-xs uppercase mb-2 text-center tracking-widest">Дата приема</label>
+                            <input type="date" id="book-date" required class="input-gold text-center" onchange="window.generateTimeSlots(this.value)">
                         </div>
                         <div>
-                             <label class="block text-gold-300 text-xs uppercase mb-2 text-center tracking-widest text-center text-center">Свободное время</label>
+                             <label class="block text-gold-300 text-xs uppercase mb-2 text-center tracking-widest text-center">Свободное время</label>
                              <div id="time-slots-container" class="grid grid-cols-3 gap-2">
-                                 <div class="col-span-3 text-center text-gray-600 text-sm py-2 italic text-sm py-2 text-center text-center text-center text-center text-center">Сначала выберите дату</div>
+                                 <div class="col-span-3 text-center text-gray-600 text-sm py-2">Сначала выберите дату</div>
                              </div>
                              <input type="hidden" id="selected-time" required>
-                             <p id="time-error" class="text-red-500 text-xs mt-1 hidden text-center uppercase tracking-tighter text-center font-bold text-center text-center text-center">Выберите время</p>
+                             <p id="time-error" class="text-red-500 text-xs mt-1 hidden text-center uppercase font-bold text-center">Выберите время</p>
                         </div>
                     </div>
                     <textarea id="book-notes" rows="3" class="input-gold" placeholder="Ваш запрос или тема расклада..."></textarea>
-                    <button type="submit" id="submit-booking-btn" class="w-full btn-gold rounded-lg font-heading text-lg font-bold shadow-gold-900/40 transition-all text-center uppercase text-center text-center text-center text-center text-center">Оформить заявку</button>
+                    <button type="submit" id="submit-booking-btn" class="w-full btn-gold rounded-lg font-heading text-lg font-bold shadow-gold-900/40 transition-all uppercase text-center">Оформить заявку</button>
                 </form>
             </div>
         </section>
 
         <!-- 5. REVIEWS -->
         <section class="relative">
-            <h2 class="font-heading text-3xl text-center text-gold-300 mb-12 uppercase tracking-widest text-center text-center text-center text-center">Книга Благодарности</h2>
-            
+            <h2 class="font-heading text-3xl text-center text-gold-300 mb-12 uppercase tracking-widest text-center">Книга Благодарности</h2>
             <div class="relative group/gallery">
-                <button onclick="window.scrollGallery(-1)" class="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all"><i class="fas fa-chevron-left text-xl"></i></button>
-                <button onclick="window.scrollGallery(1)" class="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all"><i class="fas fa-chevron-right text-xl"></i></button>
-
+                <button onclick="window.scrollGallery(-1)" class="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center cursor-pointer shadow-xl transition-all"><i class="fas fa-chevron-left text-xl"></i></button>
+                <button onclick="window.scrollGallery(1)" class="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center cursor-pointer shadow-xl transition-all"><i class="fas fa-chevron-right text-xl"></i></button>
                 <div id="gallery-container" class="flex overflow-x-auto gap-6 pb-8 gallery-scroll snap-x scroll-pl-4">
                     <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-08.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+1'"></div>
                     <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-09.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+2'"></div>
@@ -367,39 +357,61 @@
                 </div>
             </div>
             <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12"></div>
-            <div class="text-center mt-12"><button onclick="window.openReviewModal()" class="btn-gold rounded-full text-xs font-bold tracking-widest uppercase text-center text-center text-center text-center text-center">Оставить Отзыв</button></div>
+            <div class="text-center mt-12"><button onclick="window.openReviewModal()" class="btn-gold rounded-full text-xs font-bold tracking-widest uppercase text-center text-center">Оставить Отзыв</button></div>
         </section>
 
     </div>
 
-    <footer class="border-t border-white/5 bg-black py-12 text-center relative z-10 text-center">
-        <div class="text-gold-700 text-2xl font-heading mb-4 uppercase tracking-widest text-xl text-center text-center text-center text-center text-center">Tarot Soul</div>
-        <p class="text-gray-700 text-xs uppercase tracking-widest text-center text-center text-center text-center text-center text-center">&copy; 2026 Елена. Сделано с душой.</p>
+    <footer class="border-t border-white/5 bg-black py-12 text-center relative z-10">
+        <div class="text-gold-700 text-2xl font-heading mb-4 uppercase tracking-widest text-center">Tarot Soul</div>
+        <p class="text-gray-700 text-xs uppercase tracking-widest text-center">&copy; 2026 Елена. Сделано с душой.</p>
     </footer>
 
-    <!-- SUCCESS MODAL (CRYSTAL BALL ON STAND) -->
-    <div id="success-modal" class="fixed inset-0 z-[120] hidden bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm text-center">
-        <div class="glass-panel w-full max-w-sm p-8 text-center relative shadow-[0_0_80px_rgba(212,175,55,0.4)] border-gold-500/50 text-center">
-            <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-white transition cursor-pointer text-center"><i class="fas fa-times text-xl"></i></button>
+    <!-- SUCCESS MODAL (CRYSTAL BALL ON STAND - FIXED) -->
+    <div id="success-modal" class="fixed inset-0 z-[150] hidden bg-black/95 flex items-center justify-center p-4 backdrop-blur-md">
+        <div class="glass-panel w-full max-w-sm p-8 text-center relative shadow-[0_0_80px_rgba(212,175,55,0.5)] border-gold-500/50">
+            <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-white transition cursor-pointer"><i class="fas fa-times text-xl"></i></button>
             
-            <!-- MAGIC CRYSTAL BALL ARTEFACT -->
-            <div class="ball-scene text-center">
-                <div class="crystal-ball-group text-center">
-                    <div class="magic-sphere text-center"></div>
-                    <div class="sphere-stand text-center"></div>
+            <div class="ball-scene">
+                <div class="crystal-ball-group">
+                    <div class="magic-sphere"></div>
+                    <div class="sphere-stand"></div>
                 </div>
             </div>
 
-            <h3 class="font-heading text-2xl text-gold-300 mb-2 uppercase tracking-widest text-center text-center text-center text-center text-center text-center">Магия сработала!</h3>
-            <p class="text-gray-300 text-sm mb-8 leading-relaxed text-center text-center text-center text-center text-center">Заявка создана. <span class="text-white font-bold underline italic text-center">Чтобы я её увидела</span>, пожалуйста, обязательно нажмите кнопку ниже и подтвердите запись в Telegram.</p>
+            <h3 class="font-heading text-2xl text-gold-300 mb-2 uppercase tracking-widest text-center">Магия в пути!</h3>
+            <p class="text-gray-300 text-sm mb-8 leading-relaxed text-center">Ваша заявка создана. Пожалуйста, <span class="text-white font-bold underline italic">нажмите кнопку ниже</span> и отправьте сообщение в Telegram.</p>
             
-            <button id="success-telegram-btn" class="w-full btn-gold rounded-lg font-bold uppercase animate-pulse py-4 text-sm tracking-widest bg-gold-500 text-black border-none shadow-[0_0_30px_rgba(212,175,55,0.5)] cursor-pointer hover:scale-105 transition-transform text-center text-center text-center text-center">
-                ПОДТВЕРДИТЬ ЗАПИСЬ В TELEGRAM
+            <button id="success-telegram-btn" class="w-full btn-gold rounded-lg font-bold uppercase animate-pulse py-4 text-sm tracking-widest bg-gold-500 text-black border-none shadow-[0_0_30px_rgba(212,175,55,0.5)] cursor-pointer hover:scale-105 transition-transform text-center">
+                ПОДТВЕРДИТЬ В TELEGRAM
             </button>
         </div>
     </div>
 
-    <!-- CORE LOGIC (FIREBASE & VISUAL) -->
+    <div id="review-modal" class="fixed inset-0 z-[100] hidden bg-black/80 flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-md p-8 relative border-gold-500/50 shadow-2xl">
+            <button onclick="window.closeReviewModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition cursor-pointer text-center"><i class="fas fa-times text-xl"></i></button>
+            <h3 class="font-heading text-2xl text-gold-300 mb-6 text-center tracking-wider uppercase text-center">Ваш Отзыв</h3>
+            <form onsubmit="window.submitReview(event)" class="space-y-4">
+                <input type="text" id="review-name" placeholder="Имя" required class="input-gold">
+                <textarea id="review-text" rows="4" placeholder="Ваши слова..." required class="input-gold"></textarea>
+                <div class="flex justify-center gap-2 text-2xl mb-4 text-center" id="star-rating">
+                    <i class="fas fa-star text-gold-300 cursor-pointer" onclick="window.setRating(1)"></i>
+                    <i class="fas fa-star text-gold-300 cursor-pointer" onclick="window.setRating(2)"></i>
+                    <i class="fas fa-star text-gold-300 cursor-pointer" onclick="window.setRating(3)"></i>
+                    <i class="fas fa-star text-gold-300 cursor-pointer" onclick="window.setRating(4)"></i>
+                    <i class="fas fa-star text-gold-300 cursor-pointer" onclick="window.setRating(5)"></i>
+                </div>
+                <button type="submit" class="w-full btn-gold rounded-lg uppercase text-xs font-bold tracking-widest text-center cursor-pointer">Отправить</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="image-modal" class="fixed inset-0 z-[110] hidden bg-black/95 flex items-center justify-center p-4 cursor-pointer text-center" onclick="window.closeImageModal()">
+        <img id="modal-image" src="" class="max-h-[90vh] max-w-full rounded-lg border border-gold-500/30 text-center">
+    </div>
+
+    <!-- CORE SCRIPTS -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
@@ -418,7 +430,7 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = "taro-soul-v2-prod";
+        const appId = "taro-soul-v2-main";
 
         let user = null;
         let isAuthReady = false;
@@ -431,7 +443,6 @@
                 loadReviews();
                 document.getElementById('preloader').classList.add('loaded');
             } catch (e) { 
-                console.error("Firebase connection error.");
                 isAuthReady = true; 
                 document.getElementById('preloader').classList.add('loaded');
             }
@@ -441,33 +452,23 @@
             const container = document.getElementById('time-slots-container');
             const hiddenInput = document.getElementById('selected-time');
             if(!container) return;
-
             container.innerHTML = '<div class="col-span-3 text-center text-gold-500 text-xs py-2"><i class="fas fa-spinner fa-spin"></i> Синхронизация...</div>';
             hiddenInput.value = '';
-
             if (!isAuthReady) {
-                await new Promise(res => {
-                    const check = setInterval(() => { if(isAuthReady) { clearInterval(check); res(); } }, 100);
-                });
+                await new Promise(res => { const check = setInterval(() => { if(isAuthReady) { clearInterval(check); res(); } }, 100); });
             }
-
             let bookedTimes = [];
             if (db && user) {
                 try {
                     const q = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
                     const snap = await getDocs(q);
-                    snap.forEach(docSnap => {
-                        const d = docSnap.data();
-                        if (d.date === dateString) bookedTimes.push(d.time);
-                    });
+                    snap.forEach(docSnap => { const d = docSnap.data(); if (d.date === dateString) bookedTimes.push(d.time); });
                 } catch (e) { console.error("Database sync failed."); }
             }
-
             container.innerHTML = '';
             const now = new Date();
             const todayStr = now.toISOString().split('T')[0];
             const hourNow = now.getHours();
-
             for(let h = 11; h <= 19; h++) {
                 const timeStr = `${h}:00`;
                 const isDisabled = (dateString === todayStr && h <= hourNow) || bookedTimes.includes(timeStr);
@@ -494,31 +495,20 @@
             const name = document.getElementById('book-name').value;
             const notes = document.getElementById('book-notes').value;
             const btn = document.getElementById('submit-booking-btn');
-
             if(!time) { document.getElementById('time-error').classList.remove('hidden'); return; }
             btn.disabled = true;
-
             if (db && user) {
                 try {
                     const qCheck = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
                     const snapCheck = await getDocs(qCheck);
                     let isConflict = false;
                     snapCheck.forEach(ds => { if(ds.data().date === date && ds.data().time === time) isConflict = true; });
-
-                    if (isConflict) {
-                        alert("Это время только что заняли!");
-                        window.generateTimeSlots(date);
-                        btn.disabled = false;
-                        return;
-                    }
-
+                    if (isConflict) { alert("Это время уже занято!"); window.generateTimeSlots(date); btn.disabled = false; return; }
                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), { name, contact: handle, date, time, notes, createdAt: serverTimestamp() });
-                } catch(err) { console.error("Write failed."); }
+                } catch(err) { console.error("Firebase error."); }
             }
-
             const msg = `Здравствуйте, Елена!%0A%0AХочу записаться на расклад (Donation):%0AИмя: ${name}%0ATelegram: ${handle}%0AДата: ${date}%0AВремя: ${time}%0AЗапрос: ${notes}`;
             const link = `https://t.me/elena_soul_tarot?text=${msg}`;
-            
             document.getElementById('success-telegram-btn').onclick = () => window.open(link, '_blank');
             document.getElementById('success-modal').classList.remove('hidden');
             e.target.reset();
@@ -537,10 +527,10 @@
                     const r = docSnap.data();
                     html += `<div class="glass-panel p-6 animate-float" style="animation-duration: 6s">
                         <div class="flex justify-between items-center mb-4 text-center">
-                            <span class="font-bold text-white uppercase text-xs text-center text-center text-center text-center">${r.name}</span>
-                            <div class="text-gold-300 text-xs text-center text-center text-center text-center text-center text-center">${"★".repeat(r.rating || 5)}</div>
+                            <span class="font-bold text-white uppercase text-xs text-center">${r.name}</span>
+                            <div class="text-gold-300 text-xs text-center">${"★".repeat(r.rating || 5)}</div>
                         </div>
-                        <p class="text-gray-400 italic text-sm text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">"${r.text}"</p>
+                        <p class="text-gray-400 italic text-sm text-center">"${r.text}"</p>
                     </div>`;
                 });
                 if (html) list.innerHTML = html;
@@ -550,14 +540,14 @@
         window.submitReview = async function(e) {
             e.preventDefault();
             if(!db || !user) return;
-            await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'reviews'), { name: document.getElementById('review-name').value, text: document.getElementById('review-text').value, rating: 5, createdAt: serverTimestamp() });
+            await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'reviews'), { name: document.getElementById('review-name').value, text: document.getElementById('review-text').value, rating: window.currentRating || 5, createdAt: serverTimestamp() });
             window.closeReviewModal();
             e.target.reset();
         };
-
         init();
     </script>
 
+    <!-- VISUAL LOGIC -->
     <script>
         const canvasA = document.getElementById('chaos-bg'), ctxA = canvasA.getContext('2d');
         const canvasB = document.getElementById('magic-dust'), ctxB = canvasB.getContext('2d');
@@ -616,6 +606,7 @@
         window.closeImageModal = () => document.getElementById('image-modal').classList.add('hidden');
         window.openReviewModal = () => document.getElementById('review-modal').classList.remove('hidden');
         window.closeReviewModal = () => document.getElementById('review-modal').classList.add('hidden');
+        window.setRating = r => { window.currentRating = r; document.querySelectorAll('#star-rating i').forEach((s, idx) => s.className = idx < r ? 'fas fa-star text-gold-300' : 'fas fa-star text-gray-600'); };
         
         window.addEventListener('load', () => { 
             const dIn = document.getElementById('book-date');
