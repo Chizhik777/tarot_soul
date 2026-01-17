@@ -160,7 +160,7 @@
             width: 120px;
             height: 120px;
             position: relative;
-            animation: cat-float 3s ease-in-out infinite;
+            animation: cat-float 3.5s ease-in-out infinite;
         }
         .cat-head {
             width: 80px; height: 70px;
@@ -189,7 +189,7 @@
             animation: cat-blink 4s infinite;
         }
         .cat-eye.left { left: 20px; }
-        .cat-eye.right { right: 20px; }
+        .cat-eye.right { right: 48px; }
         .cat-nose {
             width: 6px; height: 4px;
             background: #ffb6c1;
@@ -212,12 +212,12 @@
         .cat-sparkle {
             position: absolute; background: white; border-radius: 50%;
             width: 4px; height: 4px; box-shadow: 0 0 10px gold;
-            opacity: 0; animation: cat-sparks 2s infinite;
+            opacity: 0; animation: cat-sparks 2.5s infinite;
         }
 
         @keyframes cat-float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(2deg); }
+            50% { transform: translateY(-20px) rotate(3deg); }
         }
         @keyframes cat-blink {
             0%, 90%, 100% { transform: scaleY(1); }
@@ -311,7 +311,7 @@
                         <div>
                              <label class="block text-gold-300 text-xs uppercase mb-2 text-center tracking-widest">Свободное время</label>
                              <div id="time-slots-container" class="grid grid-cols-3 gap-2">
-                                 <div class="col-span-3 text-center text-gray-600 text-sm py-2">Сначала выберите дату</div>
+                                 <div class="col-span-3 text-center text-gray-600 text-sm py-2 italic text-sm py-2">Сначала выберите дату</div>
                              </div>
                              <input type="hidden" id="selected-time" required>
                              <p id="time-error" class="text-red-500 text-xs mt-1 hidden text-center uppercase tracking-tighter">Пожалуйста, выберите время</p>
@@ -354,7 +354,7 @@
         <p class="text-gray-700 text-xs uppercase tracking-widest">&copy; 2026 Елена. Сделано с душой.</p>
     </footer>
 
-    <!-- SUCCESS MODAL (CUTE MAGIC CAT) -->
+    <!-- SUCCESS MODAL (CUTE MAGIC CAT RESTORED) -->
     <div id="success-modal" class="fixed inset-0 z-[120] hidden bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="glass-panel w-full max-w-sm p-8 text-center relative shadow-[0_0_60px_rgba(212,175,55,0.3)] border-gold-500/50">
             <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fas fa-times text-xl"></i></button>
@@ -370,7 +370,7 @@
                         <div class="cat-eye right"></div>
                         <div class="cat-nose"></div>
                     </div>
-                    <!-- Magic sparkles around -->
+                    <!-- Magic sparkles around cat -->
                     <div class="cat-sparkle" style="--tx: -30px; --ty: -30px;"></div>
                     <div class="cat-sparkle" style="--tx: 30px; --ty: -40px; animation-delay: 0.5s;"></div>
                     <div class="cat-sparkle" style="--tx: 0px; --ty: -50px; animation-delay: 1.2s;"></div>
