@@ -107,7 +107,7 @@
         }
         .crystal-ball-group {
             position: relative;
-            width: 100px;
+            width: 110px;
             height: 140px;
             animation: levitate 3s ease-in-out infinite;
         }
@@ -141,7 +141,6 @@
             z-index: 40;
             box-shadow: 0 10px 20px rgba(0,0,0,0.8);
         }
-
         @keyframes levitate {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); }
@@ -169,7 +168,7 @@
         }
         .card-back { background: #000; transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; justify-content: center; border-color: #D4AF37; }
 
-        /* --- ПОРТАЛ ОТВЕТОВ (ВОССТАНОВЛЕНО) --- */
+        /* --- ПОРТАЛ ОТВЕТОВ --- */
         .portal-container { position: relative; width: 200px; height: 200px; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
         .portal-ring { 
             position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; 
@@ -204,7 +203,7 @@
         }
         .btn-gold:hover { background: #D4AF37; color: #000; box-shadow: 0 0 30px rgba(212, 175, 55, 0.5); }
 
-        /* --- FORM INPUTS: DARK THEME (FIXED) --- */
+        /* --- FORM INPUTS: DARK THEME --- */
         .input-gold {
             width: 100% !important; 
             background: #0a0a0a !important; 
@@ -227,6 +226,14 @@
         ::-webkit-calendar-picker-indicator {
             filter: invert(0.8) sepia(1) saturate(5) hue-rotate(5deg);
             cursor: pointer;
+        }
+        /* Autofill protection */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus {
+            -webkit-text-fill-color: #F9F1D8;
+            -webkit-box-shadow: 0 0 0px 1000px #0a0a0a inset;
+            transition: background-color 5000s ease-in-out 0s;
         }
 
         /* --- FLOATING GRATITUDE BUTTON --- */
@@ -283,10 +290,10 @@
 
     <!-- HEADER -->
     <header class="fixed w-full z-50 top-0 left-0 bg-void/80 backdrop-blur-md border-b border-white/5 py-4">
-        <div class="container mx-auto px-6 flex justify-between items-center">
+        <div class="container mx-auto px-6 flex justify-between items-center text-center">
             <div class="flex items-center gap-3">
                 <i class="fas fa-moon text-gold-500 text-xl"></i>
-                <span class="font-heading text-xl text-gold-300 tracking-wider">Tarot Soul</span>
+                <span class="font-heading text-xl text-gold-300 tracking-wider text-center">Tarot Soul</span>
             </div>
             <div class="flex gap-4 items-center">
                  <a href="#energy-exchange" class="hidden md:block text-gold-300 text-xs font-bold uppercase tracking-widest hover:text-white transition">Поддержать ❤</a>
@@ -301,18 +308,18 @@
         <div class="absolute bottom-1/4 right-10 opacity-20 text-gold-700 text-6xl animate-bounce" style="animation-duration: 12s text-center text-center text-center">🜁</div>
         <h1 class="font-heading text-5xl md:text-8xl text-gold-glow uppercase tracking-tighter text-center">Таро с Душой</h1>
         <p class="text-xl md:text-2xl text-gold-100 italic max-w-2xl font-light mb-12 text-center mx-auto">"Там, где Тьма встречается со Светом, рождается Истина."</p>
-        <div class="animate-bounce text-gold-500/50 mt-10 text-center"><i class="fas fa-chevron-down text-2xl text-center"></i></div>
+        <div class="animate-bounce text-gold-500/50 mt-10 text-center"><i class="fas fa-chevron-down text-2xl"></i></div>
     </section>
 
     <div class="container mx-auto px-4 pb-20 max-w-5xl space-y-32 relative z-10 text-center">
 
         <!-- 1. КАРТЫ -->
         <section>
-            <h2 class="font-heading text-3xl md:text-4xl text-gold-300 text-center mb-12 uppercase tracking-widest">Золотой Расклад</h2>
+            <h2 class="font-heading text-3xl md:text-4xl text-gold-300 text-center mb-12 uppercase tracking-widest text-center">Золотой Расклад</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 h-auto md:h-[400px] text-center" id="tarot-deck"></div>
             
             <div id="tarot-result" class="hidden glass-panel p-8 mt-12 text-center max-w-2xl mx-auto border-gold-500/30 text-center">
-                <div class="text-6xl text-gold-500 mb-4 text-center"><i id="result-icon" class="text-center"></i></div>
+                <div class="text-6xl text-gold-500 mb-4 text-center"><i id="result-icon" class=""></i></div>
                 <h3 id="result-title" class="font-heading text-3xl text-gold-100 mb-4 tracking-wider text-center"></h3>
                 <p id="result-desc" class="text-lg text-gray-300 italic mb-8 leading-relaxed font-light text-center"></p>
                 <div class="flex justify-center text-center">
@@ -335,7 +342,7 @@
             <p class="mt-8 text-xs text-gold-700 tracking-[0.4em] uppercase opacity-60 text-center">Нажми для получения ответа</p>
         </section>
 
-        <!-- 3. ЭНЕРГООБМЕН (ТОЛЬКО НОМЕР КАРТЫ) -->
+        <!-- 3. ЭНЕРГООБМЕН (ОБНОВЛЕННЫЙ НОМЕР КАРТЫ) -->
         <section id="energy-exchange" class="scroll-mt-32 text-center">
             <div class="glass-panel p-8 md:p-12 max-w-3xl mx-auto text-center border-gold-500/30 bg-gradient-to-br from-gold-900/10 to-black relative overflow-hidden text-center">
                 <div class="absolute -right-10 -bottom-10 opacity-5 text-9xl text-center"><i class="fas fa-heart text-center"></i></div>
@@ -347,7 +354,7 @@
                         <p class="text-xs uppercase tracking-widest text-gold-500/60 italic text-center text-center">Перевод по номеру карты:</p>
                         <div class="bg-black/60 p-8 rounded-2xl border border-gold-500/30 flex flex-col items-center space-y-5 w-full max-w-md shadow-inner text-center mx-auto">
                             <span class="text-xs text-gold-300 font-bold tracking-widest uppercase text-center">ЮMoney (Visa/MIR)</span>
-                            <span id="requisites-num" class="text-2xl md:text-3xl font-mono text-white tracking-[0.2em] break-all text-center">599002127322628</span>
+                            <span id="requisites-num" class="text-2xl md:text-3xl font-mono text-white tracking-[0.2em] break-all text-center">5599002127322628</span>
                             <button onclick="copyRequisites()" class="btn-gold py-3 px-10 rounded-full text-sm font-bold uppercase tracking-widest hover:scale-105 transition-all text-center">
                                 <i class="fas fa-copy mr-2 text-center"></i>Копировать номер
                             </button>
@@ -436,7 +443,7 @@
 
     <div id="review-modal" class="fixed inset-0 z-[100] hidden bg-black/80 flex items-center justify-center p-4 text-center">
         <div class="glass-panel w-full max-w-md p-8 relative border-gold-500/50 shadow-2xl text-center text-center text-center">
-            <button onclick="window.closeReviewModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition cursor-pointer text-center text-center"><i class="fas fa-times text-xl text-center text-center"></i></button>
+            <button onclick="window.closeReviewModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition cursor-pointer text-center text-center"><i class="fas fa-times text-xl text-center text-center text-center"></i></button>
             <h3 class="font-heading text-2xl text-gold-300 mb-6 text-center tracking-wider uppercase text-center text-center text-center">Ваш Отзыв</h3>
             <form onsubmit="window.submitReview(event)" class="space-y-4 text-center text-center">
                 <input type="text" id="review-name" placeholder="Имя" required class="input-gold text-center text-center">
@@ -451,10 +458,6 @@
                 <button type="submit" class="w-full btn-gold rounded-lg uppercase text-xs font-bold tracking-widest text-center cursor-pointer text-center text-center text-center">Отправить</button>
             </form>
         </div>
-    </div>
-
-    <div id="image-modal" class="fixed inset-0 z-[110] hidden bg-black/95 flex items-center justify-center p-4 cursor-pointer text-center text-center text-center text-center" onclick="window.closeImageModal()">
-        <img id="modal-image" src="" class="max-h-[90vh] max-w-full rounded-lg border border-gold-500/30 text-center text-center text-center text-center">
     </div>
 
     <!-- SCRIPTS -->
@@ -614,9 +617,9 @@
         const curEl = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', e => { if(curEl) { curEl.style.left = e.clientX + 'px'; curEl.style.top = e.clientY + 'px'; } if(Math.random() > 0.8) myDust.push(new DustBit(e.clientX, e.clientY)); });
 
-        // COPY
+        // COPY REQUISITES
         window.copyRequisites = () => {
-            const num = "599002127322628";
+            const num = "5599002127322628";
             const el = document.createElement('textarea');
             el.value = num;
             document.body.appendChild(el);
@@ -628,7 +631,7 @@
             setTimeout(() => { status.style.opacity = '0'; }, 2000);
         };
 
-        // TAROT
+        // TAROT Logic
         const tItems = [ 
             { n: "Солнце", i: "fa-sun", desc: "Абсолютный успех, ясность и огромная энергия. Время сиять!" }, 
             { n: "Луна", i: "fa-moon", desc: "Время интуиции, снов и тайных предчувствий. Слушайте сердце." }, 
