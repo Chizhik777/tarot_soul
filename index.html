@@ -96,7 +96,7 @@
             text-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
         }
 
-        /* --- ТАРО (ОРИГИНАЛЬНАЯ РУБАШКА) --- */
+        /* --- ТАРО --- */
         .tarot-card-wrapper { perspective: 1200px; }
         .tarot-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
         .flipped .tarot-card-inner { transform: rotateY(180deg); }
@@ -148,44 +148,85 @@
         .time-slot.selected { background: #D4AF37; color: #000; font-weight: bold; }
         .time-slot.disabled { opacity: 0.15; cursor: not-allowed; text-decoration: line-through; border-color: transparent; background: rgba(255,255,255,0.05); }
 
-        /* --- MAGIC WAND ANIMATION --- */
-        .wand-scene {
-            height: 160px;
+        /* --- MAGIC CAT ANIMATION --- */
+        .cat-scene {
+            height: 180px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            margin-bottom: 10px;
         }
-        .wand-container {
+        .magic-cat {
+            width: 120px;
+            height: 120px;
             position: relative;
-            transform-origin: bottom right;
-            animation: wand-wave 2.5s ease-in-out infinite;
+            animation: cat-float 3s ease-in-out infinite;
         }
-        .wand-svg {
-            width: 100px;
-            height: 100px;
-            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.6));
+        .cat-head {
+            width: 80px; height: 70px;
+            background: #111;
+            border-radius: 50% 50% 45% 45%;
+            position: absolute; bottom: 10px; left: 20px;
+            border: 2px solid #D4AF37;
+            z-index: 2;
         }
-        .wand-sparkle {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 6px; height: 6px;
-            background: #fff;
+        .cat-ear {
+            width: 0; height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 25px solid #111;
+            position: absolute; top: -15px;
+            z-index: 1;
+        }
+        .cat-ear.left { left: 5px; transform: rotate(-20deg); }
+        .cat-ear.right { right: 5px; transform: rotate(20deg); }
+        .cat-eye {
+            width: 12px; height: 12px;
+            background: #D4AF37;
             border-radius: 50%;
-            box-shadow: 0 0 10px #fff, 0 0 20px gold;
-            opacity: 0;
-            animation: wand-sparks 2.5s infinite;
+            position: absolute; top: 25px;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+            animation: cat-blink 4s infinite;
         }
-        @keyframes wand-wave {
-            0%, 100% { transform: rotate(-10deg) translate(0, 0); }
-            50% { transform: rotate(25deg) translate(5px, -10px); }
+        .cat-eye.left { left: 20px; }
+        .cat-eye.right { right: 20px; }
+        .cat-nose {
+            width: 6px; height: 4px;
+            background: #ffb6c1;
+            border-radius: 50%;
+            position: absolute; top: 40px; left: 37px;
         }
-        @keyframes wand-sparks {
-            40% { opacity: 0; transform: scale(0) translate(0,0); }
-            50% { opacity: 1; transform: scale(1.2) translate(-20px, -20px); }
-            100% { opacity: 0; transform: scale(0) translate(-40px, -60px); }
+        .wiz-hat {
+            position: absolute; top: -35px; left: 15px;
+            width: 0; height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 45px solid #222;
+            transform: rotate(-10deg);
+            z-index: 3;
+        }
+        .wiz-hat::after {
+            content: '★'; position: absolute; bottom: -40px; left: -8px;
+            color: gold; font-size: 14px;
+        }
+        .cat-sparkle {
+            position: absolute; background: white; border-radius: 50%;
+            width: 4px; height: 4px; box-shadow: 0 0 10px gold;
+            opacity: 0; animation: cat-sparks 2s infinite;
+        }
+
+        @keyframes cat-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+        @keyframes cat-blink {
+            0%, 90%, 100% { transform: scaleY(1); }
+            95% { transform: scaleY(0); }
+        }
+        @keyframes cat-sparks {
+            0% { transform: scale(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: scale(1.5) translate(var(--tx), var(--ty)); opacity: 0; }
         }
 
         .gallery-scroll::-webkit-scrollbar { display: none; }
@@ -229,7 +270,6 @@
         <!-- 1. CARDS -->
         <section>
             <h2 class="font-heading text-3xl md:text-4xl text-gold-300 text-center mb-12 uppercase tracking-widest">Золотой Расклад</h2>
-            <!-- Контейнер для вертикальных карт на мобильных -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 h-auto md:h-[400px]" id="tarot-deck"></div>
             
             <div id="tarot-result" class="hidden glass-panel p-8 mt-12 text-center max-w-2xl mx-auto border-gold-500/30">
@@ -314,26 +354,31 @@
         <p class="text-gray-700 text-xs uppercase tracking-widest">&copy; 2026 Елена. Сделано с душой.</p>
     </footer>
 
-    <!-- SUCCESS MODAL (WAND ANIMATION) -->
+    <!-- SUCCESS MODAL (CUTE MAGIC CAT) -->
     <div id="success-modal" class="fixed inset-0 z-[120] hidden bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="glass-panel w-full max-w-sm p-8 text-center relative shadow-[0_0_60px_rgba(212,175,55,0.3)] border-gold-500/50">
-            <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-500 hover:text-white transition"><i class="fas fa-times text-xl"></i></button>
+            <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fas fa-times text-xl"></i></button>
             
-            <!-- MAGIC WAND -->
-            <div class="wand-scene">
-                <div class="wand-container">
-                    <svg class="wand-svg" viewBox="0 0 100 100">
-                        <rect x="70" y="25" width="4" height="60" rx="2" fill="#423206" transform="rotate(-45 72 55)" />
-                        <path d="M50 15 L53 24 L62 24 L55 30 L58 39 L50 33 L42 39 L45 30 L38 24 L47 24 Z" fill="#D4AF37" stroke="#fff" stroke-width="1" />
-                    </svg>
-                    <div class="wand-sparkle"></div>
-                    <div class="wand-sparkle" style="animation-delay: 0.3s; left: 15px; top: 10px;"></div>
-                    <div class="wand-sparkle" style="animation-delay: 0.6s; left: 10px; top: 20px;"></div>
+            <!-- CUTE MAGIC CAT -->
+            <div class="cat-scene">
+                <div class="magic-cat">
+                    <div class="cat-ear left"></div>
+                    <div class="cat-ear right"></div>
+                    <div class="wiz-hat"></div>
+                    <div class="cat-head">
+                        <div class="cat-eye left"></div>
+                        <div class="cat-eye right"></div>
+                        <div class="cat-nose"></div>
+                    </div>
+                    <!-- Magic sparkles around -->
+                    <div class="cat-sparkle" style="--tx: -30px; --ty: -30px;"></div>
+                    <div class="cat-sparkle" style="--tx: 30px; --ty: -40px; animation-delay: 0.5s;"></div>
+                    <div class="cat-sparkle" style="--tx: 0px; --ty: -50px; animation-delay: 1.2s;"></div>
                 </div>
             </div>
 
-            <h3 class="font-heading text-2xl text-gold-300 mb-2 uppercase tracking-widest">Остался шаг!</h3>
-            <p class="text-gray-300 text-sm mb-8 leading-relaxed">Чтобы я увидела вашу заявку, <span class="text-white font-bold">подтвердите её в Telegram</span>.</p>
+            <h3 class="font-heading text-2xl text-gold-300 mb-2 uppercase tracking-widest">Мяугия сработала!</h3>
+            <p class="text-gray-300 text-sm mb-8 leading-relaxed">Заявка создана. Чтобы я её увидела, <span class="text-white font-bold">подтвердите её в Telegram</span>.</p>
             <button id="success-telegram-btn" class="w-full btn-gold rounded-lg font-bold uppercase animate-pulse">Перейти в Telegram</button>
         </div>
     </div>
