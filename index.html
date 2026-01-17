@@ -96,7 +96,7 @@
             text-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
         }
 
-        /* --- ТАРО --- */
+        /* --- ТАРО (ОРИГИНАЛЬНАЯ РУБАШКА) --- */
         .tarot-card-wrapper { perspective: 1200px; }
         .tarot-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
         .flipped .tarot-card-inner { transform: rotateY(180deg); }
@@ -169,8 +169,8 @@
         }
         .wand-sparkle {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 20px;
+            left: 20px;
             width: 6px; height: 6px;
             background: #fff;
             border-radius: 50%;
@@ -229,6 +229,7 @@
         <!-- 1. CARDS -->
         <section>
             <h2 class="font-heading text-3xl md:text-4xl text-gold-300 text-center mb-12 uppercase tracking-widest">Золотой Расклад</h2>
+            <!-- Контейнер для вертикальных карт на мобильных -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 h-auto md:h-[400px]" id="tarot-deck"></div>
             
             <div id="tarot-result" class="hidden glass-panel p-8 mt-12 text-center max-w-2xl mx-auto border-gold-500/30">
@@ -282,7 +283,7 @@
             </div>
         </section>
 
-        <!-- 4. REVIEWS -->
+        <!-- 4. REVIEWS (SIDE ARROWS) -->
         <section class="relative">
             <h2 class="font-heading text-3xl text-center text-gold-300 mb-12 uppercase tracking-widest">Книга Благодарности</h2>
             
@@ -322,15 +323,12 @@
             <div class="wand-scene">
                 <div class="wand-container">
                     <svg class="wand-svg" viewBox="0 0 100 100">
-                        <!-- Stick -->
-                        <rect x="75" y="30" width="4" height="60" rx="2" fill="#423206" transform="rotate(-45 77 60)" />
-                        <!-- Star Tip -->
+                        <rect x="70" y="25" width="4" height="60" rx="2" fill="#423206" transform="rotate(-45 72 55)" />
                         <path d="M50 15 L53 24 L62 24 L55 30 L58 39 L50 33 L42 39 L45 30 L38 24 L47 24 Z" fill="#D4AF37" stroke="#fff" stroke-width="1" />
                     </svg>
-                    <!-- Sparks from tip -->
                     <div class="wand-sparkle"></div>
-                    <div class="wand-sparkle" style="animation-delay: 0.2s; left: 15px; top: 5px;"></div>
-                    <div class="wand-sparkle" style="animation-delay: 0.4s; left: 5px; top: 15px;"></div>
+                    <div class="wand-sparkle" style="animation-delay: 0.3s; left: 15px; top: 10px;"></div>
+                    <div class="wand-sparkle" style="animation-delay: 0.6s; left: 10px; top: 20px;"></div>
                 </div>
             </div>
 
@@ -464,28 +462,12 @@
             const btn = document.getElementById('submit-booking-btn');
 
             if(!time) { document.getElementById('time-error').classList.remove('hidden'); return; }
-
             btn.disabled = true;
-            btn.innerText = "Магия в процессе...";
 
             if (db && user) {
                 try {
-                    const qCheck = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
-                    const snapCheck = await getDocs(qCheck);
-                    let isConflict = false;
-                    snapCheck.forEach(ds => { if(ds.data().date === date && ds.data().time === time) isConflict = true; });
-
-                    if (isConflict) {
-                        alert("Это время только что заняли! Пожалуйста, выберите другое.");
-                        window.generateTimeSlots(date);
-                        btn.disabled = false;
-                        btn.innerText = "Оформить заявку";
-                        return;
-                    }
-
-                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), {
-                        name, contact: handle, date, time, notes, createdAt: serverTimestamp()
-                    });
+                    const q = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
+                    await addDoc(q, { name, contact: handle, date, time, notes, createdAt: serverTimestamp() });
                 } catch(err) { console.error("Cloud save failed"); }
             }
 
@@ -497,7 +479,6 @@
             e.target.reset();
             document.getElementById('time-slots-container').innerHTML = '<div class="col-span-3 text-center text-gray-600 text-sm py-2 italic">Сначала выберите дату</div>';
             btn.disabled = false;
-            btn.innerText = "Оформить заявку";
         };
 
         function loadReviews() {
@@ -539,7 +520,6 @@
 
     <!-- VISUAL LOGIC -->
     <script>
-        // 1. DUAL BACKGROUNDS
         const canvasA = document.getElementById('chaos-bg'), ctxA = canvasA.getContext('2d');
         const canvasB = document.getElementById('magic-dust'), ctxB = canvasB.getContext('2d');
         let viewW, viewH, myBlobs = [], myDust = [];
@@ -580,14 +560,13 @@
         }
         window.addEventListener('resize', fit); fit(); run();
 
-        // 2. CURSOR
         const curEl = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', e => {
             if(curEl) { curEl.style.left = e.clientX + 'px'; curEl.style.top = e.clientY + 'px'; }
             if(Math.random() > 0.8) myDust.push(new DustBit(e.clientX, e.clientY));
         });
 
-        // 3. TAROT SYSTEM (UPDATED WITH INTERPRETATIONS)
+        // TAROT SYSTEM
         const tList = [ 
             { n: "Солнце", i: "fa-sun", desc: "Абсолютный успех, ясность и огромная энергия. В вашей ситуации наступает период триумфа — все тени исчезают, а путь становится светлым и понятным. Время сиять!" }, 
             { n: "Луна", i: "fa-moon", desc: "Время интуиции, снов и тайных предчувствий. Не всё сейчас является тем, чем кажется. Слушайте свой внутренний голос, он поможет пройти сквозь туман неопределенности к истине." }, 
@@ -601,7 +580,6 @@
             if(!dck) return; dck.innerHTML = '';
             for(let i=0; i<3; i++) {
                 const c = document.createElement('div');
-                // h-[450px] для мобилок
                 c.className = 'tarot-card-wrapper h-[450px] md:h-full cursor-pointer group';
                 c.innerHTML = `<div class="tarot-card-inner"><div class="card-face card-front-design"><div class="eye-symbol"></div></div><div class="card-face card-back"></div></div>`;
                 c.onclick = () => {
@@ -622,14 +600,9 @@
                 dck.appendChild(c);
             }
         }
-        window.resetTarot = () => { 
-            document.getElementById('tarot-result').classList.add('hidden'); 
-            initCards(); 
-            document.getElementById('tarot-deck').scrollIntoView({ behavior: 'smooth' });
-        };
+        window.resetTarot = () => { document.getElementById('tarot-result').classList.add('hidden'); initCards(); document.getElementById('tarot-deck').scrollIntoView({ behavior: 'smooth' }); };
         initCards();
 
-        // 4. PORTAL
         window.activatePortal = () => {
             const pt = document.getElementById('portal-text'), mst = document.getElementById('portal-mist');
             const answers = ["ДА", "НЕТ", "ВЕРЬ", "ЖДИ", "ШАНС"];
@@ -637,7 +610,6 @@
             setTimeout(() => { pt.innerText = answers[Math.floor(Math.random()*answers.length)]; pt.style.opacity = '1'; mst.style.animationDuration = '4s'; }, 600);
         };
 
-        // 5. MISC
         window.scrollGallery = d => document.getElementById('gallery-container').scrollBy({ left: d * 320, behavior: 'smooth' });
         window.openImageModal = el => { const img = el.querySelector('img'); if (img) { document.getElementById('modal-image').src = img.src; document.getElementById('image-modal').classList.remove('hidden'); } };
         window.closeImageModal = () => document.getElementById('image-modal').classList.add('hidden');
