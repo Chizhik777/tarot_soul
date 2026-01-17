@@ -96,7 +96,7 @@
             text-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
         }
 
-        /* --- CARDS --- */
+        /* --- КАРТЫ --- */
         .tarot-card-wrapper { perspective: 1200px; }
         .tarot-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
         .flipped .tarot-card-inner { transform: rotateY(180deg); }
@@ -139,40 +139,34 @@
         }
         ::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; opacity: 0.7; }
 
-        .time-slot {
-            padding: 10px; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;
-            text-align: center; cursor: pointer; transition: all 0.3s; color: #E6C87C;
-        }
-        .time-slot.selected { background: #D4AF37; color: #000; font-weight: bold; }
-        .time-slot.disabled { opacity: 0.15; cursor: not-allowed; text-decoration: line-through; border-color: transparent; background: rgba(255,255,255,0.05); }
-
         /* --- MAGIC CRYSTAL BALL ON STAND --- */
         .ball-scene {
-            height: 180px;
+            height: 200px;
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            margin-bottom: 20px;
         }
         .crystal-ball-group {
             position: relative;
             width: 120px;
-            height: 140px;
+            height: 150px;
             animation: levitate 3.5s ease-in-out infinite;
         }
         .magic-sphere {
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, rgba(212, 175, 55, 0.3) 50%, rgba(0, 0, 0, 0.9) 100%);
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.5) 0%, rgba(212, 175, 55, 0.2) 50%, rgba(0, 0, 0, 0.9) 100%);
             box-shadow: 
-                inset 0 0 25px rgba(212, 175, 55, 0.6),
-                0 0 40px rgba(212, 175, 55, 0.4);
+                inset 0 0 25px rgba(212, 175, 55, 0.8),
+                0 0 50px rgba(212, 175, 55, 0.4);
             position: relative;
             margin: 0 auto;
             overflow: hidden;
-            border: 1px solid rgba(212, 175, 55, 0.4);
+            border: 2px solid rgba(212, 175, 55, 0.5);
             backdrop-filter: blur(4px);
             z-index: 5;
         }
@@ -180,43 +174,63 @@
             content: '';
             position: absolute;
             inset: -50%;
-            background: conic-gradient(from 0deg, transparent, rgba(212, 175, 55, 0.5), transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: spin-fx 6s linear infinite;
+            background: conic-gradient(from 0deg, transparent, rgba(212, 175, 55, 0.6), transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: spin-fx 5s linear infinite;
             filter: blur(15px);
         }
+        .magic-sphere::after {
+            content: '';
+            position: absolute;
+            top: 15%; left: 20%;
+            width: 30px; height: 15px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            transform: rotate(-30deg);
+        }
         .sphere-stand {
-            width: 85px;
+            width: 90px;
             height: 45px;
-            background: linear-gradient(to bottom, #423206, #111);
+            background: linear-gradient(to bottom, #423206, #1a1a1a);
             margin: -15px auto 0;
             border-radius: 50% 50% 30% 30%;
-            border-top: 3px solid #D4AF37;
+            border-top: 4px solid #D4AF37;
             position: relative;
             z-index: 1;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.9);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.9);
         }
         @keyframes levitate {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-18px); }
+            50% { transform: translateY(-20px); }
         }
 
-        /* --- DONATION SECTION STYLES --- */
-        .donation-card {
+        /* DONATION */
+        .donation-banner {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(0, 0, 0, 0.9));
             border: 1px solid rgba(212, 175, 55, 0.3);
-            background: linear-gradient(135deg, rgba(20, 15, 5, 0.95), rgba(5, 5, 5, 0.98));
+            border-left: 4px solid #D4AF37;
             position: relative;
+            overflow: hidden;
         }
-        .donation-card::after {
-            content: '❤'; position: absolute; top: -15px; right: 20px;
-            background: #000; color: #D4AF37; padding: 0 10px; font-size: 24px;
+        .donation-banner::before {
+            content: '❤'; position: absolute; top: 10px; right: 20px;
+            color: #D4AF37; font-size: 32px; opacity: 0.2;
         }
 
         .gallery-scroll::-webkit-scrollbar { display: none; }
         .gallery-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .time-slot {
+            padding: 10px; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;
+            text-align: center; cursor: pointer; transition: all 0.3s; color: #E6C87C;
+        }
+        .time-slot.selected { background: #D4AF37; color: #000; font-weight: bold; }
+        .time-slot.disabled { opacity: 0.15; cursor: not-allowed; text-decoration: line-through; border-color: transparent; background: rgba(255,255,255,0.05); }
+
     </style>
 </head>
 <body class="min-h-screen flex flex-col font-body selection:bg-gold-500 selection:text-black">
 
+    <!-- PRELOADER -->
     <div id="preloader">
         <div class="text-center">
             <i class="fas fa-moon text-6xl text-gold-500 animate-pulse mb-4"></i>
@@ -228,6 +242,7 @@
     <canvas id="chaos-bg"></canvas>
     <canvas id="magic-dust"></canvas>
 
+    <!-- HEADER -->
     <header class="fixed w-full z-50 top-0 left-0 bg-void/80 backdrop-blur-md border-b border-white/5 py-4">
         <div class="container mx-auto px-6 flex justify-between items-center">
             <div class="flex items-center gap-3">
@@ -238,10 +253,11 @@
         </div>
     </header>
 
+    <!-- HERO -->
     <section class="min-h-screen flex flex-col items-center justify-center text-center px-4 relative pt-20">
         <div class="absolute top-1/4 left-10 opacity-20 text-gold-700 text-6xl animate-bounce" style="animation-duration: 8s">☾</div>
         <div class="absolute bottom-1/4 right-10 opacity-20 text-gold-700 text-6xl animate-bounce" style="animation-duration: 12s">🜁</div>
-        <h1 class="font-heading text-5xl md:text-8xl text-gold-glow uppercase">Таро с Душой</h1>
+        <h1 class="font-heading text-5xl md:text-8xl text-gold-glow uppercase tracking-wide">Таро с Душой</h1>
         <p class="text-xl md:text-2xl text-gold-100 italic max-w-2xl font-light mb-12">"Там, где Тьма встречается со Светом, рождается Истина."</p>
         <div class="animate-bounce text-gold-500/50 mt-10"><i class="fas fa-chevron-down text-2xl"></i></div>
     </section>
@@ -278,14 +294,14 @@
         </section>
 
         <!-- 3. DONATION BLOCK (NEW) -->
-        <section class="scroll-mt-24">
-            <div class="donation-card glass-panel p-8 md:p-12 max-w-3xl mx-auto text-center border-gold-500/30">
-                <h2 class="font-heading text-3xl text-gold-300 mb-6 uppercase tracking-wider">Энергообмен по душе</h2>
-                <div class="space-y-4 text-lg md:text-xl text-gray-300 font-light italic leading-relaxed">
-                    <p>Я верю, что магическая помощь должна быть доступна каждому, кто к ней готов.</p>
-                    <p>Поэтому мои расклады проводятся в формате <span class="text-gold-300 font-bold uppercase">"Donation"</span> — вы сами определяете размер благодарности по зову своего сердца.</p>
-                    <div class="h-px w-24 bg-gold-500/30 mx-auto my-6"></div>
-                    <p class="text-sm uppercase tracking-widest text-gold-500 opacity-80">Ценность помощи не в цифрах, а в вашем намерении.</p>
+        <section>
+            <div class="donation-banner glass-panel p-8 md:p-12 max-w-3xl mx-auto text-center">
+                <h2 class="font-heading text-3xl text-gold-300 mb-6 uppercase tracking-wider underline decoration-gold-500/30 underline-offset-8">Энергообмен</h2>
+                <div class="space-y-6 text-lg md:text-xl text-gray-200 font-light italic leading-relaxed">
+                    <p>Дорогие, я верю в баланс энергий. Моя помощь должна быть доступна каждому, кто ищет ответы.</p>
+                    <p>Поэтому все мои расклады проводятся за <span class="text-gold-300 font-bold uppercase tracking-widest">Donation (донат)</span>. Вы сами определяете размер благодарности, исходя из своих возможностей и отклика в сердце.</p>
+                    <div class="h-px w-24 bg-gold-500/50 mx-auto"></div>
+                    <p class="text-xs uppercase tracking-[0.3em] text-gold-500 font-bold opacity-80">Ваше намерение — лучшая плата.</p>
                 </div>
             </div>
         </section>
@@ -310,7 +326,7 @@
                                  <div class="col-span-3 text-center text-gray-600 text-sm py-2 italic text-sm py-2 text-center">Сначала выберите дату</div>
                              </div>
                              <input type="hidden" id="selected-time" required>
-                             <p id="time-error" class="text-red-500 text-xs mt-1 hidden text-center uppercase tracking-tighter text-center">Выберите время</p>
+                             <p id="time-error" class="text-red-500 text-xs mt-1 hidden text-center uppercase tracking-tighter text-center font-bold">Выберите время</p>
                         </div>
                     </div>
                     <textarea id="book-notes" rows="3" class="input-gold" placeholder="Ваш запрос или тема расклада..."></textarea>
@@ -322,19 +338,27 @@
         <!-- 5. REVIEWS -->
         <section class="relative">
             <h2 class="font-heading text-3xl text-center text-gold-300 mb-12 uppercase tracking-widest text-center">Книга Благодарности</h2>
+            
             <div class="relative group/gallery">
-                <button onclick="window.scrollGallery(-1)" class="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-300 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all"><i class="fas fa-chevron-left text-xl"></i></button>
-                <button onclick="window.scrollGallery(1)" class="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-300 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all"><i class="fas fa-chevron-right text-xl"></i></button>
+                <button onclick="window.scrollGallery(-1)" class="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all">
+                    <i class="fas fa-chevron-left text-xl"></i>
+                </button>
+                <button onclick="window.scrollGallery(1)" class="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-20 bg-void/90 border border-gold-500/30 text-gold-500 w-10 h-10 md:w-14 md:h-14 rounded-full hover:bg-gold-500 hover:text-black flex items-center justify-center cursor-pointer shadow-xl transition-all">
+                    <i class="fas fa-chevron-right text-xl"></i>
+                </button>
+
                 <div id="gallery-container" class="flex overflow-x-auto gap-6 pb-8 gallery-scroll snap-x scroll-pl-4">
                     <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-08.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+1'"></div>
                     <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-09.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+2'"></div>
                     <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-10.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+3'"></div>
                     <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_12-10-11.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+4'"></div>
+                    <div class="snap-center shrink-0 w-72 h-[480px] glass-panel p-2 cursor-pointer group" onclick="window.openImageModal(this)"><img src="photo_2026-01-16_15-44-30.jpg" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition" onerror="this.src='https://placehold.co/300x500/111/D4AF37?text=Отзыв+5'"></div>
                 </div>
             </div>
             <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12"></div>
             <div class="text-center mt-12"><button onclick="window.openReviewModal()" class="btn-gold rounded-full text-xs font-bold tracking-widest uppercase text-center">Оставить Отзыв</button></div>
         </section>
+
     </div>
 
     <footer class="border-t border-white/5 bg-black py-12 text-center relative z-10">
@@ -342,7 +366,7 @@
         <p class="text-gray-700 text-xs uppercase tracking-widest text-center">&copy; 2026 Елена. Сделано с душой.</p>
     </footer>
 
-    <!-- SUCCESS MODAL (CRYSTAL BALL ON STAND - FIXED) -->
+    <!-- SUCCESS MODAL (CRYSTAL BALL ON STAND) -->
     <div id="success-modal" class="fixed inset-0 z-[120] hidden bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="glass-panel w-full max-w-sm p-8 text-center relative shadow-[0_0_80px_rgba(212,175,55,0.4)] border-gold-500/50">
             <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-white transition cursor-pointer"><i class="fas fa-times text-xl"></i></button>
@@ -364,30 +388,7 @@
         </div>
     </div>
 
-    <div id="review-modal" class="fixed inset-0 z-[100] hidden bg-black/80 flex items-center justify-center p-4">
-        <div class="glass-panel w-full max-w-md p-8 relative border-gold-500/50 shadow-2xl">
-            <button onclick="window.closeReviewModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition cursor-pointer"><i class="fas fa-times text-xl"></i></button>
-            <h3 class="font-heading text-2xl text-gold-300 mb-6 text-center tracking-wider uppercase text-center">Ваш Отзыв</h3>
-            <form onsubmit="window.submitReview(event)" class="space-y-4">
-                <input type="text" id="review-name" placeholder="Имя" required class="input-gold">
-                <textarea id="review-text" rows="4" placeholder="Ваши слова..." required class="input-gold"></textarea>
-                <div class="flex justify-center gap-2 text-2xl mb-4" id="star-rating">
-                    <i class="fas fa-star text-gold-300 cursor-pointer" onclick="window.setRating(1)"></i>
-                    <i class="fas fa-star text-gold-300 cursor-pointer" onclick="window.setRating(2)"></i>
-                    <i class="fas fa-star text-gold-300 cursor-pointer" onclick="window.setRating(3)"></i>
-                    <i class="fas fa-star text-gold-300 cursor-pointer" onclick="window.setRating(4)"></i>
-                    <i class="fas fa-star text-gold-300 cursor-pointer" onclick="window.setRating(5)"></i>
-                </div>
-                <button type="submit" class="w-full btn-gold rounded-lg uppercase text-xs font-bold tracking-widest text-center cursor-pointer">Отправить</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="image-modal" class="fixed inset-0 z-[110] hidden bg-black/95 flex items-center justify-center p-4 cursor-pointer" onclick="window.closeImageModal()">
-        <img id="modal-image" src="" class="max-h-[90vh] max-w-full rounded-lg border border-gold-500/30">
-    </div>
-
-    <!-- CORE LOGIC (FIREBASE) -->
+    <!-- FIREBASE MODULE -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
@@ -406,7 +407,7 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = "taro-soul-live-production-v2";
+        const appId = "taro-soul-v2-prod";
 
         let user = null;
         let isAuthReady = false;
@@ -462,7 +463,6 @@
                 const slot = document.createElement('div');
                 slot.className = `time-slot ${isDisabled ? 'disabled' : ''}`;
                 slot.innerText = timeStr;
-                
                 if(!isDisabled) {
                     slot.onclick = () => {
                         Array.from(container.children).forEach(c => c.classList.remove('selected'));
@@ -489,18 +489,6 @@
 
             if (db && user) {
                 try {
-                    const qCheck = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
-                    const snapCheck = await getDocs(qCheck);
-                    let isConflict = false;
-                    snapCheck.forEach(ds => { if(ds.data().date === date && ds.data().time === time) isConflict = true; });
-
-                    if (isConflict) {
-                        alert("Это время только что заняли! Пожалуйста, выберите другое.");
-                        window.generateTimeSlots(date);
-                        btn.disabled = false;
-                        return;
-                    }
-
                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), { name, contact: handle, date, time, notes, createdAt: serverTimestamp() });
                 } catch(err) { console.error("Write failed."); }
             }
@@ -511,7 +499,7 @@
             document.getElementById('success-telegram-btn').onclick = () => window.open(link, '_blank');
             document.getElementById('success-modal').classList.remove('hidden');
             e.target.reset();
-            document.getElementById('time-slots-container').innerHTML = '<div class="col-span-3 text-center text-gray-600 text-sm py-2 italic text-center text-center">Запись принята</div>';
+            document.getElementById('time-slots-container').innerHTML = '<div class="col-span-3 text-center text-gray-600 text-sm py-2 italic text-center">Запись принята</div>';
             btn.disabled = false;
         };
 
@@ -539,7 +527,7 @@
         window.submitReview = async function(e) {
             e.preventDefault();
             if(!db || !user) return;
-            await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'reviews'), { name: document.getElementById('review-name').value, text: document.getElementById('review-text').value, rating: window.currentRating || 5, createdAt: serverTimestamp() });
+            await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'reviews'), { name: document.getElementById('review-name').value, text: document.getElementById('review-text').value, rating: 5, createdAt: serverTimestamp() });
             window.closeReviewModal();
             e.target.reset();
         };
@@ -547,7 +535,7 @@
         init();
     </script>
 
-    <!-- VISUAL LOGIC -->
+    <!-- VISUAL ENGINE -->
     <script>
         const canvasA = document.getElementById('chaos-bg'), ctxA = canvasA.getContext('2d');
         const canvasB = document.getElementById('magic-dust'), ctxB = canvasB.getContext('2d');
@@ -581,7 +569,7 @@
         const tItems = [ 
             { n: "Солнце", i: "fa-sun", desc: "Абсолютный успех, ясность и огромная энергия. В вашей ситуации наступает период триумфа — все тени исчезают, а путь становится светлым и понятным. Время сиять!" }, 
             { n: "Луна", i: "fa-moon", desc: "Время интуиции, снов и тайных предчувствий. Не всё сейчас является тем, чем кажется. Слушайте свой внутренний голос, он поможет пройти сквозь туман к истине." }, 
-            { n: "Звезда", i: "fa-star", desc: "Символ надежды и высшего покровительства. Ваша мечта находится под защитой Вселенной. Даже в самую темную ночь вы не одиноки — верный путь укажет свет вдохновения." },
+            { n: "Звезда", i: "fa-star", desc: "Символ надежды и высшего покровительства. Ваша мечта находится под защитой Вселенной. Верный путь укажет свет вдохновения." },
             { n: "Маг", i: "fa-magic", desc: "У вас есть все инструменты, чтобы изменить реальность. Эта карта говорит о воле и мастерстве. Всё в ваших руках — действуйте смело!" },
             { n: "Мир", i: "fa-globe-europe", desc: "Завершение цикла, гармония и триумф. Вы достигли важной цели. Это состояние целостности, когда всё встает на свои места." }
         ];
@@ -606,8 +594,6 @@
         window.closeImageModal = () => document.getElementById('image-modal').classList.add('hidden');
         window.openReviewModal = () => document.getElementById('review-modal').classList.remove('hidden');
         window.closeReviewModal = () => document.getElementById('review-modal').classList.add('hidden');
-        window.currentRating = 5;
-        window.setRating = r => { window.currentRating = r; document.querySelectorAll('#star-rating i').forEach((s, idx) => s.className = idx < r ? 'fas fa-star text-gold-300' : 'fas fa-star text-gray-600'); };
         
         window.addEventListener('load', () => { 
             const dIn = document.getElementById('book-date');
