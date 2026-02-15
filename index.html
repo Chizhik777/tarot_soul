@@ -455,8 +455,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <label class="block text-gold-300 text-xs uppercase tracking-widest mb-2">Выберите Дату</label>
-                            <!-- ADDED ONINPUT FOR BETTER COMPATIBILITY -->
-                            <input type="date" id="book-date" required class="input-gold cursor-pointer text-center" oninput="generateTimeSlots(this.value)" onchange="generateTimeSlots(this.value)">
+                            <input type="date" id="book-date" required class="input-gold cursor-pointer text-center" oninput="window.generateTimeSlots(this.value)">
                         </div>
                         <div>
                              <label class="block text-gold-300 text-xs uppercase tracking-widest mb-2">Свободное время</label>
@@ -467,7 +466,7 @@
                                  <div class="col-span-3 text-center text-gray-600 text-sm py-2">Сначала выберите дату</div>
                              </div>
                              <input type="hidden" id="selected-time" required>
-                             <p id="time-error" class="text-red-500 text-xs mt-1 hidden">Пожалуйста, выберите время</p>
+                             <p id="time-error" class="text-red-500 text-xs mt-1 hidden font-bold">Пожалуйста, выберите время!</p>
                         </div>
                     </div>
 
@@ -476,8 +475,8 @@
                         <textarea id="book-notes" rows="3" class="input-gold" placeholder="Кратко опишите ситуацию..."></textarea>
                     </div>
 
-                    <button type="submit" class="w-full btn-gold py-4 rounded-lg font-heading text-lg font-bold hover:bg-gold-500 hover:text-black transition-all">
-                        Оформить заявку
+                    <button type="submit" id="submit-btn" class="w-full btn-gold py-4 rounded-lg font-heading text-lg font-bold hover:bg-gold-500 hover:text-black transition-all cursor-pointer">
+                        Записаться
                     </button>
                 </form>
             </div>
@@ -511,7 +510,6 @@
     <footer class="border-t border-white/5 bg-black py-12 text-center relative z-10">
         <div class="text-gold-700 text-2xl font-heading mb-4">Tarot Soul</div>
         <div class="flex justify-center gap-6 mb-8 text-gray-500">
-            <!-- ССЫЛКА НА БОТА В ФУТЕРЕ -->
             <a href="https://t.me/elena_tarot_soul_bot" target="_blank" class="hover:text-gold-500 transition cursor-pointer"><i class="fab fa-telegram text-xl"></i></a>
             <a href="#" class="hover:text-gold-500 transition cursor-pointer"><i class="fab fa-youtube text-xl"></i></a>
         </div>
@@ -520,8 +518,8 @@
 
     <!-- SUCCESS MODAL -->
     <div id="success-modal" class="fixed inset-0 z-[120] hidden bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="glass-panel w-full max-w-sm p-8 relative border-gold-500/50 text-center transform scale-95 transition-transform duration-300 shadow-[0_0_50px_rgba(212,175,55,0.2)]">
-            <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-500 hover:text-white transition">
+        <div class="glass-panel w-full max-w-sm p-8 relative border-gold-500/50 text-center shadow-[0_0_50px_rgba(212,175,55,0.2)]">
+            <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-500 hover:text-white transition cursor-pointer">
                 <i class="fas fa-times text-xl"></i>
             </button>
             <div class="magical-scene">
@@ -535,12 +533,11 @@
             </div>
             <h3 class="font-heading text-2xl text-gold-300 mb-2">Остался шаг!</h3>
             <p class="text-gray-300 text-sm mb-8 leading-relaxed">
-                Чтобы я получила вашу заявку, <span class="text-white font-bold">отправьте её боту</span>.
+                Заявка готова. Нажмите кнопку ниже, чтобы <span class="text-white font-bold">отправить данные боту</span> и завершить запись.
             </p>
             <button id="success-telegram-btn" class="w-full btn-gold py-4 rounded-lg text-sm font-bold uppercase cursor-pointer shadow-[0_0_20px_rgba(212,175,55,0.4)] animate-pulse-gold">
-                <i class="fab fa-telegram-plane mr-2 text-lg"></i> Подтвердить в Telegram
+                <i class="fab fa-telegram-plane mr-2 text-lg"></i> Отправить в Telegram
             </button>
-            <p class="text-[10px] text-gray-600 mt-4 uppercase tracking-tighter">Запись будет подтверждена после сообщения</p>
         </div>
     </div>
 
@@ -577,19 +574,15 @@
         let app, auth, db;
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
-        // SAFE FIREBASE INIT
+        // Инициализация Firebase
         try {
             if (typeof __firebase_config !== 'undefined') {
                 const firebaseConfig = JSON.parse(__firebase_config);
                 app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
                 db = getFirestore(app);
-            } else {
-                console.warn("Firebase config not found. Running in UI-only mode.");
             }
-        } catch (e) {
-            console.error("Firebase init failed:", e);
-        }
+        } catch (e) { console.error("Firebase init failed:", e); }
 
         let currentUser = null;
         let currentRating = 5;
@@ -609,77 +602,78 @@
             } catch (e) { console.error("Auth error:", e); }
         }
 
-        // --- ROBUST SLOT GENERATION ---
+        // --- ГЕНЕРАЦИЯ СЛОТОВ (НЕЗАВИСИМАЯ И СТАБИЛЬНАЯ) ---
         window.generateTimeSlots = async function(dateString) {
             const container = document.getElementById('time-slots-container');
             const hiddenInput = document.getElementById('selected-time');
             const loader = document.getElementById('slots-loader');
-            
-            // Reset UI
-            container.innerHTML = '';
-            hiddenInput.value = '';
             
             if(!dateString) {
                 container.innerHTML = '<div class="col-span-3 text-center text-gray-600 text-sm py-2">Сначала выберите дату</div>';
                 return;
             }
 
-            loader.classList.remove('hidden');
-
-            // Try fetching bookings, ignore errors (Offline Mode)
-            let bookedTimes = [];
-            if (db) {
-                try {
-                    const querySnapshot = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'));
-                    querySnapshot.forEach((doc) => {
-                        const data = doc.data();
-                        if (data.date === dateString) bookedTimes.push(data.time);
-                    });
-                } catch (error) { 
-                    console.error("DB Error (ignoring for UI):", error); 
-                }
-            }
-
-            loader.classList.add('hidden');
-
-            // Date parsing that works everywhere
+            // Отрисовываем слоты СРАЗУ, чтобы пользователь их видел
+            container.innerHTML = '';
+            hiddenInput.value = '';
+            
             const dateParts = dateString.split('-'); 
             const year = parseInt(dateParts[0]);
             const month = parseInt(dateParts[1]) - 1; 
             const day = parseInt(dateParts[2]);
-            
             const selectedDate = new Date(year, month, day); 
             
             const now = new Date();
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); 
             const currentHour = now.getHours();
-
             const isToday = selectedDate.getTime() === today.getTime();
             const isPastDate = selectedDate < today;
 
-            for(let h = 11; h <= 19; h++) {
-                const timeLabel = `${h}:00`;
-                
-                const isPastHour = isToday && h <= currentHour;
-                const isBooked = bookedTimes.includes(timeLabel);
-                const isDisabled = isPastDate || isPastHour || isBooked;
+            // Функция отрисовки кнопок
+            const renderSlots = (booked = []) => {
+                container.innerHTML = '';
+                for(let h = 11; h <= 19; h++) {
+                    const timeLabel = `${h}:00`;
+                    const isPastHour = isToday && h <= currentHour;
+                    const isBooked = booked.includes(timeLabel);
+                    const isDisabled = isPastDate || isPastHour || isBooked;
 
-                const btn = document.createElement('div');
-                btn.className = `time-slot ${isDisabled ? 'disabled' : ''}`;
-                btn.textContent = timeLabel;
-                
-                if (!isDisabled) {
-                    btn.onclick = function() {
-                        Array.from(container.children).forEach(c => c.classList.remove('selected'));
-                        btn.classList.add('selected');
-                        hiddenInput.value = timeLabel;
-                        document.getElementById('time-error').classList.add('hidden');
-                    };
+                    const btn = document.createElement('div');
+                    btn.className = `time-slot ${isDisabled ? 'disabled' : ''}`;
+                    btn.textContent = timeLabel;
+                    
+                    if (!isDisabled) {
+                        btn.onclick = function() {
+                            Array.from(container.children).forEach(c => c.classList.remove('selected'));
+                            btn.classList.add('selected');
+                            hiddenInput.value = timeLabel;
+                            document.getElementById('time-error').classList.add('hidden');
+                        };
+                    }
+                    container.appendChild(btn);
                 }
-                container.appendChild(btn);
+            };
+
+            // Показываем слоты немедленно
+            renderSlots([]);
+
+            // Пытаемся получить занятые места в фоне
+            if (db) {
+                loader.classList.remove('hidden');
+                try {
+                    const querySnapshot = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'));
+                    const booked = [];
+                    querySnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        if (data.date === dateString) booked.push(data.time);
+                    });
+                    renderSlots(booked); // Перерисовываем с учетом занятых мест
+                } catch (e) { console.warn("Bookings fetch failed, using offline slots"); }
+                loader.classList.add('hidden');
             }
         }
 
+        // --- ОТПРАВКА ЗАЯВКИ (ПРИНУДИТЕЛЬНЫЙ ВЫЗОВ МОДАЛКИ) ---
         window.submitBooking = async function(e) {
             e.preventDefault();
             
@@ -688,41 +682,38 @@
             const date = document.getElementById('book-date').value;
             const time = document.getElementById('selected-time').value;
             const notes = document.getElementById('book-notes').value;
-            const btn = e.target.querySelector('button');
+            const btn = document.getElementById('submit-btn');
 
             if(!time) {
-                document.getElementById('time-error').classList.remove('hidden');
+                const error = document.getElementById('time-error');
+                error.classList.remove('hidden');
+                error.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return;
             }
 
-            btn.innerText = "Оформляем...";
-            btn.disabled = true;
+            // Формируем ссылку для Telegram
+            const message = `Здравствуйте, Елена! Хочу записаться на расклад (Donation).%0A%0AИмя: ${name}%0AДата: ${date}%0AВремя: ${time}%0AЗапрос: ${notes}`;
+            const telegramLink = `https://t.me/elena_tarot_soul_bot?text=${message}`;
 
-            try {
-                // Try saving to DB if available
-                if (db && currentUser) {
+            // Сразу показываем модалку успеха (чтобы пользователь мог перейти в ТГ)
+            const modal = document.getElementById('success-modal');
+            const tgBtn = document.getElementById('success-telegram-btn');
+            tgBtn.onclick = () => window.open(telegramLink, '_blank');
+            
+            modal.classList.remove('hidden');
+
+            // В фоне пытаемся сохранить в базу
+            if (db && currentUser) {
+                try {
                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), {
                         name, contact, service: 'Donation', date, time, notes, userId: currentUser.uid, createdAt: serverTimestamp()
                     });
-                } else {
-                    console.warn("DB unavailable, proceeding to Telegram only.");
-                }
+                } catch (e) { console.error("DB save error (ignored):", e); }
+            }
 
-                const message = `Здравствуйте, Елена! Хочу записаться на расклад (Donation).%0A%0AИмя: ${name}%0AДата: ${date}%0AВремя: ${time}%0AЗапрос: ${notes}`;
-                const telegramLink = `https://t.me/elena_tarot_soul_bot?text=${message}`;
-                
-                const modal = document.getElementById('success-modal');
-                const tgBtn = document.getElementById('success-telegram-btn');
-                
-                tgBtn.onclick = () => window.open(telegramLink, '_blank');
-                modal.classList.remove('hidden');
-                modal.querySelector('.glass-panel').classList.add('scale-100');
-                modal.querySelector('.glass-panel').classList.remove('scale-95');
-
-                document.getElementById('booking-form').reset();
-                document.getElementById('time-slots-container').innerHTML = '<div class="col-span-3 text-center text-gray-600 text-sm py-2">Сначала выберите дату</div>';
-            } catch (error) { console.error(error); } 
-            finally { btn.innerText = "Оформить заявку"; btn.disabled = false; }
+            // Очистка формы
+            document.getElementById('booking-form').reset();
+            document.getElementById('time-slots-container').innerHTML = '<div class="col-span-3 text-center text-gray-600 text-sm py-2">Сначала выберите дату</div>';
         };
 
         function loadReviews() {
