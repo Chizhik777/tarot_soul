@@ -34,26 +34,6 @@
                     backgroundImage: {
                         'gold-gradient': 'linear-gradient(135deg, #D4AF37 0%, #F9F1D8 50%, #997B1E 100%)',
                     },
-                    animation: {
-                        'spin-slow': 'spin 12s linear infinite',
-                        'pulse-gold': 'pulseGold 3s infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                        'shimmer': 'shimmer 2s linear infinite',
-                    },
-                    keyframes: {
-                        pulseGold: {
-                            '0%, 100%': { boxShadow: '0 0 10px rgba(212, 175, 55, 0.2)' },
-                            '50%': { boxShadow: '0 0 25px rgba(212, 175, 55, 0.6)' },
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        },
-                        shimmer: {
-                            '0%': { backgroundPosition: '-200% center' },
-                            '100%': { backgroundPosition: '200% center' },
-                        }
-                    }
                 }
             }
         }
@@ -209,18 +189,18 @@
                     <div class="space-y-5">
                         <label class="text-[10px] uppercase text-gold-500 tracking-widest ml-1 font-bold">Выберите свободное время</label>
                         <div id="time-slots-container" class="grid grid-cols-3 md:grid-cols-5 gap-3">
-                             <div class="col-span-full text-center text-gray-600 text-sm py-4 italic border border-white/5 rounded-lg">Сначала выберите дату выше</div>
+                             <div class="col-span-full text-center text-gray-600 text-sm py-4 italic border border-white/5 rounded-lg">Сначала выберите дату в календаре выше</div>
                         </div>
                         <input type="hidden" id="selected-time" required>
                     </div>
 
                     <div class="space-y-3">
                         <label class="text-[10px] uppercase text-gold-500 tracking-widest ml-1 font-bold">Ваш вопрос</label>
-                        <textarea id="book-notes" rows="4" class="input-gold" placeholder="Кратко опишите Вашу ситуацию..."></textarea>
+                        <textarea id="book-notes" rows="4" class="input-gold" placeholder="Опишите ситуацию максимально подробно..."></textarea>
                     </div>
 
                     <button type="submit" id="submit-btn" class="w-full btn-gold py-5 rounded-lg font-heading text-xl font-bold shadow-[0_0_40px_rgba(212,175,55,0.2)]">
-                        Продолжить в Telegram
+                        Записаться через Telegram
                     </button>
                     <p id="time-error" class="text-red-500 text-center text-sm hidden font-bold">⚠️ Пожалуйста, выберите удобное время!</p>
                 </form>
@@ -229,6 +209,9 @@
 
         <!-- REVIEWS -->
         <section>
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-2xl text-gold-300 opacity-50">Отзывы душ</h2>
+            </div>
             <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
         </section>
     </div>
@@ -245,15 +228,23 @@
     <div id="success-modal" class="fixed inset-0 z-[150] hidden bg-black/95 flex items-center justify-center p-4">
         <div class="glass-panel w-full max-w-md p-10 text-center border-gold-500/50 shadow-[0_0_100px_rgba(212,175,55,0.2)]">
             <div class="text-6xl text-gold-500 mb-8 animate-float"><i class="fas fa-paper-plane"></i></div>
-            <h3 class="font-heading text-3xl text-gold-300 mb-4">Данные приняты!</h3>
-            <p class="text-gray-300 text-lg mb-10 leading-relaxed">Нажмите кнопку ниже, чтобы открыть личный чат в Telegram. Анкета будет передана автоматически.</p>
+            <h3 class="font-heading text-2xl text-gold-300 mb-4">Данные сохранены!</h3>
+            <div class="text-gray-300 text-sm space-y-4 mb-10 leading-relaxed text-left">
+                <p>⚠️ <b>Важное примечание:</b></p>
+                <ol class="list-decimal list-inside space-y-2">
+                    <li>После нажатия кнопки ниже откроется Telegram.</li>
+                    <li>Если Вы видите кнопку <b>«СТАРТ»</b> — нажмите её.</li>
+                    <li>Ваша анкета уже скопирована! Если поле ввода пустое, просто нажмите <b>«Вставить»</b> и отправьте сообщение.</li>
+                </ol>
+            </div>
             <button id="final-telegram-btn" class="w-full btn-gold py-5 rounded-lg font-bold text-lg flex items-center justify-center gap-3">
                 <i class="fab fa-telegram-plane"></i> Открыть личный чат
             </button>
+            <p class="text-[10px] text-gray-600 mt-4 uppercase">Анкета скопирована в буфер обмена автоматически</p>
         </div>
     </div>
 
-    <!-- ADMIN PANEL -->
+    <!-- ADMIN PANEL (Hidden) -->
     <div id="admin-panel">
         <div class="flex justify-between items-center mb-10 border-b border-white/10 pb-5">
             <h2 class="font-heading text-3xl text-gold-300">Архив записей</h2>
@@ -279,7 +270,7 @@
                 auth = getAuth(app);
                 db = getFirestore(app);
             }
-        } catch (e) { console.error("Firebase init fail"); }
+        } catch (e) { console.error("Firebase init failed"); }
 
         async function initAuth() {
             if (!auth) return;
@@ -348,6 +339,15 @@
             if(!time) { document.getElementById('time-error').classList.remove('hidden'); return; }
 
             const messageText = `🔮 НОВАЯ ЗАПИСЬ\n\n👤 Имя: ${name}\n📅 Дата: ${date}\n⏰ Время: ${time}\n📝 Вопрос: ${notes || "не указан"}`;
+            
+            // AUTOMATIC COPY TO CLIPBOARD
+            const tempInput = document.createElement("textarea");
+            tempInput.value = messageText;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
             const telegramLink = `https://t.me/elena_tarot_soul_bot?text=${encodeURIComponent(messageText)}`;
 
             if (db && currentUser) {
@@ -372,12 +372,12 @@
                 const reviews = [];
                 snap.forEach(doc => reviews.push(doc.data()));
                 reviews.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
-                document.getElementById('reviews-list').innerHTML = reviews.slice(0, 4).map(r => `
+                document.getElementById('reviews-list').innerHTML = (reviews.length > 0) ? reviews.slice(0, 4).map(r => `
                     <div class="glass-panel p-8 border-white/5">
                         <h4 class="text-gold-300 font-bold mb-3">${r.name}</h4>
                         <p class="text-gray-400 italic text-sm">"${r.text}"</p>
                     </div>
-                `).join('');
+                `).join('') : '<p class="col-span-full text-center text-gray-600 italic">Здесь пока нет отзывов...</p>';
             });
         }
 
@@ -416,61 +416,83 @@
         initAuth();
     </script>
 
-    <!-- VISUALS -->
+    <!-- VISUALS (Fully Isolated IIFE) -->
     <script>
         (function() {
             window.addEventListener('load', () => { setTimeout(() => { document.getElementById('preloader').classList.add('loaded'); }, 1000); });
-            const c1 = document.getElementById('chaos-bg'), ctx1 = c1.getContext('2d');
-            const c2 = document.getElementById('magic-dust'), ctx2 = c2.getContext('2d');
-            let sW, sH;
-            function resize() { sW = c1.width = c2.width = window.innerWidth; sH = c1.height = c2.height = window.innerHeight; }
-            window.onresize = resize; resize();
+            const chaosC = document.getElementById('chaos-bg'), chaosCtx = chaosC.getContext('2d');
+            const dustC = document.getElementById('magic-dust'), dustCtx = dustC.getContext('2d');
+            let wInner, hInner;
 
-            let dots = [];
-            class Dot {
-                constructor() { this.x = Math.random() * sW; this.y = Math.random() * sH; this.s = Math.random() * 2; this.v = Math.random() * 0.4; }
-                draw() { ctx2.fillStyle = '#D4AF37'; ctx2.globalAlpha = 0.2; ctx2.beginPath(); ctx2.arc(this.x, this.y, this.s, 0, 7); ctx2.fill(); this.y -= this.v; if(this.y < 0) this.y = sH; }
+            function resizeCanvas() { 
+                wInner = chaosC.width = dustC.width = window.innerWidth; 
+                hInner = chaosC.height = dustC.height = window.innerHeight; 
             }
-            for(let i=0; i<100; i++) dots.push(new Dot());
-            function anim() {
-                ctx1.fillStyle = '#000'; ctx1.fillRect(0,0,sW,sH);
-                ctx2.clearRect(0,0,sW,sH);
-                dots.forEach(d => d.draw());
-                requestAnimationFrame(anim);
-            }
-            anim();
+            window.addEventListener('resize', resizeCanvas); 
+            resizeCanvas();
 
-            const tarotData = [
+            const particleArray = [];
+            class MagicSoulParticle {
+                constructor() { 
+                    this.x = Math.random() * wInner; 
+                    this.y = Math.random() * hInner; 
+                    this.size = Math.random() * 2; 
+                    this.speed = Math.random() * 0.4; 
+                }
+                updateAndDraw() { 
+                    dustCtx.fillStyle = '#D4AF37'; 
+                    dustCtx.globalAlpha = 0.2; 
+                    dustCtx.beginPath(); 
+                    dustCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2); 
+                    dustCtx.fill(); 
+                    this.y -= this.speed; 
+                    if(this.y < 0) this.y = hInner; 
+                }
+            }
+            for(let i=0; i<100; i++) particleArray.push(new MagicSoulParticle());
+
+            function animateScene() {
+                chaosCtx.fillStyle = '#000'; 
+                chaosCtx.fillRect(0,0,wInner,hInner);
+                dustCtx.clearRect(0,0,wInner,hInner);
+                particleArray.forEach(p => p.updateAndDraw());
+                requestAnimationFrame(animateScene);
+            }
+            animateScene();
+
+            const tarotCouncil = [
                 { name: "Туз Пентаклей", desc: "Вселенная готовит для Вас новые возможности. Откройтесь им.", icon: "fas fa-coins" },
                 { name: "Верховная Жрица", desc: "Ваша интуиция сейчас — лучший компас. Прислушайтесь к тишине.", icon: "fas fa-scroll" },
                 { name: "Солнце", desc: "Ясность и успех во всем. Ваши желания начинают сбываться.", icon: "fas fa-sun" },
                 { name: "Звезда", desc: "Свет в конце тоннеля близок. Ваша надежда оправдана.", icon: "fas fa-star" }
             ];
-            const deck = document.getElementById('tarot-deck');
-            function initDeck() {
-                if(!deck) return;
-                deck.innerHTML = '';
+            
+            const deckContainer = document.getElementById('tarot-deck');
+            function initCouncilDeck() {
+                if(!deckContainer) return;
+                deckContainer.innerHTML = '';
                 for(let i=0; i<3; i++) {
-                    const c = document.createElement('div');
-                    c.className = 'tarot-card-wrapper cursor-pointer flex-1';
-                    c.innerHTML = `<div class="tarot-card-inner h-64 w-44 mx-auto"><div class="card-face card-front"><div class="eye-symbol"></div></div><div class="card-face card-back flex flex-col items-center justify-center p-6 border-gold-500"></div></div>`;
-                    c.onclick = () => {
-                        if(c.classList.contains('flipped')) return;
-                        const card = tarotData[Math.floor(Math.random()*tarotData.length)];
-                        c.querySelector('.card-back').innerHTML = `<i class="${card.icon} text-4xl text-gold-500 mb-4"></i><div class="text-xs font-heading text-gold-100 text-center">${card.name}</div>`;
-                        c.classList.add('flipped');
+                    const wrap = document.createElement('div');
+                    wrap.className = 'tarot-card-wrapper cursor-pointer flex-1';
+                    wrap.innerHTML = `<div class="tarot-card-inner h-64 w-44 mx-auto"><div class="card-face card-front"><div class="eye-symbol"></div></div><div class="card-face card-back flex flex-col items-center justify-center p-6 border-gold-500"></div></div>`;
+                    wrap.onclick = () => {
+                        if(wrap.classList.contains('flipped')) return;
+                        const card = tarotCouncil[Math.floor(Math.random()*tarotCouncil.length)];
+                        wrap.querySelector('.card-back').innerHTML = `<i class="${card.icon} text-4xl text-gold-500 mb-4"></i><div class="text-[10px] font-heading text-gold-100 text-center uppercase tracking-widest">${card.name}</div>`;
+                        wrap.classList.add('flipped');
                         document.getElementById('result-title').innerText = card.name;
                         document.getElementById('result-desc').innerText = card.desc;
+                        document.getElementById('result-icon').className = card.icon;
                         document.getElementById('tarot-result').classList.remove('hidden');
                     };
-                    deck.appendChild(c);
+                    deckContainer.appendChild(wrap);
                 }
             }
-            window.resetTarot = () => { document.getElementById('tarot-result').classList.add('hidden'); initDeck(); };
-            initDeck();
+            window.resetTarot = () => { document.getElementById('tarot-result').classList.add('hidden'); initCouncilDeck(); };
+            initCouncilDeck();
 
-            const cursor = document.getElementById('custom-cursor');
-            document.onmousemove = (e) => { if(cursor) { cursor.style.left = e.clientX+'px'; cursor.style.top = e.clientY+'px'; } };
+            const orb = document.getElementById('custom-cursor');
+            document.addEventListener('mousemove', (e) => { if(orb) { orb.style.left = e.clientX+'px'; orb.style.top = e.clientY+'px'; } });
         })();
     </script>
 </body>
