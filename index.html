@@ -64,19 +64,16 @@
             background-color: #000000;
             color: #E6C87C;
             overflow-x: hidden;
-            /* По умолчанию скрываем курсор для ПК */
             cursor: none; 
             position: relative;
         }
 
-        /* --- MOBILE FIXES (Возвращаем курсор на тач-экранах) --- */
         @media (hover: none) and (pointer: coarse) {
             body { cursor: auto !important; }
             #custom-cursor { display: none !important; }
             .btn-gold, .portal-container, .glass-panel, .cursor-pointer, input, textarea, button { cursor: pointer !important; }
         }
 
-        /* --- CUSTOM CURSOR (Искра) --- */
         #custom-cursor {
             position: fixed;
             width: 20px; height: 20px;
@@ -94,7 +91,6 @@
             box-shadow: 0 0 40px 10px rgba(255, 215, 0, 0.8);
         }
 
-        /* --- PRELOADER --- */
         #preloader {
             transition: opacity 0.8s ease-out, visibility 0.8s;
         }
@@ -103,7 +99,6 @@
             visibility: hidden;
         }
 
-        /* --- CANVAS LAYERS --- */
         #chaos-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; background: #000;
         }
@@ -111,9 +106,8 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: screen;
         }
 
-        /* --- LUXURY GLASS (Улучшенный контраст) --- */
         .glass-panel {
-            background: rgba(5, 5, 5, 0.85); /* Темнее для читаемости на пестром фоне */
+            background: rgba(5, 5, 5, 0.85);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(212, 175, 55, 0.2);
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(0, 0, 0, 0.5);
@@ -132,7 +126,6 @@
             transform: translateY(-5px);
         }
 
-        /* --- GOLDEN TEXT EFFECT --- */
         .text-gold-glow {
             color: transparent;
             background: linear-gradient(to bottom, #FFFFFF, #F9F1D8, #D4AF37);
@@ -142,7 +135,6 @@
             position: relative; z-index: 10;
         }
 
-        /* --- CARDS --- */
         .tarot-card-wrapper { perspective: 1200px; }
         .tarot-card-inner {
             position: relative; width: 100%; height: 100%;
@@ -176,7 +168,6 @@
             border-color: #D4AF37;
         }
 
-        /* --- PORTAL --- */
         .portal-container {
             position: relative; width: 200px; height: 200px; margin: 0 auto;
             display: flex; align-items: center; justify-content: center;
@@ -204,7 +195,6 @@
         }
         .portal-container:hover .portal-core { box-shadow: 0 0 80px rgba(212, 175, 55, 0.4); transform: scale(1.05); }
 
-        /* --- BUTTONS --- */
         .btn-gold {
             background: transparent; border: 1px solid #D4AF37; color: #D4AF37;
             position: relative; overflow: hidden; transition: all 0.4s ease;
@@ -217,14 +207,12 @@
         .btn-gold:hover::before { width: 100%; }
         .btn-gold:hover { color: #000; box-shadow: 0 0 30px rgba(212, 175, 55, 0.5); }
 
-        /* --- SCROLLBAR --- */
         .gallery-scroll::-webkit-scrollbar { height: 0px; background: transparent; }
         .gallery-scroll { scrollbar-width: none; }
 
         #review-modal, #image-modal, #success-modal { backdrop-filter: blur(10px); cursor: auto !important; }
         #review-modal *, #image-modal *, #success-modal * { cursor: auto !important; }
 
-        /* --- FORM STYLES --- */
         .input-gold {
             width: 100%;
             background: rgba(0,0,0,0.5);
@@ -275,7 +263,6 @@
             text-decoration: line-through;
         }
 
-        /* --- MAGICAL BUTTERFLY ANIMATION CSS --- */
         .magical-scene {
             height: 120px;
             display: flex;
@@ -424,14 +411,13 @@
             </button>
         </section>
 
-        <!-- 4. SERVICES & BOOKING (UNIFIED & INTERACTIVE) -->
+        <!-- 4. SERVICES & BOOKING -->
         <section id="booking-section" class="scroll-mt-24">
             <div class="text-center mb-12">
                 <h2 class="font-heading text-3xl md:text-4xl text-gold-300 mb-2">Расклад за Донат</h2>
                 <p class="text-sm text-gray-400 uppercase tracking-[0.2em]">Оплата по сердцу</p>
             </div>
 
-            <!-- Single Unified Service Card -->
             <div class="glass-panel p-10 text-center max-w-4xl mx-auto mb-16 relative overflow-hidden group hover:border-gold-500 transition duration-500">
                 <div class="absolute -inset-1 bg-gold-500/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition duration-700"></div>
                 <div class="relative z-10">
@@ -448,7 +434,6 @@
                 </div>
             </div>
 
-            <!-- Interactive Booking Form -->
             <div class="glass-panel p-8 max-w-3xl mx-auto relative border-gold-500/40">
                 <div class="text-center mb-8">
                      <h4 class="font-heading text-xl text-gold-300">Запись на прием</h4>
@@ -456,7 +441,6 @@
                 </div>
 
                 <form id="booking-form" class="relative z-10 space-y-8" onsubmit="submitBooking(event)">
-                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-gold-300 text-xs uppercase tracking-widest mb-2">Ваше Имя</label>
@@ -468,13 +452,12 @@
                         </div>
                     </div>
                     
-                    <!-- Calendar & Slots -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <label class="block text-gold-300 text-xs uppercase tracking-widest mb-2">Выберите Дату</label>
+                            <!-- ADDED MIN ATTRIBUTE SCRIPT LATER -->
                             <input type="date" id="book-date" required class="input-gold cursor-pointer text-center" onchange="generateTimeSlots(this.value)">
                         </div>
-                        
                         <div>
                              <label class="block text-gold-300 text-xs uppercase tracking-widest mb-2">Свободное время</label>
                              <div id="slots-loader" class="hidden text-center text-gold-500 text-sm py-2">
@@ -506,7 +489,6 @@
                 <h2 class="font-heading text-3xl md:text-4xl text-gold-300 mb-2">Книга Благодарности</h2>
                 <p class="text-sm text-gray-400 uppercase tracking-[0.2em]">Истории и Отзывы</p>
             </div>
-            <!-- Gallery -->
             <div class="mb-16 relative group">
                 <button onclick="scrollGallery(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-black/50 text-gold-500 p-3 rounded-r-lg hover:bg-black/80 hover:text-white transition-all hidden md:block cursor-pointer"><i class="fas fa-chevron-left text-2xl"></i></button>
                 <button onclick="scrollGallery(1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-black/50 text-gold-500 p-3 rounded-l-lg hover:bg-black/80 hover:text-white transition-all hidden md:block cursor-pointer"><i class="fas fa-chevron-right text-2xl"></i></button>
@@ -523,29 +505,25 @@
                 <button onclick="openReviewModal()" class="btn-gold px-10 py-4 rounded-full text-sm font-bold tracking-widest uppercase cursor-pointer">Оставить Отзыв</button>
             </div>
         </section>
-
     </div>
 
     <!-- FOOTER -->
     <footer class="border-t border-white/5 bg-black py-12 text-center relative z-10">
         <div class="text-gold-700 text-2xl font-heading mb-4">Tarot Soul</div>
         <div class="flex justify-center gap-6 mb-8 text-gray-500">
-            <a href="https://t.me/elena_soul_tarot" target="_blank" class="hover:text-gold-500 transition cursor-pointer"><i class="fab fa-telegram text-xl"></i></a>
+            <!-- ССЫЛКА НА БОТА В ФУТЕРЕ -->
+            <a href="https://t.me/elena_tarot_soul_bot" target="_blank" class="hover:text-gold-500 transition cursor-pointer"><i class="fab fa-telegram text-xl"></i></a>
             <a href="#" class="hover:text-gold-500 transition cursor-pointer"><i class="fab fa-youtube text-xl"></i></a>
         </div>
         <p class="text-gray-700 text-xs uppercase tracking-widest">&copy; 2026 Елена. Сделано с душой.</p>
     </footer>
 
-    <!-- SUCCESS MODAL (CLEAN & SHORT) -->
+    <!-- SUCCESS MODAL -->
     <div id="success-modal" class="fixed inset-0 z-[120] hidden bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="glass-panel w-full max-w-sm p-8 relative border-gold-500/50 text-center transform scale-95 transition-transform duration-300 shadow-[0_0_50px_rgba(212,175,55,0.2)]">
-            
-            <!-- Close Button -->
             <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-500 hover:text-white transition">
                 <i class="fas fa-times text-xl"></i>
             </button>
-
-            <!-- MAGICAL BUTTERFLY ANIMATION -->
             <div class="magical-scene">
                 <div class="butterfly-container">
                     <div class="butterfly">
@@ -555,16 +533,13 @@
                     </div>
                 </div>
             </div>
-            
             <h3 class="font-heading text-2xl text-gold-300 mb-2">Остался шаг!</h3>
             <p class="text-gray-300 text-sm mb-8 leading-relaxed">
-                Чтобы я получила вашу заявку, <span class="text-white font-bold">отправьте её в Telegram</span>.
+                Чтобы я получила вашу заявку, <span class="text-white font-bold">отправьте её боту</span>.
             </p>
-
             <button id="success-telegram-btn" class="w-full btn-gold py-4 rounded-lg text-sm font-bold uppercase cursor-pointer shadow-[0_0_20px_rgba(212,175,55,0.4)] animate-pulse-gold">
                 <i class="fab fa-telegram-plane mr-2 text-lg"></i> Подтвердить в Telegram
             </button>
-            
             <p class="text-[10px] text-gray-600 mt-4 uppercase tracking-tighter">Запись будет подтверждена после сообщения</p>
         </div>
     </div>
@@ -622,17 +597,24 @@
             } catch (e) { console.error("Auth error:", e); }
         }
 
+        // --- ИСПРАВЛЕННАЯ ФУНКЦИЯ ГЕНЕРАЦИИ СЛОТОВ ---
         window.generateTimeSlots = async function(dateString) {
             const container = document.getElementById('time-slots-container');
             const hiddenInput = document.getElementById('selected-time');
             const loader = document.getElementById('slots-loader');
             
+            // Сброс UI
             container.innerHTML = '';
             hiddenInput.value = '';
-            if(!dateString) return;
+            
+            if(!dateString) {
+                container.innerHTML = '<div class="col-span-3 text-center text-gray-600 text-sm py-2">Сначала выберите дату</div>';
+                return;
+            }
 
             loader.classList.remove('hidden');
 
+            // Загружаем занятые слоты (в блоке try/catch, чтобы не ломать весь интерфейс при ошибке)
             let bookedTimes = [];
             try {
                 const querySnapshot = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'));
@@ -640,20 +622,37 @@
                     const data = doc.data();
                     if (data.date === dateString) bookedTimes.push(data.time);
                 });
-            } catch (error) { console.error("Error:", error); }
+            } catch (error) { 
+                console.error("Error fetching bookings:", error); 
+                // Даже если ошибка, продолжим рендеринг слотов (пусть и без проверки занятости)
+            }
 
             loader.classList.add('hidden');
 
-            const selectedDate = new Date(dateString);
-            const today = new Date();
-            const isToday = selectedDate.toDateString() === today.toDateString();
-            const currentHour = today.getHours();
+            // Безопасный парсинг даты для корректной работы во всех часовых поясах
+            const dateParts = dateString.split('-'); // ["2024", "02", "15"]
+            const year = parseInt(dateParts[0]);
+            const month = parseInt(dateParts[1]) - 1; // Месяцы в JS от 0 до 11
+            const day = parseInt(dateParts[2]);
+            
+            const selectedDate = new Date(year, month, day); // Локальное время 00:00:00
+            
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // Сегодня 00:00:00
+            const currentHour = now.getHours();
+
+            // Проверки
+            const isToday = selectedDate.getTime() === today.getTime();
+            const isPastDate = selectedDate < today;
 
             for(let h = 11; h <= 19; h++) {
                 const timeLabel = `${h}:00`;
-                const isPast = isToday && h <= currentHour;
+                
+                const isPastHour = isToday && h <= currentHour;
                 const isBooked = bookedTimes.includes(timeLabel);
-                const isDisabled = isPast || isBooked;
+                
+                // Блокируем, если дата в прошлом, или это сегодняшний прошедший час, или время занято
+                const isDisabled = isPastDate || isPastHour || isBooked;
 
                 const btn = document.createElement('div');
                 btn.className = `time-slot ${isDisabled ? 'disabled' : ''}`;
@@ -696,7 +695,9 @@
                 });
 
                 const message = `Здравствуйте, Елена! Хочу записаться на расклад (Donation).%0A%0AИмя: ${name}%0AДата: ${date}%0AВремя: ${time}%0AЗапрос: ${notes}`;
-                const telegramLink = `https://t.me/elena_soul_tarot?text=${message}`;
+                
+                // ССЫЛКА НА ВАШЕГО БОТА
+                const telegramLink = `https://t.me/elena_tarot_soul_bot?text=${message}`;
                 
                 const modal = document.getElementById('success-modal');
                 const tgBtn = document.getElementById('success-telegram-btn');
@@ -771,6 +772,13 @@
         }
 
         initAuth();
+        
+        // Установка минимальной даты (сегодня) при загрузке
+        window.addEventListener('load', () => {
+             const today = new Date().toISOString().split('T')[0];
+             const dateInput = document.getElementById('book-date');
+             if(dateInput) dateInput.setAttribute('min', today);
+        });
 
         window.setRating = function(rating) {
             currentRating = rating;
@@ -788,8 +796,10 @@
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const pre = document.getElementById('preloader');
-                pre.style.opacity = '0';
-                setTimeout(() => { pre.remove(); }, 800);
+                if (pre) {
+                    pre.style.opacity = '0';
+                    setTimeout(() => { pre.remove(); }, 800);
+                }
             }, 1000);
         });
 
