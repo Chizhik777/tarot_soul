@@ -447,8 +447,8 @@
                             <input type="text" id="book-name" required class="input-gold" placeholder="Как к вам обращаться?">
                         </div>
                         <div>
-                            <label class="block text-gold-300 text-xs uppercase tracking-widest mb-2">Контакт (Telegram)</label>
-                            <input type="text" id="book-contact" required class="input-gold" placeholder="@username">
+                            <label class="block text-gold-300 text-xs uppercase tracking-widest mb-2">Телефон (WhatsApp)</label>
+                            <input type="text" id="book-contact" required class="input-gold" placeholder="+7 (___) ___-__-__">
                         </div>
                     </div>
                     
@@ -509,12 +509,15 @@
     <footer class="border-t border-white/5 bg-black py-12 text-center relative z-10">
         <div class="text-gold-700 text-2xl font-heading mb-4">Tarot Soul</div>
         <div class="flex justify-center gap-6 mb-8 text-gray-500">
-            <a href="https://t.me/elena_tarot_soul_bot" target="_blank" class="hover:text-gold-500 transition cursor-pointer"><i class="fab fa-telegram text-xl"></i></a>
+            <a href="https://wa.me/79938930462" target="_blank" class="hover:text-gold-500 transition cursor-pointer flex items-center gap-2">
+                <i class="fab fa-whatsapp text-xl"></i>
+                <span class="text-sm">+7 (993) 893-04-62</span>
+            </a>
         </div>
         <p class="text-gray-700 text-xs uppercase tracking-widest">&copy; 2026 Елена. Сделано с душой.</p>
     </footer>
 
-    <!-- SUCCESS MODAL (Telegram Confirmation) -->
+    <!-- SUCCESS MODAL (WhatsApp Confirmation) -->
     <div id="success-modal" class="fixed inset-0 z-[120] hidden bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="glass-panel w-full max-w-sm p-8 relative border-gold-500/50 text-center shadow-[0_0_50px_rgba(212,175,55,0.2)]">
             <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-500 hover:text-white transition cursor-pointer">
@@ -531,10 +534,10 @@
             </div>
             <h3 class="font-heading text-2xl text-gold-300 mb-2">Остался шаг!</h3>
             <p class="text-gray-300 text-sm mb-8 leading-relaxed">
-                Нажмите на кнопку ниже, чтобы <span class="text-white font-bold">отправить анкету боту</span>. После этого я увижу вашу запись.
+                Нажмите на кнопку ниже, чтобы <span class="text-white font-bold">отправить анкету в WhatsApp</span>. После этого я подтвержу вашу запись.
             </p>
-            <button id="success-telegram-btn" class="w-full btn-gold py-4 rounded-lg text-sm font-bold uppercase cursor-pointer shadow-[0_0_20px_rgba(212,175,55,0.4)] animate-pulse-gold flex items-center justify-center gap-2">
-                <i class="fab fa-telegram-plane text-lg"></i> Отправить в Telegram
+            <button id="success-whatsapp-btn" class="w-full btn-gold py-4 rounded-lg text-sm font-bold uppercase cursor-pointer shadow-[0_0_20px_rgba(212,175,55,0.4)] animate-pulse-gold flex items-center justify-center gap-2">
+                <i class="fab fa-whatsapp text-lg"></i> Отправить в WhatsApp
             </button>
         </div>
     </div>
@@ -611,7 +614,6 @@
                 return;
             }
 
-            // Отрисовываем кнопки МГНОВЕННО (без ожидания базы)
             const renderLayout = (booked = []) => {
                 container.innerHTML = '';
                 hiddenInput.value = '';
@@ -647,22 +649,21 @@
                 }
             };
 
-            renderLayout([]); // Сначала пустые
+            renderLayout([]);
 
-            // Затем проверяем базу в фоне
             if (db) {
                 loader.classList.remove('hidden');
                 try {
                     const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'));
                     const booked = [];
                     snap.forEach(d => { if(d.data().date === dateString) booked.push(d.data().time); });
-                    renderLayout(booked); // Обновляем с учетом занятых
+                    renderLayout(booked);
                 } catch (e) { console.warn("Bookings fetch failed"); }
                 loader.classList.add('hidden');
             }
         };
 
-        // --- ОТПРАВКА ЗАЯВКИ ПРЯМО В БОТ ---
+        // --- ОТПРАВКА ЗАЯВКИ В WHATSAPP ---
         window.submitBooking = async function(e) {
             e.preventDefault();
             
@@ -679,24 +680,24 @@
                 return;
             }
 
-            // Формируем красивое сообщение для бота
-            const message = `✨ НОВАЯ ЗАПИСЬ ✨%0A%0A👤 Имя: ${name}%0A📅 Дата: ${date}%0A⏰ Время: ${time}%0A📱 Контакт: ${contact}%0A📝 Запрос: ${notes || "не указан"}`;
+            // Формируем сообщение для WhatsApp
+            const message = `✨ НОВАЯ ЗАПИСЬ ✨\n\n👤 Имя: ${name}\n📅 Дата: ${date}\n⏰ Время: ${time}\n📱 Контакт: ${contact}\n📝 Запрос: ${notes || "не указан"}`;
             
-            // Ссылка на бот с параметром text (чтобы текст подставился сразу)
-            const telegramLink = `https://t.me/elena_tarot_soul_bot?text=${message}`;
+            // Ссылка wa.me (номер без знака +)
+            const whatsappLink = `https://wa.me/79938930462?text=${encodeURIComponent(message)}`;
 
             // Показываем окно подтверждения
             const modal = document.getElementById('success-modal');
-            const tgBtn = document.getElementById('success-telegram-btn');
+            const waBtn = document.getElementById('success-whatsapp-btn');
             
-            tgBtn.onclick = () => {
-                window.open(telegramLink, '_blank');
+            waBtn.onclick = () => {
+                window.open(whatsappLink, '_blank');
                 modal.classList.add('hidden');
             };
             
             modal.classList.remove('hidden');
 
-            // Фоновое сохранение в базу (для архива)
+            // Фоновое сохранение в базу
             if (db && currentUser) {
                 try {
                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), {
@@ -777,7 +778,6 @@
         (function() {
             window.addEventListener('load', () => { setTimeout(() => { document.getElementById('preloader').classList.add('loaded'); }, 1000); });
             
-            // Background effects
             const c1 = document.getElementById('chaos-bg'), ctx1 = c1.getContext('2d');
             const c2 = document.getElementById('magic-dust'), ctx2 = c2.getContext('2d');
             let canvasW, canvasH;
@@ -790,7 +790,6 @@
             resize();
 
             let particleList = [];
-            // RENAMED CLASS P TO MagicParticle TO FIX SYNTAX ERROR
             class MagicParticle {
                 constructor() { 
                     this.x = Math.random() * canvasW; 
@@ -829,6 +828,7 @@
             const deck = document.getElementById('tarot-deck');
             
             function initDeck() {
+                if(!deck) return;
                 deck.innerHTML = '';
                 for(let i=0; i<3; i++) {
                     const c = document.createElement('div');
@@ -862,7 +862,7 @@
             };
 
             const cursor = document.getElementById('custom-cursor');
-            document.onmousemove = (e) => { cursor.style.left = e.clientX+'px'; cursor.style.top = e.clientY+'px'; };
+            document.onmousemove = (e) => { if(cursor) { cursor.style.left = e.clientX+'px'; cursor.style.top = e.clientY+'px'; } };
         })();
     </script>
 </body>
