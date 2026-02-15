@@ -86,10 +86,6 @@
             mix-blend-mode: screen;
             transition: width 0.2s, height 0.2s;
         }
-        #custom-cursor.active {
-            width: 40px; height: 40px;
-            box-shadow: 0 0 40px 10px rgba(255, 215, 0, 0.8);
-        }
 
         #preloader { transition: opacity 0.8s ease-out, visibility 0.8s; }
         #preloader.loaded { opacity: 0; visibility: hidden; }
@@ -133,40 +129,14 @@
         }
         .input-gold:focus { border-color: #D4AF37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
 
-        /* CHAT UI */
-        #chat-btn {
-            position: fixed; bottom: 30px; right: 30px; z-index: 100;
-            width: 65px; height: 65px; border-radius: 50%;
-            background: linear-gradient(135deg, #D4AF37, #F9F1D8);
-            color: #000; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.5);
-            cursor: pointer !important; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        #chat-btn:hover { transform: scale(1.1) rotate(10deg); }
-        
-        #chat-window {
-            position: fixed; bottom: 110px; right: 30px; z-index: 110;
-            width: 380px; max-width: calc(100vw - 60px); height: 550px; max-height: 80vh;
-            display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,1);
-        }
-
-        .chat-messages { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; scroll-behavior: smooth; }
-        .chat-msg { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 0.95rem; line-height: 1.4; position: relative; }
-        .msg-client { background: rgba(212, 175, 55, 0.15); align-self: flex-end; color: #F9F1D8; border-bottom-right-radius: 4px; border: 1px solid rgba(212, 175, 55, 0.2); }
-        .msg-admin { background: rgba(255, 255, 255, 0.05); align-self: flex-start; color: #D4AF37; border-bottom-left-radius: 4px; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .msg-system { background: rgba(212, 175, 55, 0.05); align-self: center; color: #E6C87C; font-size: 0.8rem; border: 1px dashed rgba(212, 175, 55, 0.3); text-align: center; border-radius: 10px; width: 90%; }
-        
-        .chat-img { max-width: 100%; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(212, 175, 55, 0.3); }
-
         .time-slot { padding: 10px; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px; text-align: center; cursor: pointer; background: rgba(0,0,0,0.3); transition: all 0.3s; font-size: 0.9rem; }
+        .time-slot:hover:not(.disabled) { transform: scale(1.05); border-color: #D4AF37; }
         .time-slot.selected { background: #D4AF37; color: #000; font-weight: bold; }
         .time-slot.disabled { opacity: 0.3; cursor: not-allowed; text-decoration: line-through; }
 
-        #image-preview-container {
-            position: absolute; bottom: 70px; left: 15px; right: 15px; 
-            background: rgba(0,0,0,0.9); padding: 10px; border-radius: 10px; 
-            display: flex; align-items: center; justify-content: space-between;
-            border: 1px solid #D4AF37; z-index: 120;
+        #admin-panel {
+            position: fixed; inset: 0; z-index: 200; background: #000; overflow-y: auto; padding: 2rem;
+            display: none;
         }
 
     </style>
@@ -189,159 +159,131 @@
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <i class="fas fa-moon text-gold-500 text-xl"></i>
-                <span class="font-heading text-xl text-gold-300">Tarot Soul</span>
+                <span class="font-heading text-xl text-gold-300 tracking-wider">Tarot Soul</span>
             </div>
-            <a href="#booking-section" class="btn-gold px-6 py-2 rounded-full text-xs font-bold tracking-widest uppercase hover:text-black transition-all">Записаться</a>
+            <a href="#booking-section" class="btn-gold px-6 py-2 rounded-full text-xs font-bold tracking-widest uppercase transition-all">Конфиденциальная запись</a>
         </div>
     </header>
 
-    <!-- HERO -->
+    <!-- HERO SECTION -->
     <section class="min-h-[70vh] flex flex-col items-center justify-center text-center px-4 relative pt-32">
+        <div class="absolute top-1/4 left-10 opacity-20 text-gold-700 text-6xl animate-float">☾</div>
+        <div class="absolute bottom-1/4 right-10 opacity-20 text-gold-700 text-6xl animate-float" style="animation-delay: 2s;">🜁</div>
         <h1 class="font-heading text-5xl md:text-8xl text-gold-glow animate-float relative z-10">Таро с Душой</h1>
         <p class="text-xl md:text-2xl text-gold-100 italic max-w-2xl font-light mb-12 relative z-10">"Там, где Тьма встречается со Светом, рождается Истина."</p>
     </section>
 
-    <!-- CONTENT -->
+    <!-- MAIN CONTENT -->
     <div class="container mx-auto px-4 pb-20 max-w-5xl space-y-24 relative z-10">
-        <!-- 1. CARDS -->
+        
+        <!-- CARDS -->
         <section>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 h-[350px]" id="tarot-deck"></div>
-            <div id="tarot-result" class="hidden glass-panel p-8 mt-8 text-center max-w-2xl mx-auto border-gold-500/30">
+            <div id="tarot-result" class="hidden glass-panel p-10 mt-12 text-center max-w-2xl mx-auto border-gold-500/30">
+                <i id="result-icon" class="text-6xl text-gold-500 mb-6 block"></i>
                 <h3 id="result-title" class="font-heading text-3xl text-gold-100 mb-4"></h3>
-                <p id="result-desc" class="text-lg text-gray-300 italic mb-8"></p>
-                <button onclick="window.resetTarot()" class="btn-gold px-8 py-3 rounded-full text-sm">Другой вопрос</button>
+                <p id="result-desc" class="text-xl text-gray-300 italic mb-10"></p>
+                <button onclick="window.resetTarot()" class="btn-gold px-10 py-4 rounded-full text-sm">Получить другой совет</button>
             </div>
         </section>
 
-        <!-- 2. BOOKING -->
+        <!-- BOOKING SECTION -->
         <section id="booking-section" class="scroll-mt-32">
-            <div class="text-center mb-12">
-                <h2 class="font-heading text-3xl md:text-4xl text-gold-300 mb-2">Записаться на расклад</h2>
-                <p class="text-sm text-gray-400 uppercase tracking-widest">Общение в чате на сайте</p>
+            <div class="text-center mb-16">
+                <h2 class="font-heading text-4xl text-gold-300 mb-4">Анкета для записи</h2>
+                <p class="text-gray-400 uppercase tracking-[0.3em] text-xs">Ваши данные останутся между нами</p>
             </div>
 
-            <div class="glass-panel p-10 max-w-3xl mx-auto border-gold-500/40">
-                <form id="booking-form" class="space-y-8" onsubmit="window.submitBooking(event)">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <label class="text-[10px] uppercase text-gold-500 tracking-widest ml-1">Ваше Имя</label>
-                            <input type="text" id="book-name" required class="input-gold" placeholder="Как к вам обращаться?">
+            <div class="glass-panel p-10 max-w-3xl mx-auto border-gold-500/30 shadow-2xl">
+                <form id="booking-form" class="space-y-10" onsubmit="window.submitBooking(event)">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-3">
+                            <label class="text-[10px] uppercase text-gold-500 tracking-widest ml-1 font-bold">Ваше Имя</label>
+                            <input type="text" id="book-name" required class="input-gold" placeholder="Как к Вам обращаться?">
                         </div>
-                        <div class="space-y-2">
-                            <label class="text-[10px] uppercase text-gold-500 tracking-widest ml-1">Дата приема</label>
-                            <input type="date" id="book-date" required class="input-gold" oninput="window.generateTimeSlots(this.value)">
+                        <div class="space-y-3">
+                            <label class="text-[10px] uppercase text-gold-500 tracking-widest ml-1 font-bold">Дата консультации</label>
+                            <input type="date" id="book-date" required class="input-gold cursor-pointer" oninput="window.generateTimeSlots(this.value)">
                         </div>
                     </div>
                     
-                    <div class="space-y-4">
-                        <label class="text-[10px] uppercase text-gold-500 tracking-widest ml-1">Выберите свободное время</label>
+                    <div class="space-y-5">
+                        <label class="text-[10px] uppercase text-gold-500 tracking-widest ml-1 font-bold">Выберите свободное время</label>
                         <div id="time-slots-container" class="grid grid-cols-3 md:grid-cols-5 gap-3">
-                             <div class="col-span-full text-center text-gray-600 text-sm py-4">Сначала выберите дату</div>
+                             <div class="col-span-full text-center text-gray-600 text-sm py-4 italic border border-white/5 rounded-lg">Сначала выберите дату в календаре выше</div>
                         </div>
                         <input type="hidden" id="selected-time" required>
                     </div>
 
-                    <div class="space-y-2">
-                        <label class="text-[10px] uppercase text-gold-500 tracking-widest ml-1">Суть вашего вопроса</label>
-                        <textarea id="book-notes" rows="3" class="input-gold" placeholder="Напишите кратко вашу ситуацию..."></textarea>
+                    <div class="space-y-3">
+                        <label class="text-[10px] uppercase text-gold-500 tracking-widest ml-1 font-bold">Ваш вопрос к картам</label>
+                        <textarea id="book-notes" rows="4" class="input-gold" placeholder="Опишите ситуацию максимально подробно..."></textarea>
                     </div>
 
-                    <button type="submit" id="submit-btn" class="w-full btn-gold py-5 rounded-lg font-heading text-xl font-bold shadow-xl">
-                        Подтвердить запись
+                    <button type="submit" id="submit-btn" class="w-full btn-gold py-5 rounded-lg font-heading text-xl font-bold shadow-[0_0_40px_rgba(212,175,55,0.2)]">
+                        Продолжить в Telegram
                     </button>
-                    <p id="time-error" class="text-red-500 text-center text-sm hidden font-bold">⚠️ Пожалуйста, выберите время!</p>
+                    <p id="time-error" class="text-red-500 text-center text-sm hidden font-bold animate-pulse">⚠️ Пожалуйста, выберите подходящее время!</p>
                 </form>
             </div>
         </section>
 
         <!-- REVIEWS -->
-        <section id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-6"></section>
+        <section>
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-2xl text-gold-300 opacity-50">Отзывы душ</h2>
+            </div>
+            <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+        </section>
     </div>
 
-    <!-- LIVE CHAT WIDGET (Hidden by default with 'hidden') -->
-    <div id="chat-btn" class="hidden" onclick="window.toggleChat()">
-        <i class="fas fa-comment-dots text-2xl"></i>
-    </div>
+    <!-- FOOTER -->
+    <footer class="mt-32 py-20 text-center border-t border-white/5 bg-void">
+        <div class="text-gold-700 text-3xl font-heading mb-8 tracking-[0.3em]">Tarot Soul</div>
+        <p class="text-gray-800 text-[10px] uppercase tracking-widest cursor-pointer hover:text-gold-900 transition-all" onclick="window.toggleAdminPanel()">
+            &copy; 2026 Елена. Конфиденциальность гарантирована.
+        </p>
+    </footer>
 
-    <div id="chat-window" class="hidden glass-panel flex flex-col border-gold-500/50 shadow-2xl overflow-hidden bg-black/95">
-        <div class="p-4 border-b border-gold-500/20 bg-gold-900/20 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]"></div>
-                <span class="font-heading text-sm text-gold-300" id="chat-header-title">Диалог с Еленой</span>
-            </div>
-            <button onclick="window.toggleChat()" class="text-gray-500 hover:text-white transition"><i class="fas fa-times"></i></button>
-        </div>
-        
-        <div id="chat-admin-dashboard" class="hidden flex-1 overflow-y-auto p-4 space-y-2">
-            <p class="text-[10px] uppercase text-gray-500 mb-3 tracking-widest border-b border-white/5 pb-2">Список активных чатов:</p>
-            <div id="admin-user-list" class="space-y-2"></div>
-        </div>
-
-        <div id="chat-messages" class="chat-messages bg-void/50">
-            <div class="msg-admin chat-msg">Светлых Вам мыслей! ✨ Здесь Вы можете задать вопрос, прикрепить фото расклада или просто пообщаться. Я отвечу Вам в ближайшее время.</div>
-        </div>
-
-        <!-- Image Preview -->
-        <div id="image-preview-container" class="hidden">
-            <div class="flex items-center gap-3">
-                <i class="fas fa-image text-gold-500"></i>
-                <span class="text-[10px] text-white truncate max-w-[200px]" id="preview-filename"></span>
-            </div>
-            <button onclick="window.clearImagePreview()" class="text-red-500 text-xs hover:text-white"><i class="fas fa-trash"></i></button>
-        </div>
-
-        <div class="p-4 border-t border-gold-500/10 bg-black flex gap-3 items-center">
-            <label class="cursor-pointer text-gold-500 hover:text-white transition text-lg px-1">
-                <i class="fas fa-paperclip"></i>
-                <input type="file" id="chat-file-input" class="hidden" accept="image/*" onchange="window.handleImageSelect(event)">
-            </label>
-            <input type="text" id="chat-input" class="flex-1 bg-white/5 rounded-full px-5 py-2 text-sm text-gold-100 outline-none border border-white/5 focus:border-gold-500/50" placeholder="Ваше сообщение..." onkeypress="if(event.key==='Enter') window.sendChatMessage()">
-            <button onclick="window.sendChatMessage()" class="w-10 h-10 rounded-full bg-gold-500 text-black flex items-center justify-center hover:bg-white transition shadow-lg">
-                <i class="fas fa-paper-plane text-xs"></i>
+    <!-- SUCCESS MODAL -->
+    <div id="success-modal" class="fixed inset-0 z-[150] hidden bg-black/95 flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-md p-10 text-center border-gold-500/50 shadow-[0_0_100px_rgba(212,175,55,0.2)]">
+            <div class="text-6xl text-gold-500 mb-8 animate-float"><i class="fas fa-paper-plane"></i></div>
+            <h3 class="font-heading text-3xl text-gold-300 mb-4">Данные приняты!</h3>
+            <p class="text-gray-300 text-lg mb-10 leading-relaxed">Нажмите кнопку ниже, чтобы войти в приватный чат с Еленой. Вся Ваша анкета будет передана автоматически.</p>
+            <button id="final-telegram-btn" class="w-full btn-gold py-5 rounded-lg font-bold text-lg flex items-center justify-center gap-3">
+                <i class="fab fa-telegram-plane"></i> Открыть личный чат
             </button>
         </div>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="mt-20 py-12 text-center relative border-t border-white/5">
-        <div class="text-gold-700 text-2xl font-heading mb-6 tracking-widest">Tarot Soul</div>
-        <p class="text-gray-800 text-[10px] uppercase tracking-widest cursor-pointer hover:text-gold-500 transition-all" onclick="window.enableAdminMode()">
-            &copy; 2026 Елена. Сделано с душой.
-        </p>
-    </footer>
-
-    <!-- SUCCESS MODAL (Local) -->
-    <div id="success-modal" class="fixed inset-0 z-[120] hidden bg-black/95 flex items-center justify-center p-4">
-        <div class="glass-panel w-full max-w-sm p-10 text-center shadow-[0_0_80px_rgba(212,175,55,0.3)] border-gold-500/50">
-            <div class="text-5xl text-gold-500 mb-6"><i class="fas fa-check-circle"></i></div>
-            <h3 class="font-heading text-2xl text-gold-300 mb-4">Вы записаны!</h3>
-            <p class="text-gray-300 text-sm mb-10 leading-relaxed">Данные записи уже в чате. Вы можете прикрепить фото вашего расклада там же для разбора. ✨</p>
-            <button onclick="window.closeSuccessAndOpenChat()" class="w-full btn-gold py-4 rounded-lg font-bold">Перейти в чат</button>
+    <!-- ADMIN PANEL (Hidden) -->
+    <div id="admin-panel">
+        <div class="flex justify-between items-center mb-10 border-b border-white/10 pb-5">
+            <h2 class="font-heading text-3xl text-gold-300">Архив записей</h2>
+            <button onclick="window.toggleAdminPanel()" class="btn-gold px-6 py-2 rounded-full">Закрыть</button>
         </div>
+        <div id="admin-records" class="space-y-4"></div>
     </div>
 
-    <!-- FIREBASE LOGIC -->
+    <!-- FIREBASE & LOGIC -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
-        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, doc, getDocs, query } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, getDocs } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
         let app, auth, db;
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         let currentUser = null;
-        let isAdminMode = false;
-        let activeAdminChatUser = null;
-        let pendingImageBase64 = null;
 
-        // Init Firebase
         try {
             if (typeof __firebase_config !== 'undefined') {
-                const firebaseConfig = JSON.parse(__firebase_config);
-                app = initializeApp(firebaseConfig);
+                const config = JSON.parse(__firebase_config);
+                app = initializeApp(config);
                 auth = getAuth(app);
                 db = getFirestore(app);
             }
-        } catch (e) { console.error("Firebase fail"); }
+        } catch (e) { console.error("Firebase init failed"); }
 
         async function initAuth() {
             if (!auth) return;
@@ -353,158 +295,10 @@
                 }
                 onAuthStateChanged(auth, (user) => {
                     currentUser = user;
-                    if (user) {
-                        loadReviews();
-                        loadChatMessages();
-                    }
+                    if (user) loadReviews();
                 });
             } catch (e) {}
         }
-
-        // --- CHAT SYSTEM ---
-        window.toggleChat = () => {
-            const win = document.getElementById('chat-window');
-            win.classList.toggle('hidden');
-            if(!win.classList.contains('hidden')) scrollToBottom();
-        };
-
-        window.handleImageSelect = (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            if (file.size > 800000) { 
-                alert("Файл слишком большой. Пожалуйста, используйте фото до 800 Кб.");
-                return;
-            }
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                pendingImageBase64 = event.target.result;
-                document.getElementById('image-preview-container').classList.remove('hidden');
-                document.getElementById('preview-filename').innerText = file.name;
-            };
-            reader.readAsDataURL(file);
-        };
-
-        window.clearImagePreview = () => {
-            pendingImageBase64 = null;
-            document.getElementById('image-preview-container').classList.add('hidden');
-            document.getElementById('chat-file-input').value = '';
-        };
-
-        window.sendChatMessage = async () => {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            if(!text && !pendingImageBase64) return;
-            if(!db || !currentUser) return;
-
-            const targetUid = isAdminMode ? activeAdminChatUser : currentUser.uid;
-            if(!targetUid) return;
-
-            try {
-                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'chat'), {
-                    text: text,
-                    image: pendingImageBase64 || null,
-                    uid: targetUid,
-                    name: document.getElementById('book-name').value || "Клиент",
-                    isAdmin: isAdminMode,
-                    timestamp: serverTimestamp()
-                });
-                input.value = '';
-                window.clearImagePreview();
-            } catch (e) { console.error("Send failed"); }
-        };
-
-        function loadChatMessages() {
-            if (!db || !currentUser) return;
-            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'chat'), (snapshot) => {
-                const msgs = [];
-                snapshot.forEach(doc => msgs.push(doc.data()));
-                msgs.sort((a, b) => (a.timestamp?.seconds || 0) - (b.timestamp?.seconds || 0));
-
-                const container = document.getElementById('chat-messages');
-                const targetUid = isAdminMode ? activeAdminChatUser : currentUser.uid;
-                if(!targetUid) return;
-
-                const filtered = msgs.filter(m => m.uid === targetUid);
-                
-                container.innerHTML = (filtered.length > 0) ? filtered.map(m => {
-                    const isMyMsg = (isAdminMode && m.isAdmin) || (!isAdminMode && !m.isAdmin);
-                    const isSystem = m.type === 'system';
-                    
-                    if(isSystem) return `<div class="chat-msg msg-system">${m.text}</div>`;
-                    
-                    return `
-                        <div class="chat-msg ${isMyMsg ? 'msg-client' : 'msg-admin'}">
-                            ${m.text ? `<div>${m.text}</div>` : ''}
-                            ${m.image ? `<img src="${m.image}" class="chat-img" onclick="window.openFullImage(this.src)">` : ''}
-                        </div>
-                    `;
-                }).join('') : `<div class="msg-admin chat-msg">Здесь пока пусто. Начните диалог первым! ✨</div>`;
-                scrollToBottom();
-            });
-        }
-
-        window.openFullImage = (src) => {
-            const modal = document.getElementById('image-modal');
-            document.getElementById('modal-image').src = src;
-            modal.classList.remove('hidden');
-        };
-
-        function scrollToBottom() {
-            const container = document.getElementById('chat-messages');
-            container.scrollTop = container.scrollHeight;
-        }
-
-        // --- ADMIN ---
-        window.enableAdminMode = () => {
-            const pass = prompt("Доступ для Елены. Введите пароль:");
-            if(pass === "elena2026") {
-                isAdminMode = true;
-                // Show chat button for admin
-                document.getElementById('chat-btn').classList.remove('hidden');
-                document.getElementById('chat-admin-dashboard').classList.remove('hidden');
-                document.getElementById('chat-messages').classList.add('hidden');
-                document.getElementById('chat-header-title').innerText = "Админ-панель";
-                loadAdminDashboard();
-                if(document.getElementById('chat-window').classList.contains('hidden')) window.toggleChat();
-            }
-        };
-
-        function loadAdminDashboard() {
-            if (!db) return;
-            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'chat'), (snapshot) => {
-                const users = {};
-                snapshot.forEach(doc => {
-                    const msg = doc.data();
-                    if(!msg.isAdmin) { users[msg.uid] = msg.name || "Клиент"; }
-                });
-                
-                const list = document.getElementById('admin-user-list');
-                list.innerHTML = Object.keys(users).map(uid => `
-                    <div onclick="window.openUserChat('${uid}', '${users[uid]}')" class="p-4 glass-panel cursor-pointer hover:bg-gold-500/10 flex items-center justify-between border-white/5">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-gold-900 border border-gold-500/30 flex items-center justify-center text-xs text-gold-300 font-bold">${users[uid][0]}</div>
-                            <span class="text-sm font-bold text-gold-100">${users[uid]}</span>
-                        </div>
-                        <i class="fas fa-chevron-right text-[10px] opacity-30"></i>
-                    </div>
-                `).join('');
-            });
-        }
-
-        window.openUserChat = (uid, name) => {
-            activeAdminChatUser = uid;
-            document.getElementById('chat-admin-dashboard').classList.add('hidden');
-            document.getElementById('chat-messages').classList.remove('hidden');
-            document.getElementById('chat-header-title').innerHTML = `<button onclick="window.backToAdminList()" class="mr-2"><i class="fas fa-arrow-left"></i></button> Чат: ${name}`;
-            loadChatMessages();
-        };
-
-        window.backToAdminList = () => {
-            activeAdminChatUser = null;
-            document.getElementById('chat-admin-dashboard').classList.remove('hidden');
-            document.getElementById('chat-messages').classList.add('hidden');
-            document.getElementById('chat-header-title').innerText = "Админ-панель";
-        };
 
         // --- BOOKING ---
         window.generateTimeSlots = async function(dateString) {
@@ -512,7 +306,7 @@
             const hiddenInput = document.getElementById('selected-time');
             if(!dateString) return;
             
-            const renderLayout = (booked = []) => {
+            const render = (booked = []) => {
                 container.innerHTML = '';
                 hiddenInput.value = '';
                 const parts = dateString.split('-');
@@ -539,12 +333,12 @@
                     container.appendChild(btn);
                 }
             };
-            renderLayout([]);
+            render([]);
             if (db) {
                 const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'));
                 const booked = [];
                 snap.forEach(d => { if(d.data().date === dateString) booked.push(d.data().time); });
-                renderLayout(booked);
+                render(booked);
             }
         };
 
@@ -557,49 +351,72 @@
 
             if(!time) { document.getElementById('time-error').classList.remove('hidden'); return; }
 
+            const messageText = `🔮 НОВАЯ ЗАПИСЬ\n\n👤 Имя: ${name}\n📅 Дата: ${date}\n⏰ Время: ${time}\n📝 Вопрос: ${notes || "не указан"}`;
+            const telegramLink = `https://t.me/elena_tarot_soul_bot?text=${encodeURIComponent(messageText)}`;
+
+            // Save to DB
             if (db && currentUser) {
                 try {
-                    const bookingData = { name, date, time, notes, uid: currentUser.uid, createdAt: serverTimestamp() };
-                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), bookingData);
-                    
-                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'chat'), {
-                        type: 'system',
-                        text: `🔮 НОВАЯ ЗАПИСЬ\nИмя: ${name}\nДата: ${date} в ${time}\nВопрос: ${notes || "не указан"}`,
-                        uid: currentUser.uid,
-                        name: name,
-                        isAdmin: false,
-                        timestamp: serverTimestamp()
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), {
+                        name, date, time, notes, uid: currentUser.uid, createdAt: serverTimestamp()
                     });
-                    
-                    document.getElementById('success-modal').classList.remove('hidden');
-                    document.getElementById('booking-form').reset();
-                } catch (e) { alert("Ошибка при сохранении"); }
+                } catch (e) {}
             }
+
+            const modal = document.getElementById('success-modal');
+            document.getElementById('final-telegram-btn').onclick = () => window.open(telegramLink, '_blank');
+            modal.classList.remove('hidden');
+            document.getElementById('booking-form').reset();
+            document.getElementById('time-slots-container').innerHTML = '<div class="col-span-full text-center text-gray-600 text-sm py-4 italic border border-white/5 rounded-lg">Запись завершена. Спасибо!</div>';
         };
 
-        window.closeSuccessAndOpenChat = () => {
-            document.getElementById('success-modal').classList.add('hidden');
-            // Reveal and open chat button for user after booking
-            document.getElementById('chat-btn').classList.remove('hidden');
-            if(document.getElementById('chat-window').classList.contains('hidden')) window.toggleChat();
-        };
-
+        // --- REVIEWS ---
         function loadReviews() {
             if (!db) return;
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'reviews'), (snap) => {
                 const reviews = [];
-                snap.forEach(doc => reviews.push({ id: doc.id, ...doc.data() }));
+                snap.forEach(doc => reviews.push(doc.data()));
                 reviews.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
                 document.getElementById('reviews-list').innerHTML = reviews.slice(0, 4).map(r => `
-                    <div class="glass-panel p-6 animate-float border-gold-500/10">
-                        <div class="flex items-center gap-3 mb-2">
-                            <div class="w-8 h-8 rounded-full bg-gold-900 border border-gold-500/20 flex items-center justify-center text-gold-500 text-xs font-bold">${r.name[0]}</div>
-                            <span class="text-sm font-bold text-gold-100">${r.name}</span>
-                        </div>
-                        <p class="text-xs text-gray-400 italic leading-relaxed">"${r.text}"</p>
+                    <div class="glass-panel p-8 border-white/5 hover:border-gold-500/20 transition-all duration-700">
+                        <h4 class="text-gold-300 font-bold mb-3">${r.name}</h4>
+                        <p class="text-gray-400 italic text-sm leading-relaxed">"${r.text}"</p>
                     </div>
                 `).join('');
             });
+        }
+
+        // --- ADMIN ---
+        window.toggleAdminPanel = async () => {
+            const panel = document.getElementById('admin-panel');
+            if(panel.style.display === 'block') {
+                panel.style.display = 'none';
+            } else {
+                const pass = prompt("Пароль администратора:");
+                if(pass === "elena2026") {
+                    panel.style.display = 'block';
+                    loadAdminRecords();
+                }
+            }
+        };
+
+        async function loadAdminRecords() {
+            if (!db) return;
+            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'));
+            const list = document.getElementById('admin-records');
+            const records = [];
+            snap.forEach(d => records.push(d.data()));
+            records.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
+            
+            list.innerHTML = records.map(r => `
+                <div class="glass-panel p-6 border-white/10 mb-4">
+                    <div class="flex justify-between text-gold-500 font-bold mb-2">
+                        <span>${r.name}</span>
+                        <span>${r.date} в ${r.time}</span>
+                    </div>
+                    <p class="text-gray-300 text-sm">${r.notes || 'Без вопроса'}</p>
+                </div>
+            `).join('');
         }
 
         initAuth();
@@ -611,32 +428,32 @@
             window.addEventListener('load', () => { setTimeout(() => { document.getElementById('preloader').classList.add('loaded'); }, 1000); });
             const c1 = document.getElementById('chaos-bg'), ctx1 = c1.getContext('2d');
             const c2 = document.getElementById('magic-dust'), ctx2 = c2.getContext('2d');
-            let canvasW, canvasH;
-            function resize() { canvasW = c1.width = c2.width = window.innerWidth; canvasH = c1.height = c2.height = window.innerHeight; }
+            let scrW, scrH;
+            function resize() { scrW = c1.width = c2.width = window.innerWidth; scrH = c1.height = c2.height = window.innerHeight; }
             window.onresize = resize; resize();
 
-            let particleList = [];
-            class MagicParticleEffect {
-                constructor() { this.x = Math.random() * canvasW; this.y = Math.random() * canvasH; this.s = Math.random() * 2; this.v = Math.random() * 0.5; }
+            let dots = [];
+            class MagicDot {
+                constructor() { this.x = Math.random() * scrW; this.y = Math.random() * scrH; this.s = Math.random() * 2; this.v = Math.random() * 0.4; }
                 draw() { 
-                    ctx2.fillStyle = '#D4AF37'; ctx2.globalAlpha = 0.3; ctx2.beginPath(); ctx2.arc(this.x, this.y, this.s, 0, 7); ctx2.fill(); 
-                    this.y -= this.v; if(this.y < 0) this.y = canvasH; 
+                    ctx2.fillStyle = '#D4AF37'; ctx2.globalAlpha = 0.2; ctx2.beginPath(); ctx2.arc(this.x, this.y, this.s, 0, 7); ctx2.fill(); 
+                    this.y -= this.v; if(this.y < 0) this.y = scrH; 
                 }
             }
-            for(let i=0; i<100; i++) particleList.push(new MagicParticleEffect());
+            for(let i=0; i<120; i++) dots.push(new MagicDot());
             function anim() {
-                ctx1.fillStyle = '#000'; ctx1.fillRect(0,0,canvasW,canvasH);
-                ctx2.clearRect(0,0,canvasW,canvasH);
-                particleList.forEach(p => p.draw());
+                ctx1.fillStyle = '#000'; ctx1.fillRect(0,0,scrW,scrH);
+                ctx2.clearRect(0,0,scrW,scrH);
+                dots.forEach(d => d.draw());
                 requestAnimationFrame(anim);
             }
             anim();
 
             const tarotData = [
-                { name: "Туз Пентаклей", desc: "Дверь к ресурсам открыта. Вселенная дарит шанс.", icon: "fas fa-coins" },
-                { name: "Верховная Жрица", desc: "Слушай интуицию. Ответ скрыт внутри тебя.", icon: "fas fa-scroll" },
-                { name: "Солнце", desc: "Абсолютный успех и ясность во всем.", icon: "fas fa-sun" },
-                { name: "Звезда", desc: "Надежда оправдается. Твой путь освещен.", icon: "fas fa-star" }
+                { name: "Туз Пентаклей", desc: "Вселенная открывает новые ресурсы для Ваших целей.", icon: "fas fa-coins" },
+                { name: "Верховная Жрица", desc: "Ваш ответ придет через интуицию. Молчание сейчас ценно.", icon: "fas fa-scroll" },
+                { name: "Солнце", desc: "Впереди полная ясность и успех в задуманном.", icon: "fas fa-sun" },
+                { name: "Звезда", desc: "Ваши надежды оправданы. Путь будет светлым.", icon: "fas fa-star" }
             ];
             const deck = document.getElementById('tarot-deck');
             function initDeck() {
@@ -645,11 +462,11 @@
                 for(let i=0; i<3; i++) {
                     const c = document.createElement('div');
                     c.className = 'tarot-card-wrapper cursor-pointer flex-1';
-                    c.innerHTML = `<div class="tarot-card-inner h-full w-full mx-auto"><div class="card-face card-front"><div class="eye-symbol"></div></div><div class="card-face card-back flex flex-col items-center justify-center p-4"></div></div>`;
+                    c.innerHTML = `<div class="tarot-card-inner h-64 w-44 mx-auto"><div class="card-face card-front"><div class="eye-symbol"></div></div><div class="card-face card-back flex flex-col items-center justify-center p-6 border-gold-500"></div></div>`;
                     c.onclick = () => {
                         if(c.classList.contains('flipped')) return;
                         const card = tarotData[Math.floor(Math.random()*tarotData.length)];
-                        c.querySelector('.card-back').innerHTML = `<i class="${card.icon} text-4xl text-gold-500 mb-4"></i><div class="text-sm font-heading text-gold-100 text-center">${card.name}</div>`;
+                        c.querySelector('.card-back').innerHTML = `<i class="${card.icon} text-4xl text-gold-500 mb-4"></i><div class="text-xs font-heading text-gold-100 text-center">${card.name}</div>`;
                         c.classList.add('flipped');
                         document.getElementById('result-title').innerText = card.name;
                         document.getElementById('result-desc').innerText = card.desc;
@@ -665,9 +482,5 @@
             document.onmousemove = (e) => { if(cursor) { cursor.style.left = e.clientX+'px'; cursor.style.top = e.clientY+'px'; } };
         })();
     </script>
-    
-    <div id="image-modal" class="fixed inset-0 z-[200] hidden bg-black/95 flex items-center justify-center p-4" onclick="this.classList.add('hidden')">
-        <img id="modal-image" src="" class="max-h-full max-w-full rounded-lg shadow-2xl border border-gold-500/20">
-    </div>
 </body>
 </html>
