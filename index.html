@@ -455,8 +455,8 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <label class="block text-gold-300 text-xs uppercase tracking-widest mb-2">Выберите Дату</label>
-                            <!-- ADDED MIN ATTRIBUTE SCRIPT LATER -->
-                            <input type="date" id="book-date" required class="input-gold cursor-pointer text-center" onchange="generateTimeSlots(this.value)">
+                            <!-- ADDED ONINPUT FOR BETTER COMPATIBILITY -->
+                            <input type="date" id="book-date" required class="input-gold cursor-pointer text-center" oninput="generateTimeSlots(this.value)" onchange="generateTimeSlots(this.value)">
                         </div>
                         <div>
                              <label class="block text-gold-300 text-xs uppercase tracking-widest mb-2">Свободное время</label>
@@ -574,16 +574,28 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
         import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, doc, deleteDoc, getDocs } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        let app, auth, db;
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        // SAFE FIREBASE INIT
+        try {
+            if (typeof __firebase_config !== 'undefined') {
+                const firebaseConfig = JSON.parse(__firebase_config);
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+            } else {
+                console.warn("Firebase config not found. Running in UI-only mode.");
+            }
+        } catch (e) {
+            console.error("Firebase init failed:", e);
+        }
 
         let currentUser = null;
         let currentRating = 5;
 
         async function initAuth() {
+            if (!auth) return;
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                      await signInWithCustomToken(auth, __initial_auth_token);
@@ -597,13 +609,13 @@
             } catch (e) { console.error("Auth error:", e); }
         }
 
-        // --- ИСПРАВЛЕННАЯ ФУНКЦИЯ ГЕНЕРАЦИИ СЛОТОВ ---
+        // --- ROBUST SLOT GENERATION ---
         window.generateTimeSlots = async function(dateString) {
             const container = document.getElementById('time-slots-container');
             const hiddenInput = document.getElementById('selected-time');
             const loader = document.getElementById('slots-loader');
             
-            // Сброс UI
+            // Reset UI
             container.innerHTML = '';
             hiddenInput.value = '';
             
@@ -614,34 +626,34 @@
 
             loader.classList.remove('hidden');
 
-            // Загружаем занятые слоты (в блоке try/catch, чтобы не ломать весь интерфейс при ошибке)
+            // Try fetching bookings, ignore errors (Offline Mode)
             let bookedTimes = [];
-            try {
-                const querySnapshot = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'));
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    if (data.date === dateString) bookedTimes.push(data.time);
-                });
-            } catch (error) { 
-                console.error("Error fetching bookings:", error); 
-                // Даже если ошибка, продолжим рендеринг слотов (пусть и без проверки занятости)
+            if (db) {
+                try {
+                    const querySnapshot = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'));
+                    querySnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        if (data.date === dateString) bookedTimes.push(data.time);
+                    });
+                } catch (error) { 
+                    console.error("DB Error (ignoring for UI):", error); 
+                }
             }
 
             loader.classList.add('hidden');
 
-            // Безопасный парсинг даты для корректной работы во всех часовых поясах
-            const dateParts = dateString.split('-'); // ["2024", "02", "15"]
+            // Date parsing that works everywhere
+            const dateParts = dateString.split('-'); 
             const year = parseInt(dateParts[0]);
-            const month = parseInt(dateParts[1]) - 1; // Месяцы в JS от 0 до 11
+            const month = parseInt(dateParts[1]) - 1; 
             const day = parseInt(dateParts[2]);
             
-            const selectedDate = new Date(year, month, day); // Локальное время 00:00:00
+            const selectedDate = new Date(year, month, day); 
             
             const now = new Date();
-            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // Сегодня 00:00:00
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); 
             const currentHour = now.getHours();
 
-            // Проверки
             const isToday = selectedDate.getTime() === today.getTime();
             const isPastDate = selectedDate < today;
 
@@ -650,8 +662,6 @@
                 
                 const isPastHour = isToday && h <= currentHour;
                 const isBooked = bookedTimes.includes(timeLabel);
-                
-                // Блокируем, если дата в прошлом, или это сегодняшний прошедший час, или время занято
                 const isDisabled = isPastDate || isPastHour || isBooked;
 
                 const btn = document.createElement('div');
@@ -672,7 +682,6 @@
 
         window.submitBooking = async function(e) {
             e.preventDefault();
-            if (!currentUser) return;
             
             const name = document.getElementById('book-name').value;
             const contact = document.getElementById('book-contact').value;
@@ -690,13 +699,16 @@
             btn.disabled = true;
 
             try {
-                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), {
-                    name, contact, service: 'Donation', date, time, notes, userId: currentUser.uid, createdAt: serverTimestamp()
-                });
+                // Try saving to DB if available
+                if (db && currentUser) {
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), {
+                        name, contact, service: 'Donation', date, time, notes, userId: currentUser.uid, createdAt: serverTimestamp()
+                    });
+                } else {
+                    console.warn("DB unavailable, proceeding to Telegram only.");
+                }
 
                 const message = `Здравствуйте, Елена! Хочу записаться на расклад (Donation).%0A%0AИмя: ${name}%0AДата: ${date}%0AВремя: ${time}%0AЗапрос: ${notes}`;
-                
-                // ССЫЛКА НА ВАШЕГО БОТА
                 const telegramLink = `https://t.me/elena_tarot_soul_bot?text=${message}`;
                 
                 const modal = document.getElementById('success-modal');
@@ -714,6 +726,7 @@
         };
 
         function loadReviews() {
+            if (!db) return;
             const reviewsRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
             onSnapshot(reviewsRef, (snapshot) => {
                 const reviewsList = document.getElementById('reviews-list');
@@ -750,7 +763,7 @@
 
         window.submitReview = async function(e) {
             e.preventDefault();
-            if (!currentUser) return;
+            if (!currentUser || !db) return;
             const name = document.getElementById('review-name').value;
             const text = document.getElementById('review-text').value;
             const btn = e.target.querySelector('button');
@@ -767,13 +780,12 @@
         };
 
         window.deleteReview = async function(docId) {
-            if(!confirm("Удалить отзыв?")) return;
+            if(!confirm("Удалить отзыв?") || !db) return;
             try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'reviews', docId)); } catch (e) { console.error(e); }
         }
 
         initAuth();
         
-        // Установка минимальной даты (сегодня) при загрузке
         window.addEventListener('load', () => {
              const today = new Date().toISOString().split('T')[0];
              const dateInput = document.getElementById('book-date');
