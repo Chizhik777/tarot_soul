@@ -601,9 +601,15 @@
             const hiddenInput = document.getElementById('selected-time');
             const loader = document.getElementById('slots-loader');
             
+            // Сброс UI
             container.innerHTML = '';
             hiddenInput.value = '';
-            if(!dateString) return;
+            
+            // Если дата не выбрана (или очищена), возвращаем подсказку
+            if(!dateString) {
+                container.innerHTML = '<div class="col-span-3 text-center text-gray-600 text-sm py-2">Сначала выберите дату</div>';
+                return;
+            }
 
             loader.classList.remove('hidden');
 
@@ -618,16 +624,29 @@
 
             loader.classList.add('hidden');
 
-            const selectedDate = new Date(dateString);
+            // --- ИСПРАВЛЕНИЕ ДАТЫ ---
+            // Разбиваем строку "YYYY-MM-DD" и создаем дату локально (без сдвига в UTC)
+            const dateParts = dateString.split('-'); 
+            const selectedDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+            
             const today = new Date();
-            const isToday = selectedDate.toDateString() === today.toDateString();
-            const currentHour = today.getHours();
+            const currentHour = today.getHours(); // Запоминаем текущий час
+            today.setHours(0, 0, 0, 0); // Обнуляем время сегодня для сравнения только дат
+            
+            // Сравниваем временные метки
+            const isToday = selectedDate.getTime() === today.getTime();
+            const isPastDate = selectedDate < today; // Если выбрали прошедшую дату
 
             for(let h = 11; h <= 19; h++) {
                 const timeLabel = `${h}:00`;
-                const isPast = isToday && h <= currentHour;
+                
+                // Блокируем, если: 
+                // 1. Это прошедшая дата
+                // 2. Это сегодня И время уже прошло
+                // 3. Время уже забронировано
+                const isPastHour = isToday && h <= currentHour;
                 const isBooked = bookedTimes.includes(timeLabel);
-                const isDisabled = isPast || isBooked;
+                const isDisabled = isPastDate || isPastHour || isBooked;
 
                 const btn = document.createElement('div');
                 btn.className = `time-slot ${isDisabled ? 'disabled' : ''}`;
