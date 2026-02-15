@@ -71,7 +71,7 @@
         @media (hover: none) and (pointer: coarse) {
             body { cursor: auto !important; }
             #custom-cursor { display: none !important; }
-            .btn-gold, .portal-container, .glass-panel, .cursor-pointer, input, textarea, button { cursor: pointer !important; }
+            .btn-gold, .glass-panel, .cursor-pointer, input, textarea, button { cursor: pointer !important; }
         }
 
         #custom-cursor {
@@ -138,7 +138,6 @@
             position: fixed; inset: 0; z-index: 200; background: #000; overflow-y: auto; padding: 2rem;
             display: none;
         }
-
     </style>
 </head>
 <body class="min-h-screen flex flex-col font-body selection:bg-gold-500 selection:text-black">
@@ -161,7 +160,7 @@
                 <i class="fas fa-moon text-gold-500 text-xl"></i>
                 <span class="font-heading text-xl text-gold-300 tracking-wider">Tarot Soul</span>
             </div>
-            <a href="#booking-section" class="btn-gold px-6 py-2 rounded-full text-xs font-bold tracking-widest uppercase transition-all">Конфиденциальная запись</a>
+            <a href="#booking-section" class="btn-gold px-6 py-2 rounded-full text-xs font-bold tracking-widest uppercase transition-all">Приватная запись</a>
         </div>
     </header>
 
@@ -190,8 +189,8 @@
         <!-- BOOKING SECTION -->
         <section id="booking-section" class="scroll-mt-32">
             <div class="text-center mb-16">
-                <h2 class="font-heading text-4xl text-gold-300 mb-4">Анкета для записи</h2>
-                <p class="text-gray-400 uppercase tracking-[0.3em] text-xs">Ваши данные останутся между нами</p>
+                <h2 class="font-heading text-4xl text-gold-300 mb-4">Запись на сеанс</h2>
+                <p class="text-gray-400 uppercase tracking-[0.3em] text-xs">Личная консультация в Telegram</p>
             </div>
 
             <div class="glass-panel p-10 max-w-3xl mx-auto border-gold-500/30 shadow-2xl">
@@ -202,7 +201,7 @@
                             <input type="text" id="book-name" required class="input-gold" placeholder="Как к Вам обращаться?">
                         </div>
                         <div class="space-y-3">
-                            <label class="text-[10px] uppercase text-gold-500 tracking-widest ml-1 font-bold">Дата консультации</label>
+                            <label class="text-[10px] uppercase text-gold-500 tracking-widest ml-1 font-bold">Дата</label>
                             <input type="date" id="book-date" required class="input-gold cursor-pointer" oninput="window.generateTimeSlots(this.value)">
                         </div>
                     </div>
@@ -210,29 +209,26 @@
                     <div class="space-y-5">
                         <label class="text-[10px] uppercase text-gold-500 tracking-widest ml-1 font-bold">Выберите свободное время</label>
                         <div id="time-slots-container" class="grid grid-cols-3 md:grid-cols-5 gap-3">
-                             <div class="col-span-full text-center text-gray-600 text-sm py-4 italic border border-white/5 rounded-lg">Сначала выберите дату в календаре выше</div>
+                             <div class="col-span-full text-center text-gray-600 text-sm py-4 italic border border-white/5 rounded-lg">Сначала выберите дату выше</div>
                         </div>
                         <input type="hidden" id="selected-time" required>
                     </div>
 
                     <div class="space-y-3">
-                        <label class="text-[10px] uppercase text-gold-500 tracking-widest ml-1 font-bold">Ваш вопрос к картам</label>
-                        <textarea id="book-notes" rows="4" class="input-gold" placeholder="Опишите ситуацию максимально подробно..."></textarea>
+                        <label class="text-[10px] uppercase text-gold-500 tracking-widest ml-1 font-bold">Ваш вопрос</label>
+                        <textarea id="book-notes" rows="4" class="input-gold" placeholder="Кратко опишите Вашу ситуацию..."></textarea>
                     </div>
 
                     <button type="submit" id="submit-btn" class="w-full btn-gold py-5 rounded-lg font-heading text-xl font-bold shadow-[0_0_40px_rgba(212,175,55,0.2)]">
                         Продолжить в Telegram
                     </button>
-                    <p id="time-error" class="text-red-500 text-center text-sm hidden font-bold animate-pulse">⚠️ Пожалуйста, выберите подходящее время!</p>
+                    <p id="time-error" class="text-red-500 text-center text-sm hidden font-bold">⚠️ Пожалуйста, выберите удобное время!</p>
                 </form>
             </div>
         </section>
 
         <!-- REVIEWS -->
         <section>
-            <div class="text-center mb-12">
-                <h2 class="font-heading text-2xl text-gold-300 opacity-50">Отзывы душ</h2>
-            </div>
             <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
         </section>
     </div>
@@ -250,14 +246,14 @@
         <div class="glass-panel w-full max-w-md p-10 text-center border-gold-500/50 shadow-[0_0_100px_rgba(212,175,55,0.2)]">
             <div class="text-6xl text-gold-500 mb-8 animate-float"><i class="fas fa-paper-plane"></i></div>
             <h3 class="font-heading text-3xl text-gold-300 mb-4">Данные приняты!</h3>
-            <p class="text-gray-300 text-lg mb-10 leading-relaxed">Нажмите кнопку ниже, чтобы войти в приватный чат с Еленой. Вся Ваша анкета будет передана автоматически.</p>
+            <p class="text-gray-300 text-lg mb-10 leading-relaxed">Нажмите кнопку ниже, чтобы открыть личный чат в Telegram. Анкета будет передана автоматически.</p>
             <button id="final-telegram-btn" class="w-full btn-gold py-5 rounded-lg font-bold text-lg flex items-center justify-center gap-3">
                 <i class="fab fa-telegram-plane"></i> Открыть личный чат
             </button>
         </div>
     </div>
 
-    <!-- ADMIN PANEL (Hidden) -->
+    <!-- ADMIN PANEL -->
     <div id="admin-panel">
         <div class="flex justify-between items-center mb-10 border-b border-white/10 pb-5">
             <h2 class="font-heading text-3xl text-gold-300">Архив записей</h2>
@@ -283,7 +279,7 @@
                 auth = getAuth(app);
                 db = getFirestore(app);
             }
-        } catch (e) { console.error("Firebase init failed"); }
+        } catch (e) { console.error("Firebase init fail"); }
 
         async function initAuth() {
             if (!auth) return;
@@ -354,7 +350,6 @@
             const messageText = `🔮 НОВАЯ ЗАПИСЬ\n\n👤 Имя: ${name}\n📅 Дата: ${date}\n⏰ Время: ${time}\n📝 Вопрос: ${notes || "не указан"}`;
             const telegramLink = `https://t.me/elena_tarot_soul_bot?text=${encodeURIComponent(messageText)}`;
 
-            // Save to DB
             if (db && currentUser) {
                 try {
                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), {
@@ -367,7 +362,7 @@
             document.getElementById('final-telegram-btn').onclick = () => window.open(telegramLink, '_blank');
             modal.classList.remove('hidden');
             document.getElementById('booking-form').reset();
-            document.getElementById('time-slots-container').innerHTML = '<div class="col-span-full text-center text-gray-600 text-sm py-4 italic border border-white/5 rounded-lg">Запись завершена. Спасибо!</div>';
+            document.getElementById('time-slots-container').innerHTML = '<div class="col-span-full text-center text-gray-600 text-sm py-4 italic">Запись успешно завершена.</div>';
         };
 
         // --- REVIEWS ---
@@ -378,9 +373,9 @@
                 snap.forEach(doc => reviews.push(doc.data()));
                 reviews.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
                 document.getElementById('reviews-list').innerHTML = reviews.slice(0, 4).map(r => `
-                    <div class="glass-panel p-8 border-white/5 hover:border-gold-500/20 transition-all duration-700">
+                    <div class="glass-panel p-8 border-white/5">
                         <h4 class="text-gold-300 font-bold mb-3">${r.name}</h4>
-                        <p class="text-gray-400 italic text-sm leading-relaxed">"${r.text}"</p>
+                        <p class="text-gray-400 italic text-sm">"${r.text}"</p>
                     </div>
                 `).join('');
             });
@@ -392,7 +387,7 @@
             if(panel.style.display === 'block') {
                 panel.style.display = 'none';
             } else {
-                const pass = prompt("Пароль администратора:");
+                const pass = prompt("Пароль:");
                 if(pass === "elena2026") {
                     panel.style.display = 'block';
                     loadAdminRecords();
@@ -407,14 +402,13 @@
             const records = [];
             snap.forEach(d => records.push(d.data()));
             records.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
-            
             list.innerHTML = records.map(r => `
                 <div class="glass-panel p-6 border-white/10 mb-4">
                     <div class="flex justify-between text-gold-500 font-bold mb-2">
                         <span>${r.name}</span>
                         <span>${r.date} в ${r.time}</span>
                     </div>
-                    <p class="text-gray-300 text-sm">${r.notes || 'Без вопроса'}</p>
+                    <p class="text-gray-300 text-sm">${r.notes || 'Нет описания'}</p>
                 </div>
             `).join('');
         }
@@ -428,32 +422,29 @@
             window.addEventListener('load', () => { setTimeout(() => { document.getElementById('preloader').classList.add('loaded'); }, 1000); });
             const c1 = document.getElementById('chaos-bg'), ctx1 = c1.getContext('2d');
             const c2 = document.getElementById('magic-dust'), ctx2 = c2.getContext('2d');
-            let scrW, scrH;
-            function resize() { scrW = c1.width = c2.width = window.innerWidth; scrH = c1.height = c2.height = window.innerHeight; }
+            let sW, sH;
+            function resize() { sW = c1.width = c2.width = window.innerWidth; sH = c1.height = c2.height = window.innerHeight; }
             window.onresize = resize; resize();
 
             let dots = [];
-            class MagicDot {
-                constructor() { this.x = Math.random() * scrW; this.y = Math.random() * scrH; this.s = Math.random() * 2; this.v = Math.random() * 0.4; }
-                draw() { 
-                    ctx2.fillStyle = '#D4AF37'; ctx2.globalAlpha = 0.2; ctx2.beginPath(); ctx2.arc(this.x, this.y, this.s, 0, 7); ctx2.fill(); 
-                    this.y -= this.v; if(this.y < 0) this.y = scrH; 
-                }
+            class Dot {
+                constructor() { this.x = Math.random() * sW; this.y = Math.random() * sH; this.s = Math.random() * 2; this.v = Math.random() * 0.4; }
+                draw() { ctx2.fillStyle = '#D4AF37'; ctx2.globalAlpha = 0.2; ctx2.beginPath(); ctx2.arc(this.x, this.y, this.s, 0, 7); ctx2.fill(); this.y -= this.v; if(this.y < 0) this.y = sH; }
             }
-            for(let i=0; i<120; i++) dots.push(new MagicDot());
+            for(let i=0; i<100; i++) dots.push(new Dot());
             function anim() {
-                ctx1.fillStyle = '#000'; ctx1.fillRect(0,0,scrW,scrH);
-                ctx2.clearRect(0,0,scrW,scrH);
+                ctx1.fillStyle = '#000'; ctx1.fillRect(0,0,sW,sH);
+                ctx2.clearRect(0,0,sW,sH);
                 dots.forEach(d => d.draw());
                 requestAnimationFrame(anim);
             }
             anim();
 
             const tarotData = [
-                { name: "Туз Пентаклей", desc: "Вселенная открывает новые ресурсы для Ваших целей.", icon: "fas fa-coins" },
-                { name: "Верховная Жрица", desc: "Ваш ответ придет через интуицию. Молчание сейчас ценно.", icon: "fas fa-scroll" },
-                { name: "Солнце", desc: "Впереди полная ясность и успех в задуманном.", icon: "fas fa-sun" },
-                { name: "Звезда", desc: "Ваши надежды оправданы. Путь будет светлым.", icon: "fas fa-star" }
+                { name: "Туз Пентаклей", desc: "Вселенная готовит для Вас новые возможности. Откройтесь им.", icon: "fas fa-coins" },
+                { name: "Верховная Жрица", desc: "Ваша интуиция сейчас — лучший компас. Прислушайтесь к тишине.", icon: "fas fa-scroll" },
+                { name: "Солнце", desc: "Ясность и успех во всем. Ваши желания начинают сбываться.", icon: "fas fa-sun" },
+                { name: "Звезда", desc: "Свет в конце тоннеля близок. Ваша надежда оправдана.", icon: "fas fa-star" }
             ];
             const deck = document.getElementById('tarot-deck');
             function initDeck() {
