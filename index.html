@@ -510,6 +510,7 @@
     <footer class="border-t border-white/5 bg-black py-12 text-center relative z-10">
         <div class="text-gold-700 text-2xl font-heading mb-4">Tarot Soul</div>
         <div class="flex justify-center gap-6 mb-8 text-gray-500">
+            <!-- ССЫЛКА НА БОТА В ФУТЕРЕ -->
             <a href="https://t.me/elena_tarot_soul_bot" target="_blank" class="hover:text-gold-500 transition cursor-pointer"><i class="fab fa-telegram text-xl"></i></a>
             <a href="#" class="hover:text-gold-500 transition cursor-pointer"><i class="fab fa-youtube text-xl"></i></a>
         </div>
@@ -669,7 +670,8 @@
                 });
 
                 const message = `Здравствуйте, Елена! Хочу записаться на расклад (Donation).%0A%0AИмя: ${name}%0AДата: ${date}%0AВремя: ${time}%0AЗапрос: ${notes}`;
-                // ОБНОВЛЕННАЯ ССЫЛКА НА БОТА
+                
+                // ССЫЛКА НА ВАШЕГО БОТА (ВСТАВЛЕНА НИЖЕ)
                 const telegramLink = `https://t.me/elena_tarot_soul_bot?text=${message}`;
                 
                 const modal = document.getElementById('success-modal');
