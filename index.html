@@ -455,7 +455,8 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <label class="block text-gold-300 text-xs uppercase tracking-widest mb-2">Выберите Дату</label>
-                            <input type="date" id="book-date" required class="input-gold cursor-pointer text-center" onchange="generateTimeSlots(this.value)">
+                            <!-- ADDED MIN ATTRIBUTE SCRIPT LATER -->
+                            <input type="date" id="book-date" required class="input-gold cursor-pointer text-center" onchange="generateTimeSlots(this.value)" onclick="this.showPicker()">
                         </div>
                         <div>
                              <label class="block text-gold-300 text-xs uppercase tracking-widest mb-2">Свободное время</label>
@@ -596,6 +597,7 @@
             } catch (e) { console.error("Auth error:", e); }
         }
 
+        // --- ИСПРАВЛЕННАЯ ФУНКЦИЯ ГЕНЕРАЦИИ СЛОТОВ ---
         window.generateTimeSlots = async function(dateString) {
             const container = document.getElementById('time-slots-container');
             const hiddenInput = document.getElementById('selected-time');
@@ -605,7 +607,6 @@
             container.innerHTML = '';
             hiddenInput.value = '';
             
-            // Если дата не выбрана (или очищена), возвращаем подсказку
             if(!dateString) {
                 container.innerHTML = '<div class="col-span-3 text-center text-gray-600 text-sm py-2">Сначала выберите дату</div>';
                 return;
@@ -613,6 +614,7 @@
 
             loader.classList.remove('hidden');
 
+            // Загружаем занятые слоты (в блоке try/catch, чтобы не ломать весь интерфейс при ошибке)
             let bookedTimes = [];
             try {
                 const querySnapshot = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'));
@@ -620,32 +622,36 @@
                     const data = doc.data();
                     if (data.date === dateString) bookedTimes.push(data.time);
                 });
-            } catch (error) { console.error("Error:", error); }
+            } catch (error) { 
+                console.error("Error fetching bookings:", error); 
+                // Даже если ошибка, продолжим рендеринг слотов (пусть и без проверки занятости)
+            }
 
             loader.classList.add('hidden');
 
-            // --- ИСПРАВЛЕНИЕ ДАТЫ ---
-            // Разбиваем строку "YYYY-MM-DD" и создаем дату локально (без сдвига в UTC)
-            const dateParts = dateString.split('-'); 
-            const selectedDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+            // Безопасный парсинг даты для корректной работы во всех часовых поясах
+            const dateParts = dateString.split('-'); // ["2024", "02", "15"]
+            const year = parseInt(dateParts[0]);
+            const month = parseInt(dateParts[1]) - 1; // Месяцы в JS от 0 до 11
+            const day = parseInt(dateParts[2]);
             
-            const today = new Date();
-            const currentHour = today.getHours(); // Запоминаем текущий час
-            today.setHours(0, 0, 0, 0); // Обнуляем время сегодня для сравнения только дат
+            const selectedDate = new Date(year, month, day); // Локальное время 00:00:00
             
-            // Сравниваем временные метки
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // Сегодня 00:00:00
+            const currentHour = now.getHours();
+
+            // Проверки
             const isToday = selectedDate.getTime() === today.getTime();
-            const isPastDate = selectedDate < today; // Если выбрали прошедшую дату
+            const isPastDate = selectedDate < today;
 
             for(let h = 11; h <= 19; h++) {
                 const timeLabel = `${h}:00`;
                 
-                // Блокируем, если: 
-                // 1. Это прошедшая дата
-                // 2. Это сегодня И время уже прошло
-                // 3. Время уже забронировано
                 const isPastHour = isToday && h <= currentHour;
                 const isBooked = bookedTimes.includes(timeLabel);
+                
+                // Блокируем, если дата в прошлом, или это сегодняшний прошедший час, или время занято
                 const isDisabled = isPastDate || isPastHour || isBooked;
 
                 const btn = document.createElement('div');
@@ -690,7 +696,7 @@
 
                 const message = `Здравствуйте, Елена! Хочу записаться на расклад (Donation).%0A%0AИмя: ${name}%0AДата: ${date}%0AВремя: ${time}%0AЗапрос: ${notes}`;
                 
-                // ССЫЛКА НА ВАШЕГО БОТА (ВСТАВЛЕНА НИЖЕ)
+                // ССЫЛКА НА ВАШЕГО БОТА
                 const telegramLink = `https://t.me/elena_tarot_soul_bot?text=${message}`;
                 
                 const modal = document.getElementById('success-modal');
@@ -766,6 +772,13 @@
         }
 
         initAuth();
+        
+        // Установка минимальной даты (сегодня) при загрузке
+        window.addEventListener('load', () => {
+             const today = new Date().toISOString().split('T')[0];
+             const dateInput = document.getElementById('book-date');
+             if(dateInput) dateInput.setAttribute('min', today);
+        });
 
         window.setRating = function(rating) {
             currentRating = rating;
