@@ -92,9 +92,9 @@
         #chaos-bg, #magic-dust { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; pointer-events: none; }
 
         .glass-panel {
-            background: rgba(3, 3, 3, 0.92);
+            background: rgba(3, 3, 3, 0.94);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.15);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
             border-radius: 4px;
         }
@@ -111,11 +111,10 @@
         }
         .card-front {
             background: #050505;
-            background-image: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 70%);
+            background-image: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
             display: flex; align-items: center; justify-content: center;
         }
         
-        /* КЛАССИЧЕСКОЕ ОКО */
         .eye-symbol {
             width: 50px; height: 50px;
             border: 1.5px solid #D4AF37; 
@@ -126,7 +125,7 @@
         .eye-symbol::after {
             content: ''; position: absolute; width: 16px; height: 16px;
             background: #D4AF37; border-radius: 50%; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); 
+            transform: translate(-50%, -50%) rotate(-45deg); 
             box-shadow: 0 0 12px #D4AF37;
         }
         
@@ -152,6 +151,7 @@
             display: inline-flex; align-items: center; justify-content: center;
             border: 1px solid rgba(212, 175, 55, 0.4);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            padding: 0.8rem 1.5rem;
         }
         
         .btn-gold::before {
@@ -168,7 +168,6 @@
             color: #FFFFFF;
             transform: translateY(-2px);
             box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
-            background: #0a0a0a;
         }
         
         .btn-gold:hover::before {
@@ -181,7 +180,7 @@
             position: absolute; 
             top: 0; left: -150%; 
             width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.15), transparent);
             transition: 0.8s;
         }
         .btn-gold:hover::after { left: 150%; }
@@ -190,9 +189,10 @@
         .input-gold:focus { border-color: #D4AF37; }
 
         .time-slot { padding: 10px; border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 2px; text-align: center; cursor: pointer; background: rgba(0,0,0,0.6); color: #997B1E; transition: 0.3s; font-size: 0.85rem; }
-        .time-slot.selected { background: #D4AF37; color: #000; font-weight: bold; }
+        .time-slot.selected { background: #D4AF37; color: #000; font-weight: bold; border-color: #D4AF37; }
         .time-slot.disabled { opacity: 0.1; cursor: not-allowed; text-decoration: line-through; }
 
+        /* MODAL SYSTEM */
         #booking-modal {
             position: fixed; inset: 0; z-index: 100;
             background: rgba(0,0,0,0.98); backdrop-filter: blur(15px);
@@ -204,15 +204,11 @@
 
         .gallery-scroll::-webkit-scrollbar { display: none; }
         .gallery-scroll { scrollbar-width: none; -ms-overflow-style: none; overflow-y: hidden; white-space: nowrap; }
-        
-        .portal-container { position: relative; width: 260px; height: 260px; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
-        .portal-aura { position: absolute; inset: 20px; border-radius: 50%; background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%); animation: portalAura 4s infinite alternate; }
-        .portal-ring-outer { position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.1); border-top: 2px solid #D4AF37; animation: spin 15s linear infinite; }
-        .portal-core { width: 140px; height: 140px; background: radial-gradient(circle, #0a0a0a 0%, #000 100%); border-radius: 50%; position: relative; z-index: 10; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(212, 175, 55, 0.1); overflow: hidden; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col font-body selection:bg-gold-500 selection:text-black">
 
+    <!-- PRELOADER -->
     <div id="preloader" class="fixed inset-0 z-[9999] flex items-center justify-center text-gold-500">
         <div class="text-center">
             <i class="fas fa-circle-notch fa-spin text-4xl mb-4"></i>
@@ -246,7 +242,7 @@
             "Там, где Тьма встречается со Светом,<br>рождается Истина."
         </p>
         
-        <button onclick="openBooking()" class="btn-gold px-12 py-4 text-sm uppercase tracking-widest animate-pulse-gold-btn relative z-10">
+        <button onclick="openBooking()" class="btn-gold py-4 text-sm uppercase tracking-widest animate-pulse-gold-btn relative z-10">
             Начать консультацию
         </button>
     </section>
@@ -294,18 +290,20 @@
             <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16 mt-12"></div>
         </section>
 
+        <!-- ДОНАТ -->
         <section class="text-center pt-20 border-t border-white/5">
-            <h3 class="text-xs font-heading text-gold-700 mb-8 uppercase tracking-[0.4em]">Энергообмен</h3>
+            <h3 class="text-xs font-heading text-gold-700 mb-8 uppercase tracking-[0.4em]">Благодарность (ЮMoney)</h3>
             <div class="flex flex-col items-center">
                 <button onclick="copyDonationData('5599002127322628')" class="btn-gold px-12 py-5 shadow-lg group min-w-[300px]">
-                    <span class="font-heading tracking-[0.1em] text-lg">ЮMoney: 5599 0021 2732 2628</span>
+                    <span class="font-heading tracking-[0.1em] text-lg">5599 0021 2732 2628</span>
                     <i class="far fa-copy ml-4 opacity-50"></i>
                 </button>
-                <p id="copy-success" class="mt-4 text-[10px] text-green-500 font-bold tracking-widest opacity-0 transition-opacity uppercase">Реквизиты скопированы</p>
+                <p id="copy-success" class="mt-4 text-[10px] text-green-500 font-bold tracking-widest opacity-0 transition-opacity uppercase">Реквизиты ЮMoney скопированы</p>
             </div>
         </section>
     </div>
 
+    <!-- BOOKING MODAL -->
     <div id="booking-modal">
         <div class="max-w-xl mx-auto p-6 md:p-10 pt-20 pb-40 text-center">
             <div class="flex justify-between items-center mb-16">
@@ -340,7 +338,7 @@
                 <i class="fas fa-check text-gold-500 text-2xl"></i>
             </div>
             <h3 class="font-heading text-xl text-gold-300 mb-4 tracking-widest uppercase">Готово</h3>
-            <p class="text-gray-400 mb-10 text-sm">Ваша заявка принята. Подтвердите её в Telegram сообщением.</p>
+            <p class="text-gray-400 mb-10 text-sm">Заявка принята. Подтвердите её в Telegram сообщением.</p>
             <button id="success-telegram-btn" class="w-full btn-gold py-5 shadow-lg uppercase text-xs">В Telegram <i class="fab fa-telegram-plane ml-2"></i></button>
         </div>
     </div>
@@ -349,6 +347,7 @@
         <img id="modal-image" src="" class="max-h-[90vh] max-w-full rounded-[2px] border border-white/10 shadow-2xl">
     </div>
 
+    <!-- FIREBASE & LOGIC -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
@@ -363,9 +362,27 @@
         let currentUser = null;
         let unsubscribeReviews = null;
 
+        // ПРАВИЛЬНАЯ ИНИЦИАЛИЗАЦИЯ TELEGRAM
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.ready();
+            tg.expand();
+            tg.enableClosingConfirmation(); // Защита от случайного закрытия
+            tg.MainButton.setParams({ text: 'ПОДТВЕРДИТЬ ЗАПИСЬ', color: '#D4AF37', text_color: '#000000', is_visible: false });
+            tg.MainButton.onClick(() => {
+                const form = document.getElementById('booking-form');
+                if (form.checkValidity()) {
+                    form.requestSubmit();
+                } else {
+                    tg.HapticFeedback.notificationOccurred('error');
+                    form.reportValidity();
+                }
+            });
+        }
+
         const initApp = async () => {
             try {
-                // ПРАВИЛО 3: Сначала авторизация (Custom Token или Anonymous)
+                // ПРАВИЛО 3: Сначала вход
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
@@ -375,38 +392,34 @@
                 onAuthStateChanged(auth, (user) => {
                     currentUser = user;
                     if (unsubscribeReviews) unsubscribeReviews();
-                    if (user) {
-                        loadReviews();
-                    }
+                    if (user) loadReviews();
                 });
-            } catch (error) {
-                console.error("Firebase Auth Error:", error);
-            }
+            } catch (error) { console.error("Firebase Auth Error:", error); }
         };
-
-        const tg = window.Telegram?.WebApp;
-        if (tg && tg.initData) {
-            tg.expand(); tg.ready();
-            tg.MainButton.setParams({ text: 'ПОДТВЕРДИТЬ ЗАПИСЬ', color: '#D4AF37', text_color: '#000000', is_visible: false });
-            tg.MainButton.onClick(() => document.getElementById('booking-form').requestSubmit());
-        }
 
         initApp();
 
         window.openBooking = () => {
             document.getElementById('booking-modal').classList.add('active');
-            if (tg && tg.initData) { tg.BackButton.show(); tg.BackButton.onClick(() => window.closeBooking()); }
+            if (tg) {
+                tg.BackButton.show();
+                tg.BackButton.onClick(() => window.closeBooking());
+                if (document.getElementById('selected-time').value) tg.MainButton.show();
+            }
         };
 
         window.closeBooking = () => {
             document.getElementById('booking-modal').classList.remove('active');
-            if (tg && tg.initData) { tg.BackButton.hide(); tg.MainButton.hide(); }
+            if (tg) {
+                tg.BackButton.hide();
+                tg.MainButton.hide();
+            }
         };
 
         window.generateTimeSlots = async function(date) {
             if (!currentUser) return;
             const container = document.getElementById('time-slots-container');
-            container.innerHTML = '<div class="col-span-3 text-center text-gold-500 animate-pulse text-[10px] uppercase">Считываем...</div>';
+            container.innerHTML = '<div class="col-span-3 text-center text-gold-500 animate-pulse text-[10px] uppercase tracking-widest">Проверяем...</div>';
             
             const booked = [];
             try {
@@ -427,7 +440,10 @@
                         Array.from(container.children).forEach(c => c.classList.remove('selected'));
                         btn.classList.add('selected');
                         document.getElementById('selected-time').value = time;
-                        if (tg && tg.initData) tg.MainButton.show();
+                        if (tg) {
+                            tg.HapticFeedback.impactOccurred('light');
+                            tg.MainButton.show();
+                        }
                     };
                 }
                 container.appendChild(btn);
@@ -450,9 +466,17 @@
                 createdAt: serverTimestamp()
             };
 
+            if (tg) tg.MainButton.showProgress();
+
             try {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), data);
-                const msg = `Здравствуйте! Хочу записаться на расклад:%0AИмя: ${data.name}%0AДата: ${data.date}%0AВремя: ${time}%0AЗапрос: ${data.notes}`;
+                const msg = `Запись на расклад:%0AИмя: ${data.name}%0AДата: ${data.date}%0AВремя: ${time}%0AЗапрос: ${data.notes}`;
+                
+                if (tg) {
+                    tg.HapticFeedback.notificationOccurred('success');
+                    tg.MainButton.hideProgress();
+                }
+                
                 document.getElementById('success-telegram-btn').onclick = () => window.open(`https://t.me/elena_soul_tarot?text=${msg}`);
                 document.getElementById('success-modal').classList.remove('hidden');
                 window.closeBooking();
@@ -483,12 +507,34 @@
 
         window.copyDonationData = function(text) {
             const el = document.createElement('textarea');
-            el.value = text; el.setAttribute('readonly', '');
-            el.style.position = 'absolute'; el.style.left = '-9999px';
-            document.body.appendChild(el); el.select();
-            document.execCommand('copy'); document.body.removeChild(el);
-            const successMsg = document.getElementById('copy-success');
-            successMsg.style.opacity = '1'; setTimeout(() => { successMsg.style.opacity = '0'; }, 2000);
+            el.value = text;
+            el.setAttribute('readonly', '');
+            el.style.position = 'absolute';
+            el.style.left = '-9999px';
+            document.body.appendChild(el);
+            
+            // Обеспечиваем фокус для iOS
+            el.contentEditable = true;
+            el.readOnly = false;
+            const range = document.createRange();
+            range.selectNodeContents(el);
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            el.setSelectionRange(0, 999999);
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    if (tg) tg.HapticFeedback.impactOccurred('medium');
+                    const successMsg = document.getElementById('copy-success');
+                    successMsg.style.opacity = '1';
+                    setTimeout(() => { successMsg.style.opacity = '0'; }, 2000);
+                }
+            } catch (err) {
+                console.error('Copy error', err);
+            }
+            document.body.removeChild(el);
         };
 
         window.openImageModal = (el) => { document.getElementById('modal-image').src = el.querySelector('img').src; document.getElementById('image-modal').classList.remove('hidden'); }
@@ -507,7 +553,7 @@
 
         class Blob {
             constructor() { this.init(); }
-            init() { this.r = Math.random()*400+400; this.x = Math.random()*cw; this.y = Math.random()*ch; this.vx = (Math.random()-0.5)*0.3; this.vy = (Math.random()-0.5)*0.3; const rands=Math.random(); if(rands>0.6) this.color='rgba(212, 175, 55, 0.04)'; else if(rands>0.3) this.color='rgba(255, 255, 255, 0.03)'; else this.color='rgba(66, 50, 6, 0.05)'; }
+            init() { this.r = Math.random()*400+400; this.x = Math.random()*cw; this.y = Math.random()*ch; this.vx = (Math.random()-0.5)*0.2; this.vy = (Math.random()-0.5)*0.2; const rands=Math.random(); if(rands>0.6) this.color='rgba(212,175,55,0.04)'; else if(rands>0.3) this.color='rgba(255, 255, 255, 0.03)'; else this.color='rgba(66, 50, 6, 0.05)'; }
             update() { this.x+=this.vx; this.y+=this.vy; if(this.x<-this.r) this.x=cw+this.r; if(this.x>cw+this.r) this.x=-this.r; if(this.y<-this.r) this.y=ch+this.r; if(this.y>ch+this.r) this.y=-this.r; }
             draw() { const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r); g.addColorStop(0,this.color); g.addColorStop(1,'transparent'); ctx.globalCompositeOperation='screen'; ctx.fillStyle=g; ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fill(); ctx.globalCompositeOperation='source-over'; }
         }
@@ -532,7 +578,7 @@
             for(let i=0; i<3; i++) {
                 const w = document.createElement('div');
                 w.className = 'tarot-card-wrapper h-full cursor-pointer';
-                w.innerHTML = `<div class="tarot-card-inner w-full h-full min-h-[350px]"><div class="card-face card-front rounded-sm animate-pulse-card-edge"><div class="eye-symbol animate-pulse-eye"></div></div><div class="card-face card-back flex flex-col items-center justify-center p-6 text-center"></div></div>`;
+                w.innerHTML = `<div class="tarot-card-inner w-full h-full min-h-[350px]"><div class="card-face card-front rounded-xl animate-pulse-card-edge"><div class="eye-symbol animate-pulse-eye"></div></div><div class="card-face card-back flex flex-col items-center justify-center p-6 text-center"></div></div>`;
                 w.onclick = () => {
                     if(w.classList.contains('flipped')) return;
                     const res = tarotCards[Math.floor(Math.random()*tarotCards.length)];
@@ -552,6 +598,7 @@
             const portal = document.getElementById('portal-root'), t = document.getElementById('portal-text');
             const answers = ["ДА", "НЕТ", "ВЕРЬ", "ЖДИ", "СКОРО", "ШАНС"];
             portal.classList.add('portal-searching'); t.style.opacity = '0';
+            if (tg) tg.HapticFeedback.impactOccurred('medium');
             setTimeout(() => { 
                 portal.classList.remove('portal-searching'); 
                 t.textContent = answers[Math.floor(Math.random()*answers.length)]; 
