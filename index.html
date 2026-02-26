@@ -244,15 +244,15 @@
         </div>
     </div>
 
-    <!-- SVG ШАБЛОН КОТИКА (ВСЕ ДЕТАЛИ: УШКИ, ЛАПКИ, УСИКИ, МОРГАНИЕ) -->
+    <!-- SVG ШАБЛОН КОТИКА -->
     <svg style="display: none;">
         <symbol id="magic-cat-symbol" viewBox="0 0 100 100">
             <!-- Хвостик -->
             <path d="M75,65 C90,65 95,45 90,35 C85,25 75,35 80,45" fill="none" stroke="#D4AF37" stroke-width="6" stroke-linecap="round" class="animate-cat-tail" />
             
-            <!-- Ушки (Более высокие и милые) -->
-            <path d="M28,40 Q40,0 52,40 Z" fill="#D4AF37" /> <!-- Левое -->
-            <path d="M72,40 Q60,0 48,40 Z" fill="#D4AF37" /> <!-- Правое -->
+            <!-- Ушки -->
+            <path d="M28,40 Q40,0 52,40 Z" fill="#D4AF37" />
+            <path d="M72,40 Q60,0 48,40 Z" fill="#D4AF37" />
             
             <!-- Основа мордочки -->
             <circle cx="50" cy="58" r="26" fill="#000" stroke="#D4AF37" stroke-width="2.5" />
@@ -271,21 +271,21 @@
                 <animate attributeName="opacity" values="0.8;0.8;0;0.8" dur="4s" repeatCount="indefinite" keyTimes="0;0.8;0.85;1" />
             </circle>
             
-            <!-- Носик (Золотистый) -->
+            <!-- Носик -->
             <path d="M48,64 L52,64 L50,68 Z" fill="#F9F1D8" />
             
-            <!-- Усики (Тонкие золотые линии) -->
-            <path d="M32,58 L12,55 M32,62 L8,62 M32,66 L12,69" stroke="#D4AF37" stroke-width="1.5" opacity="0.8" />
-            <path d="M68,58 L88,55 M68,62 L92,62 M68,66 L88,69" stroke="#D4AF37" stroke-width="1.5" opacity="0.8" />
+            <!-- Усики -->
+            <path d="M32,58 L12,55 M32,62 L8,62 M32,66 L12,69" stroke="#D4AF37" stroke-width="1.8" opacity="0.9" />
+            <path d="M68,58 L88,55 M68,62 L92,62 M68,66 L88,69" stroke="#D4AF37" stroke-width="1.8" opacity="0.9" />
             
-            <!-- Лапки (С анимацией пульсации) -->
+            <!-- Лапки -->
             <g class="animate-heart-beat" style="animation-duration: 3s;">
-                <ellipse cx="38" cy="78" rx="8" ry="6" fill="#000" stroke="#D4AF37" stroke-width="2" />
-                <ellipse cx="62" cy="78" rx="8" ry="6" fill="#000" stroke="#D4AF37" stroke-width="2" />
+                <ellipse cx="38" cy="78" rx="8" ry="6" fill="#000" stroke="#D4AF37" stroke-width="2.1" />
+                <ellipse cx="62" cy="78" rx="8" ry="6" fill="#000" stroke="#D4AF37" stroke-width="2.1" />
             </g>
             
-            <!-- Магический ореол -->
-            <circle cx="50" cy="58" r="38" fill="url(#catGlowSymbol)" opacity="0.2" />
+            <!-- Свечение -->
+            <circle cx="50" cy="58" r="38" fill="url(#catGlowSymbol)" opacity="0.25" />
             <defs>
                 <radialGradient id="catGlowSymbol">
                     <stop offset="0%" stop-color="#D4AF37" />
@@ -295,7 +295,7 @@
         </symbol>
     </svg>
 
-    <!-- КУРСОР-КОТ (ТОЛЬКО ДЛЯ ДЕСКТОПА) -->
+    <!-- КУРСОР-КОТ (ТОЛЬКО ДЛЯ ПК) -->
     <div id="magic-cat" class="animate-cat-float">
         <svg viewBox="0 0 100 100" style="overflow: visible; width: 100%; height: 100%;">
             <use href="#magic-cat-symbol" />
@@ -324,10 +324,10 @@
             "Там, где Тьма встречается со Светом,<br class="hidden sm:block">рождается Истина."
         </p>
         
-        <!-- КНОПКА С "СИДЯЩИМ" КОТИКОМ (МОБИЛЬНАЯ ВЕРСИЯ) -->
+        <!-- КНОПКА С "СИДЯЩИМ" КОТИКОМ (МОБИЛЬНАЯ ВЕРСИЯ - УМЕНЬШЕН) -->
         <div class="relative inline-block mt-4">
-            <!-- Котик для мобилок: сидит на углу кнопки -->
-            <div id="mobile-sitter-cat" class="sm:hidden absolute -top-12 -right-6 w-20 h-20 pointer-events-none animate-cat-float z-10">
+            <!-- Котик для мобилок: теперь w-16 и аккуратнее посажен -->
+            <div id="mobile-sitter-cat" class="sm:hidden absolute -top-10 -right-4 w-16 h-16 pointer-events-none animate-cat-float z-10">
                 <svg viewBox="0 0 100 100" style="overflow: visible; width: 100%; height: 100%;">
                     <use href="#magic-cat-symbol" />
                 </svg>
@@ -342,18 +342,17 @@
         <!-- КАРТЫ ТАРО -->
         <section>
             <div class="text-center mb-12">
-                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Золотой Расклад</h2>
+                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center">Золотой Расклад</h2>
                 <div class="w-10 h-[1px] bg-gold-500 mx-auto opacity-20"></div>
                 <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-4 opacity-60">Открой три уникальные карты</p>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10 h-auto" id="tarot-deck"></div>
             
-            <!-- ФИНАЛЬНОЕ ПРЕДСКАЗАНИЕ (ОТКРЫВАЕТСЯ ПОСЛЕ 3 КАРТ) -->
             <div id="tarot-result" class="hidden glass-panel p-8 md:p-12 mt-10 text-center max-w-2xl mx-auto border-gold-500/20">
                 <div class="flex justify-center gap-4 mb-6 text-gold-500 opacity-40">
                     <i class="fas fa-moon"></i><i class="fas fa-star"></i><i class="fas fa-sun"></i>
                 </div>
-                <h3 id="result-title" class="font-heading text-xl md:text-2xl text-gold-100 mb-4 uppercase">Ваш Путь</h3>
+                <h3 id="result-title" class="font-heading text-xl md:text-2xl text-gold-100 mb-4 uppercase">Ваш Итог</h3>
                 <div id="result-cards-list" class="flex flex-wrap justify-center gap-2 mb-6 text-[11px] uppercase text-gold-300 tracking-tighter italic font-semibold"></div>
                 <p id="result-desc" class="text-base md:text-lg text-gray-300 italic mb-10 leading-relaxed"></p>
                 <button onclick="resetTarot()" class="btn-gold px-8 md:px-12 py-3 text-[10px] uppercase">Обновить расклад</button>
@@ -362,12 +361,11 @@
 
         <!-- ПОРТАЛ ОТВЕТОВ -->
         <section class="flex flex-col items-center">
-            <div class="text-center mb-12">
+            <div class="text-center mb-12 text-center">
                 <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center">Портал Ответов</h2>
                 <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4 text-center">Задай вопрос Вселенной и коснись центра</p>
             </div>
             <div class="portal-container scale-90 sm:scale-100 text-center" id="portal-root" onclick="activatePortal()">
-                <!-- Вращающиеся кольца -->
                 <div class="portal-ring animate-spin-slow"></div>
                 <div class="portal-ring-inner animate-spin-reverse"></div>
                 <div class="portal-core">
@@ -423,12 +421,12 @@
         </section>
     </div>
 
-    <!-- МОДАЛКА ПРОСМОТРА КАРТИНОК -->
+    <!-- МОДАЛКА -->
     <div id="image-modal" onclick="closeReviewModal()">
         <img id="modal-image" src="" alt="Full Review">
     </div>
 
-    <!-- КОПИРОВАНИЕ НОМЕРА (БЕЗОТКАЗНЫЙ СКРИПТ) -->
+    <!-- КОПИРОВАНИЕ (БЕЗОТКАЗНЫЙ СКРИПТ) -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const copyBtn = document.getElementById('copy-btn');
@@ -462,7 +460,7 @@
         });
     </script>
 
-    <!-- FIREBASE ПОДКЛЮЧЕНИЕ -->
+    <!-- FIREBASE -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
@@ -515,7 +513,7 @@
     </script>
 
     <script>
-        // АНИМАЦИЯ ЧАСТИЦ И КУРСОР
+        // ЧАСТИЦЫ И КУРСОР
         const cat = document.getElementById('magic-cat');
         const dust = document.getElementById('magic-dust'), dCtx = dust.getContext('2d');
         const chaos = document.getElementById('chaos-bg'), ctx = chaos.getContext('2d');
@@ -601,7 +599,6 @@
             if(!deck) return;
             deck.innerHTML = '';
             flippedIndices.clear();
-            // Выбираем 3 уникальные карты
             const shuffledPool = [...tarotCardsPool].sort(() => Math.random() - 0.5);
             currentDeckState = shuffledPool.slice(0, 3);
             
