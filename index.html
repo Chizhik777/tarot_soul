@@ -82,11 +82,11 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* КУРСОР-КОТ (ДЛЯ ПК) */
+        /* КУРСОР-КОТ (ТОЛЬКО ДЛЯ ПК) */
         #magic-cat {
             position: fixed;
-            width: 55px;
-            height: 55px;
+            width: 65px;
+            height: 65px;
             pointer-events: none;
             z-index: 10000;
             display: none;
@@ -244,33 +244,48 @@
         </div>
     </div>
 
-    <!-- SVG ШАБЛОН КОТИКА -->
+    <!-- SVG ШАБЛОН КОТИКА (ВСЕ ДЕТАЛИ: УШКИ, ЛАПКИ, УСИКИ, МОРГАНИЕ) -->
     <svg style="display: none;">
         <symbol id="magic-cat-symbol" viewBox="0 0 100 100">
+            <!-- Хвостик -->
             <path d="M75,65 C90,65 95,45 90,35 C85,25 75,35 80,45" fill="none" stroke="#D4AF37" stroke-width="6" stroke-linecap="round" class="animate-cat-tail" />
-            <path d="M32,45 Q40,15 48,45 Z" fill="#D4AF37" />
-            <path d="M68,45 Q60,15 52,45 Z" fill="#D4AF37" />
-            <circle cx="50" cy="60" r="24" fill="#000" stroke="#D4AF37" stroke-width="2.5" />
-            <ellipse cx="40" cy="55" rx="5" ry="5" fill="#D4AF37">
+            
+            <!-- Ушки (Более высокие и милые) -->
+            <path d="M28,40 Q40,0 52,40 Z" fill="#D4AF37" /> <!-- Левое -->
+            <path d="M72,40 Q60,0 48,40 Z" fill="#D4AF37" /> <!-- Правое -->
+            
+            <!-- Основа мордочки -->
+            <circle cx="50" cy="58" r="26" fill="#000" stroke="#D4AF37" stroke-width="2.5" />
+            
+            <!-- Глазки (С эффектом моргания) -->
+            <ellipse cx="40" cy="52" rx="5" ry="5" fill="#D4AF37">
                 <animate attributeName="ry" values="5;5;0.2;5" dur="4s" repeatCount="indefinite" keyTimes="0;0.8;0.85;1" />
             </ellipse>
-            <circle cx="39" cy="53" r="1.5" fill="#fff" opacity="0.8">
+            <circle cx="39" cy="50" r="1.5" fill="#fff" opacity="0.8">
                 <animate attributeName="opacity" values="0.8;0.8;0;0.8" dur="4s" repeatCount="indefinite" keyTimes="0;0.8;0.85;1" />
             </circle>
-            <ellipse cx="60" cy="55" rx="5" ry="5" fill="#D4AF37">
+            <ellipse cx="60" cy="52" rx="5" ry="5" fill="#D4AF37">
                 <animate attributeName="ry" values="5;5;0.2;5" dur="4s" repeatCount="indefinite" keyTimes="0;0.8;0.85;1" />
             </ellipse>
-            <circle cx="59" cy="53" r="1.5" fill="#fff" opacity="0.8">
+            <circle cx="59" cy="50" r="1.5" fill="#fff" opacity="0.8">
                 <animate attributeName="opacity" values="0.8;0.8;0;0.8" dur="4s" repeatCount="indefinite" keyTimes="0;0.8;0.85;1" />
-            </ellipse>
-            <path d="M48,64 L52,64 L50,67 Z" fill="#F9F1D8" />
-            <path d="M35,60 L20,58 M35,63 L18,63 M35,66 L20,68" stroke="#D4AF37" stroke-width="1.2" opacity="0.5" />
-            <path d="M65,60 L80,58 M65,63 L82,63 M65,66 L80,68" stroke="#D4AF37" stroke-width="1.2" opacity="0.5" />
+            </circle>
+            
+            <!-- Носик (Золотистый) -->
+            <path d="M48,64 L52,64 L50,68 Z" fill="#F9F1D8" />
+            
+            <!-- Усики (Тонкие золотые линии) -->
+            <path d="M32,58 L12,55 M32,62 L8,62 M32,66 L12,69" stroke="#D4AF37" stroke-width="1.5" opacity="0.8" />
+            <path d="M68,58 L88,55 M68,62 L92,62 M68,66 L88,69" stroke="#D4AF37" stroke-width="1.5" opacity="0.8" />
+            
+            <!-- Лапки (С анимацией пульсации) -->
             <g class="animate-heart-beat" style="animation-duration: 3s;">
-                <ellipse cx="40" cy="78" rx="7" ry="5" fill="#000" stroke="#D4AF37" stroke-width="1.5" />
-                <ellipse cx="60" cy="78" rx="7" ry="5" fill="#000" stroke="#D4AF37" stroke-width="1.5" />
+                <ellipse cx="38" cy="78" rx="8" ry="6" fill="#000" stroke="#D4AF37" stroke-width="2" />
+                <ellipse cx="62" cy="78" rx="8" ry="6" fill="#000" stroke="#D4AF37" stroke-width="2" />
             </g>
-            <circle cx="50" cy="60" r="35" fill="url(#catGlowSymbol)" opacity="0.25" />
+            
+            <!-- Магический ореол -->
+            <circle cx="50" cy="58" r="38" fill="url(#catGlowSymbol)" opacity="0.2" />
             <defs>
                 <radialGradient id="catGlowSymbol">
                     <stop offset="0%" stop-color="#D4AF37" />
@@ -280,7 +295,7 @@
         </symbol>
     </svg>
 
-    <!-- КУРСОР-КОТ (ТОЛЬКО ДЛЯ ПК) -->
+    <!-- КУРСОР-КОТ (ТОЛЬКО ДЛЯ ДЕСКТОПА) -->
     <div id="magic-cat" class="animate-cat-float">
         <svg viewBox="0 0 100 100" style="overflow: visible; width: 100%; height: 100%;">
             <use href="#magic-cat-symbol" />
@@ -309,9 +324,10 @@
             "Там, где Тьма встречается со Светом,<br class="hidden sm:block">рождается Истина."
         </p>
         
-        <!-- КНОПКА С СИДЯЩИМ КОТИКОМ (МОБИЛЬНАЯ ВЕРСИЯ) -->
+        <!-- КНОПКА С "СИДЯЩИМ" КОТИКОМ (МОБИЛЬНАЯ ВЕРСИЯ) -->
         <div class="relative inline-block mt-4">
-            <div id="mobile-sitter-cat" class="sm:hidden absolute -top-10 -right-4 w-16 h-16 pointer-events-none animate-cat-float z-10">
+            <!-- Котик для мобилок: сидит на углу кнопки -->
+            <div id="mobile-sitter-cat" class="sm:hidden absolute -top-12 -right-6 w-20 h-20 pointer-events-none animate-cat-float z-10">
                 <svg viewBox="0 0 100 100" style="overflow: visible; width: 100%; height: 100%;">
                     <use href="#magic-cat-symbol" />
                 </svg>
@@ -323,36 +339,35 @@
     </section>
 
     <div class="container mx-auto px-4 pb-20 max-w-5xl space-y-24 md:space-y-32 relative z-10 text-center">
-        <!-- КАРТЫ -->
+        <!-- КАРТЫ ТАРО -->
         <section>
             <div class="text-center mb-12">
                 <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Золотой Расклад</h2>
                 <div class="w-10 h-[1px] bg-gold-500 mx-auto opacity-20"></div>
-                <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-4 opacity-60">Открой три карты, чтобы узнать судьбу</p>
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-4 opacity-60">Открой три уникальные карты</p>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10 h-auto" id="tarot-deck"></div>
             
-            <!-- ФИНАЛЬНОЕ ПРЕДСКАЗАНИЕ (ОБНОВЛЕНО) -->
+            <!-- ФИНАЛЬНОЕ ПРЕДСКАЗАНИЕ (ОТКРЫВАЕТСЯ ПОСЛЕ 3 КАРТ) -->
             <div id="tarot-result" class="hidden glass-panel p-8 md:p-12 mt-10 text-center max-w-2xl mx-auto border-gold-500/20">
                 <div class="flex justify-center gap-4 mb-6 text-gold-500 opacity-40">
-                    <i class="fas fa-moon"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i><i class="fas fa-star"></i><i class="fas fa-sun"></i>
                 </div>
-                <h3 id="result-title" class="font-heading text-xl md:text-2xl text-gold-100 mb-4 uppercase">Ваше Предсказание</h3>
-                <div id="result-cards-list" class="flex flex-wrap justify-center gap-2 mb-6 text-[10px] uppercase text-gold-300 tracking-tighter italic"></div>
+                <h3 id="result-title" class="font-heading text-xl md:text-2xl text-gold-100 mb-4 uppercase">Ваш Путь</h3>
+                <div id="result-cards-list" class="flex flex-wrap justify-center gap-2 mb-6 text-[11px] uppercase text-gold-300 tracking-tighter italic font-semibold"></div>
                 <p id="result-desc" class="text-base md:text-lg text-gray-300 italic mb-10 leading-relaxed"></p>
-                <button onclick="resetTarot()" class="btn-gold px-8 md:px-12 py-3 text-[10px] uppercase">Собрать новый расклад</button>
+                <button onclick="resetTarot()" class="btn-gold px-8 md:px-12 py-3 text-[10px] uppercase">Обновить расклад</button>
             </div>
         </section>
 
-        <!-- ПОРТАЛ -->
+        <!-- ПОРТАЛ ОТВЕТОВ -->
         <section class="flex flex-col items-center">
             <div class="text-center mb-12">
-                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Портал Ответов</h2>
-                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4">Задай вопрос Вселенной и коснись центра</p>
+                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center">Портал Ответов</h2>
+                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4 text-center">Задай вопрос Вселенной и коснись центра</p>
             </div>
-            <div class="portal-container scale-90 sm:scale-100" id="portal-root" onclick="activatePortal()">
+            <div class="portal-container scale-90 sm:scale-100 text-center" id="portal-root" onclick="activatePortal()">
+                <!-- Вращающиеся кольца -->
                 <div class="portal-ring animate-spin-slow"></div>
                 <div class="portal-ring-inner animate-spin-reverse"></div>
                 <div class="portal-core">
@@ -364,9 +379,9 @@
 
         <!-- ОТЗЫВЫ -->
         <section id="reviews-section">
-            <div class="text-center mb-12">
-                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Отзывы</h2>
-                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4">История вашего доверия</p>
+            <div class="text-center mb-12 text-center">
+                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center">Отзывы</h2>
+                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4 text-center">История вашего доверия</p>
             </div>
             <div class="relative max-w-4xl mx-auto text-center">
                 <button onclick="scrollReviews(-1)" class="absolute -left-2 md:-left-12 top-1/2 -translate-y-1/2 w-8 md:w-10 h-8 md:h-10 border border-gold-500/20 flex items-center justify-center hover:bg-gold-500/10 transition-all z-20 bg-black/50 rounded-full text-white">
@@ -387,19 +402,18 @@
 
         <!-- ЭНЕРГООБМЕН -->
         <section class="text-center pt-16 border-t border-white/5 relative overflow-hidden text-center">
-            <div class="flex justify-center mb-6">
+            <div class="flex justify-center mb-6 text-center">
                 <div class="interactive-heart" onclick="heartBurst(event)">
                     <div class="heart-glow"></div>
                     <i class="fas fa-heart text-gold-500 text-3xl md:text-4xl animate-heart-beat relative z-10 shadow-2xl"></i>
                 </div>
             </div>
-            <h3 class="text-sm font-heading text-gold-300 mb-4 uppercase tracking-[0.5em]">Энергообмен</h3>
+            <h3 class="text-sm font-heading text-gold-300 mb-4 uppercase tracking-[0.5em] text-center">Энергообмен</h3>
             <div class="max-w-md mx-auto mb-10 px-6 text-center">
                 <p class="text-sm md:text-base text-gold-100/90 italic leading-relaxed mb-4 text-center">Благодарность — это живой поток света.</p>
-                <p class="text-[11px] md:text-xs text-gray-400 font-light tracking-wide leading-relaxed mx-auto">Вы можете поддержать мою работу любой комфортной суммой по сердцу.</p>
+                <p class="text-[11px] md:text-xs text-gray-400 font-light tracking-wide leading-relaxed mx-auto text-center">Вы можете поддержать мою работу любой комфортной суммой по сердцу.</p>
             </div>
             <div class="px-4 text-center">
-                <!-- КНОПКА КОПИРОВАНИЯ ЮMONEY -->
                 <button id="copy-btn" class="btn-gold min-w-full sm:min-w-[320px]">
                     <span id="copy-btn-text" class="text-sm md:text-base tracking-widest pointer-events-none">5599 0021 2732 2628</span>
                     <i id="copy-icon" class="far fa-copy ml-4 opacity-60 pointer-events-none"></i>
@@ -409,20 +423,16 @@
         </section>
     </div>
 
-    <!-- МОДАЛКА -->
+    <!-- МОДАЛКА ПРОСМОТРА КАРТИНОК -->
     <div id="image-modal" onclick="closeReviewModal()">
         <img id="modal-image" src="" alt="Full Review">
     </div>
 
-    <!-- SCRIPTS -->
+    <!-- КОПИРОВАНИЕ НОМЕРА (БЕЗОТКАЗНЫЙ СКРИПТ) -->
     <script>
-        // ЛОГИКА КОПИРОВАНИЯ
         document.addEventListener('DOMContentLoaded', function() {
             const copyBtn = document.getElementById('copy-btn');
-            const icon = document.getElementById('copy-icon');
-            const msg = document.getElementById('copy-status-msg');
             const cardNumber = "5599002127322628";
-
             if (copyBtn) {
                 copyBtn.onclick = function() {
                     const textArea = document.createElement("textarea");
@@ -433,31 +443,26 @@
                     document.body.appendChild(textArea);
                     textArea.focus();
                     textArea.select();
-                    
                     try {
                         const successful = document.execCommand('copy');
                         if (successful) {
-                            showSuccess();
+                            const msg = document.getElementById('copy-status-msg');
+                            const icon = document.getElementById('copy-icon');
+                            msg.style.opacity = '1';
+                            icon.className = 'fas fa-check text-green-500 ml-4';
+                            setTimeout(() => {
+                                msg.style.opacity = '0';
+                                icon.className = 'far fa-copy ml-4 opacity-60';
+                            }, 3000);
                         }
-                    } catch (err) {
-                        console.error('Ошибка копирования', err);
-                    }
+                    } catch (err) { console.error('Copy failed', err); }
                     document.body.removeChild(textArea);
-
-                    function showSuccess() {
-                        msg.style.opacity = '1';
-                        icon.className = 'fas fa-check text-green-500 ml-4';
-                        setTimeout(() => {
-                            msg.style.opacity = '0';
-                            icon.className = 'far fa-copy ml-4 opacity-60';
-                        }, 3000);
-                    }
                 };
             }
         });
     </script>
 
-    <!-- FIREBASE -->
+    <!-- FIREBASE ПОДКЛЮЧЕНИЕ -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
@@ -510,7 +515,7 @@
     </script>
 
     <script>
-        // ЭФФЕКТЫ ЧАСТИЦ И КУРСОР
+        // АНИМАЦИЯ ЧАСТИЦ И КУРСОР
         const cat = document.getElementById('magic-cat');
         const dust = document.getElementById('magic-dust'), dCtx = dust.getContext('2d');
         const chaos = document.getElementById('chaos-bg'), ctx = chaos.getContext('2d');
@@ -542,8 +547,8 @@
 
         document.addEventListener('mousemove', (e) => {
             if(cat && window.getComputedStyle(cat).display !== 'none') { 
-                cat.style.left = (e.clientX - 25) + 'px'; 
-                cat.style.top = (e.clientY - 25) + 'px'; 
+                cat.style.left = (e.clientX - 32) + 'px'; 
+                cat.style.top = (e.clientY - 32) + 'px'; 
                 if(Math.random() > 0.4) particles.push(new Particle(e.clientX, e.clientY));
             }
         });
@@ -570,22 +575,22 @@
         };
         window.closeReviewModal = () => document.getElementById('image-modal').style.display = 'none';
 
-        // ОБНОВЛЕННАЯ ЛОГИКА КАРТ ТАРО
+        // ЛОГИКА ТАРО (БЕЗ ПОВТОРОВ)
         const tarotCardsPool = [
-            {n:"Маг", d:"У вас есть все ресурсы для успеха. Время действовать смело.", i:"fa-magic"},
-            {n:"Жрица", d:"Доверяйте своей интуиции. Ответ скрыт внутри вас.", i:"fa-scroll"},
-            {n:"Императрица", d:"Период расцвета и плодородия. Творческие идеи принесут плоды.", i:"fa-crown"},
-            {n:"Влюбленные", d:"Важный выбор сердца. Гармония в отношениях возможна.", i:"fa-heart"},
-            {n:"Колесница", d:"Уверенное движение вперед. Победа через самоконтроль.", i:"fa-shuttle-van"},
-            {n:"Сила", d:"Мягкая сила и терпение преодолеют любые преграды.", i:"fa-lion"},
-            {n:"Отшельник", d:"Время для внутреннего поиска и мудрости. Не бойтесь тишины.", i:"fa-lightbulb"},
-            {n:"Колесо Фортуны", d:"Грядут перемены. Судьба поворачивается к вам лицом.", i:"fa-dharmachakra"},
-            {n:"Звезда", d:"Надежда и вдохновение. Ваши мечты начинают сбываться.", i:"fa-star"},
-            {n:"Солнце", d:"Ясность, радость и успех. Всё тайное становится явным.", i:"fa-sun"},
-            {n:"Мир", d:"Завершение цикла и обретение целостности. Вы на своем месте.", i:"fa-globe-europe"},
-            {n:"Луна", d:"Тайны и иллюзии. Прислушайтесь к снам и скрытым чувствам.", i:"fa-moon"},
-            {n:"Справедливость", d:"Честность и баланс. Вы получите то, что заслужили.", i:"fa-balance-scale"},
-            {n:"Умеренность", d:"Найдите золотую середину. Спокойствие — ваш лучший союзник.", i:"fa-water"}
+            {n:"Маг", d:"Сила воли и решимость. Используйте свои таланты прямо сейчас.", i:"fa-magic"},
+            {n:"Жрица", d:"Интуиция ведет вас. Доверьтесь внутреннему голосу.", i:"fa-scroll"},
+            {n:"Императрица", d:"Расцвет и созидание. Ваши идеи скоро принесут богатые плоды.", i:"fa-crown"},
+            {n:"Влюбленные", d:"Гармония и важный выбор. Слушайте то, что говорит ваше сердце.", i:"fa-heart"},
+            {n:"Колесница", d:"Прорыв и победа. Вы движетесь в верном направлении к триумфу.", i:"fa-shuttle-van"},
+            {n:"Сила", d:"Внутренняя стойкость. Мягкость и терпение сильнее грубого напора.", i:"fa-lion"},
+            {n:"Отшельник", d:"Мудрость в тишине. Время для самопознания и спокойных раздумий.", i:"fa-lightbulb"},
+            {n:"Колесо Фортуны", d:"Цикл перемен. Судьба готовит для вас новый счастливый поворот.", i:"fa-dharmachakra"},
+            {n:"Звезда", d:"Яркая надежда. Ваши мечты обретают форму под защитой небес.", i:"fa-star"},
+            {n:"Солнце", d:"Чистая радость. Период ясности, успеха и большого вдохновения.", i:"fa-sun"},
+            {n:"Мир", d:"Завершение и успех. Вы достигли гармонии и готовы к новому этапу.", i:"fa-globe-europe"},
+            {n:"Луна", d:"Тайные знаки. Будьте внимательны к снам и скрытым мотивам других.", i:"fa-moon"},
+            {n:"Справедливость", d:"Честность во всем. Порядок будет восстановлен, правда на вашей стороне.", i:"fa-balance-scale"},
+            {n:"Умеренность", d:"Золотая середина. Баланс и спокойствие — ключи к решению проблем.", i:"fa-water"}
         ];
 
         let currentDeckState = [];
@@ -596,35 +601,21 @@
             if(!deck) return;
             deck.innerHTML = '';
             flippedIndices.clear();
-            
-            // Перемешиваем пул и выбираем 3 уникальные карты
+            // Выбираем 3 уникальные карты
             const shuffledPool = [...tarotCardsPool].sort(() => Math.random() - 0.5);
             currentDeckState = shuffledPool.slice(0, 3);
-
+            
             for(let i=0; i<3; i++) {
                 const w = document.createElement('div');
                 w.className = 'tarot-card-wrapper';
-                w.innerHTML = `<div class="tarot-card-inner w-full h-full text-center">
-                    <div class="card-face card-front animate-pulse-card-glow text-center">
-                        <div class="eye-symbol animate-pulse-eye text-center"></div>
-                    </div>
-                    <div class="card-face card-back text-center"></div>
-                </div>`;
-                
+                w.innerHTML = `<div class="tarot-card-inner w-full h-full text-center"><div class="card-face card-front animate-pulse-card-glow text-center"><div class="eye-symbol animate-pulse-eye text-center"></div></div><div class="card-face card-back text-center"></div></div>`;
                 w.onclick = () => {
                     if(w.classList.contains('flipped')) return;
-                    
                     const cardData = currentDeckState[i];
-                    w.querySelector('.card-back').innerHTML = `
-                        <i class="fas ${cardData.i} text-5xl text-gold-500 mb-6 shadow-xl text-center"></i>
-                        <h4 class="font-heading text-gold-300 text-lg mb-2 uppercase text-center">${cardData.n}</h4>
-                    `;
+                    w.querySelector('.card-back').innerHTML = `<i class="fas ${cardData.i} text-5xl text-gold-500 mb-6 shadow-xl text-center"></i><h4 class="font-heading text-gold-300 text-lg mb-2 uppercase text-center">${cardData.n}</h4>`;
                     w.classList.add('flipped');
                     flippedIndices.add(i);
-                    
-                    if(flippedIndices.size === 3) {
-                        showFinalPrediction();
-                    }
+                    if(flippedIndices.size === 3) showFinalPrediction();
                 };
                 deck.appendChild(w);
             }
@@ -634,25 +625,18 @@
             const resultBlock = document.getElementById('tarot-result');
             const resultDesc = document.getElementById('result-desc');
             const resultList = document.getElementById('result-cards-list');
-            
-            // Формируем список названий выпавших карт
             resultList.innerHTML = currentDeckState.map(c => `<span>[${c.n}]</span>`).join(' + ');
-            
-            // Логика общего предсказания (упрощенная комбинация)
             const meanings = currentDeckState.map(c => c.d.split('.')[0]).join('. ');
-            resultDesc.textContent = `Ваш путь сегодня определяют эти силы: ${meanings}. Объедините их мудрость, чтобы найти истинный ответ на ваш запрос.`;
-            
+            resultDesc.textContent = `Ваш расклад сегодня говорит о следующем: ${meanings}. Эти силы объединяются, чтобы дать вам необходимый ответ и поддержку.`;
             resultBlock.classList.remove('hidden');
             resultBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
         window.resetTarot = () => {
-            const resultBlock = document.getElementById('tarot-result');
-            resultBlock.classList.add('hidden');
+            document.getElementById('tarot-result').classList.add('hidden');
             initDeck();
             window.scrollTo({ top: document.getElementById('tarot-deck').offsetTop - 150, behavior: 'smooth' });
         };
-
         initDeck();
 
         window.activatePortal = () => {
