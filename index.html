@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Таро с Душой | Елена</title>
     
-    <!-- ФАВИКОН: АНИМИРОВАННЫЙ МИЛЫЙ КОТ КАК НА КУРСОРЕ -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M75,65 C90,65 95,45 90,35 C85,25 75,35 80,45' fill='none' stroke='%23D4AF37' stroke-width='4' stroke-linecap='round' /%3E%3Cpath d='M32,45 Q40,15 48,45 Z' fill='%23D4AF37' /%3E%3Cpath d='M68,45 Q60,15 52,45 Z' fill='%23D4AF37' /%3E%3Ccircle cx='50' cy='60' r='24' fill='black' stroke='%23D4AF37' stroke-width='2' /%3E%3Ccircle cx='40' cy='55' r='4' fill='%23D4AF37'%3E%3Canimate attributeName='opacity' values='1;1;0;1;1' dur='4s' repeatCount='indefinite' /%3E%3C/circle%3E%3Ccircle cx='39' cy='53' r='1' fill='white' /%3E%3Ccircle cx='60' cy='55' r='4' fill='%23D4AF37'%3E%3Canimate attributeName='opacity' values='1;1;0;1;1' dur='4s' repeatCount='indefinite' /%3E%3C/circle%3E%3Ccircle cx='59' cy='53' r='1' fill='white' /%3E%3Cpath d='M48,64 L52,64 L50,67 Z' fill='%23F9F1D8' /%3E%3Cellipse cx='40' cy='78' rx='6' ry='4' fill='black' stroke='%23D4AF37' stroke-width='1' /%3E%3Cellipse cx='60' cy='78' rx='6' ry='4' fill='black' stroke='%23D4AF37' stroke-width='1' /%3E%3C/svg%3E">
+    <!-- ФАВИКОН: КРУПНЫЙ ЯРКИЙ ЖЕЛТЫЙ МЕСЯЦ НА БЕЛОМ ФОНЕ -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='white'/%3E%3Cpath d='M28 16 A12 12 0 1 1 12 4 A10 10 0 1 0 28 16 Z' fill='%23FFD700'/%3E%3C/svg%3E">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -62,7 +62,7 @@
                         },
                         catFloat: {
                             '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
-                            '50%': { transform: 'translateY(-6px) rotate(2deg)' },
+                            '50%': { transform: 'translateY(-10px) rotate(3deg)' },
                         },
                         pulseEye: {
                             '0%, 100%': { transform: 'rotate(45deg) scale(1)', opacity: '0.8' },
@@ -87,7 +87,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* КУРСОР-КОТ (ДЕСКТОП) */
+        /* КУРСОР-КОТ (ДЛЯ ДЕСКТОПОВ) */
         #magic-cat {
             position: fixed;
             width: 55px;
@@ -140,7 +140,7 @@
             transition: all 0.4s ease;
         }
         @media (max-width: 640px) {
-            .gallery-item { width: 240px; height: 400px; }
+            .gallery-item { width: 240px; height: 410px; }
         }
         .gallery-item:hover { border-color: rgba(212, 175, 55, 0.4); }
         .gallery-item img { width: 100%; height: 100%; object-fit: contain; }
@@ -253,7 +253,7 @@
         </div>
     </div>
 
-    <!-- КУРСОР-КОТ (ДЛЯ ДЕСКТОПОВ) -->
+    <!-- КУРСОР-КОТ -->
     <div id="magic-cat" class="animate-cat-float">
         <svg viewBox="0 0 100 100" style="overflow: visible;">
             <!-- Пушистый Хвостик -->
@@ -300,13 +300,13 @@
         </div>
     </header>
 
-    <!-- HERO -->
-    <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 relative pt-20 overflow-hidden">
+    <!-- HERO SECTION -->
+    <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 relative pt-20 overflow-hidden text-center">
         <div class="absolute top-1/4 left-4 md:left-10 text-gold-900 text-4xl md:text-6xl animate-float opacity-20 pointer-events-none">☾</div>
         <div class="absolute bottom-1/4 right-4 md:right-10 text-gold-900 text-4xl md:text-6xl animate-float opacity-20 pointer-events-none" style="animation-delay: 2s;">🜁</div>
         
-        <h1 class="font-heading text-4xl sm:text-6xl md:text-8xl text-gold-glow animate-float tracking-tighter uppercase mb-6 leading-tight">Таро с Душой</h1>
-        <p class="text-lg md:text-2xl text-gold-100 italic max-w-2xl font-light mb-12 opacity-80 leading-relaxed mx-auto">
+        <h1 class="font-heading text-4xl sm:text-6xl md:text-8xl text-gold-glow animate-float tracking-tighter uppercase mb-6 leading-tight text-center">Таро с Душой</h1>
+        <p class="text-lg md:text-2xl text-gold-100 italic max-w-2xl font-light mb-12 opacity-80 leading-relaxed mx-auto text-center">
             "Там, где Тьма встречается со Светом,<br class="hidden sm:block">рождается Истина."
         </p>
         <a href="https://t.me/elena_tarot_soul_bot" target="_blank" class="btn-gold py-4 px-10 text-xs md:text-sm uppercase tracking-widest animate-pulse-gold-btn">
@@ -314,84 +314,84 @@
         </a>
     </section>
 
-    <div class="container mx-auto px-4 pb-20 max-w-5xl space-y-24 md:space-y-32 relative z-10">
+    <div class="container mx-auto px-4 pb-20 max-w-5xl space-y-24 md:space-y-32 relative z-10 text-center">
         
         <!-- КАРТЫ -->
         <section>
-            <div class="text-center mb-12">
-                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Золотой Расклад</h2>
+            <div class="text-center mb-12 text-center">
+                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center">Золотой Расклад</h2>
                 <div class="w-10 h-[1px] bg-gold-500 mx-auto opacity-20"></div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10 h-auto" id="tarot-deck"></div>
-            <div id="tarot-result" class="hidden glass-panel p-8 md:p-12 mt-10 text-center max-w-2xl mx-auto border-gold-500/20">
+            <div id="tarot-result" class="hidden glass-panel p-8 md:p-12 mt-10 text-center max-w-2xl mx-auto border-gold-500/20 text-center">
                 <div id="result-icon" class="text-4xl md:text-5xl text-gold-500 mb-6"></div>
-                <h3 id="result-title" class="font-heading text-xl md:text-2xl text-gold-100 mb-4 uppercase"></h3>
-                <p id="result-desc" class="text-base md:text-lg text-gray-300 italic mb-10 leading-relaxed"></p>
+                <h3 id="result-title" class="font-heading text-xl md:text-2xl text-gold-100 mb-4 uppercase text-center"></h3>
+                <p id="result-desc" class="text-base md:text-lg text-gray-300 italic mb-10 leading-relaxed text-center"></p>
                 <button onclick="resetTarot()" class="btn-gold px-8 md:px-12 py-3 text-[10px] uppercase">Спросить снова</button>
             </div>
         </section>
 
         <!-- ПОРТАЛ -->
         <section class="flex flex-col items-center">
-            <div class="text-center mb-12">
-                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Портал Ответов</h2>
-                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4">Задай вопрос Вселенной и коснись центра</p>
+            <div class="text-center mb-12 text-center">
+                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center">Портал Ответов</h2>
+                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4 text-center">Задай вопрос Вселенной и коснись центра</p>
             </div>
-            <div class="portal-container scale-90 sm:scale-100" id="portal-root" onclick="activatePortal()">
+            <div class="portal-container scale-90 sm:scale-100 text-center" id="portal-root" onclick="activatePortal()">
                 <div class="portal-ring animate-spin-slow"></div>
                 <div class="portal-ring-inner animate-spin-reverse"></div>
                 <div class="portal-core">
                     <div class="portal-nebula"></div>
-                    <span id="portal-text" class="portal-text">?</span>
+                    <span id="portal-text" class="portal-text text-center">?</span>
                 </div>
             </div>
         </section>
 
         <!-- ОТЗЫВЫ -->
         <section id="reviews-section">
-            <div class="text-center mb-12">
-                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Отзывы</h2>
-                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60">История вашего доверия</p>
+            <div class="text-center mb-12 text-center">
+                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center">Отзывы</h2>
+                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4 text-center">История вашего доверия</p>
             </div>
             
-            <div class="relative max-w-4xl mx-auto">
-                <button onclick="scrollReviews(-1)" class="absolute -left-2 md:-left-12 top-1/2 -translate-y-1/2 w-8 md:w-10 h-8 md:h-10 border border-gold-500/20 flex items-center justify-center hover:bg-gold-500/10 transition-all z-20 bg-black/50 rounded-full">
+            <div class="relative max-w-4xl mx-auto text-center">
+                <button onclick="scrollReviews(-1)" class="absolute -left-2 md:-left-12 top-1/2 -translate-y-1/2 w-8 md:w-10 h-8 md:h-10 border border-gold-500/20 flex items-center justify-center hover:bg-gold-500/10 transition-all z-20 bg-black/50 rounded-full text-center">
                     <i class="fas fa-chevron-left text-[10px]"></i>
                 </button>
-                <button onclick="scrollReviews(1)" class="absolute -right-2 md:-right-12 top-1/2 -translate-y-1/2 w-8 md:w-10 h-8 md:h-10 border border-gold-500/20 flex items-center justify-center hover:bg-gold-500/10 transition-all z-20 bg-black/50 rounded-full">
+                <button onclick="scrollReviews(1)" class="absolute -right-2 md:-right-12 top-1/2 -translate-y-1/2 w-8 md:w-10 h-8 md:h-10 border border-gold-500/20 flex items-center justify-center hover:bg-gold-500/10 transition-all z-20 bg-black/50 rounded-full text-center">
                     <i class="fas fa-chevron-right text-[10px]"></i>
                 </button>
 
-                <div id="gallery-container" class="gallery-scroll gap-6 px-4">
+                <div id="gallery-container" class="gallery-scroll gap-6 px-4 text-center">
                     <div class="gallery-item" onclick="openReviewModal(this)"><img src="photo_2026-01-16_12-10-08.jpg" alt="Отзыв 1"></div>
                     <div class="gallery-item" onclick="openReviewModal(this)"><img src="photo_2026-01-16_12-10-09.jpg" alt="Отзыв 2"></div>
                     <div class="gallery-item" onclick="openReviewModal(this)"><img src="photo_2026-01-16_12-10-10.jpg" alt="Отзыв 3"></div>
                     <div class="gallery-item" onclick="openReviewModal(this)"><img src="photo_2026-01-16_12-10-11.jpg" alt="Отзыв 4"></div>
                 </div>
             </div>
-            <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16 px-2"></div>
+            <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16 px-4 text-center"></div>
         </section>
 
         <!-- ЭНЕРГООБМЕН -->
-        <section class="text-center pt-16 border-t border-white/5 relative overflow-hidden">
-            <div class="flex justify-center mb-6">
+        <section class="text-center pt-16 border-t border-white/5 relative overflow-hidden text-center">
+            <div class="flex justify-center mb-6 text-center">
                 <div class="interactive-heart" onclick="heartBurst(event)">
                     <div class="heart-glow"></div>
-                    <i class="fas fa-heart text-gold-500 text-3xl md:text-4xl animate-heart-beat relative z-10"></i>
+                    <i class="fas fa-heart text-gold-500 text-3xl md:text-4xl animate-heart-beat relative z-10 shadow-2xl"></i>
                 </div>
             </div>
-            <h3 class="text-sm font-heading text-gold-300 mb-4 uppercase tracking-[0.5em]">Энергообмен</h3>
-            <div class="max-w-md mx-auto mb-10 px-6">
-                <p class="text-sm md:text-base text-gold-100/90 italic leading-relaxed mb-4">Благодарность — это живой поток света.</p>
-                <p class="text-[11px] md:text-xs text-gray-400 font-light tracking-wide leading-relaxed">Вы можете поддержать мою работу любой комфортной суммой по сердцу.</p>
+            <h3 class="text-sm font-heading text-gold-300 mb-4 uppercase tracking-[0.5em] text-center">Энергообмен</h3>
+            <div class="max-w-md mx-auto mb-10 px-6 text-center">
+                <p class="text-sm md:text-base text-gold-100/90 italic leading-relaxed mb-4 text-center">Благодарность — это живой поток света.</p>
+                <p class="text-[11px] md:text-xs text-gray-400 font-light tracking-wide leading-relaxed mx-auto text-center">Вы можете поддержать мою работу любой комфортной суммой по сердцу.</p>
             </div>
-            <div class="px-4">
+            <div class="px-4 text-center">
                 <button id="copy-btn" onclick="copyToClipboard('5599002127322628')" class="btn-gold min-w-full sm:min-w-[320px]">
                     <span id="copy-btn-text" class="text-sm md:text-base">5599 0021 2732 2628</span>
                     <i id="copy-icon" class="far fa-copy ml-4 opacity-60"></i>
                 </button>
             </div>
-            <p id="copy-status-msg" class="mt-4 text-[10px] text-green-500 font-bold uppercase opacity-0 transition-all">Реквизиты скопированы</p>
+            <p id="copy-status-msg" class="mt-4 text-[10px] text-green-500 font-bold uppercase opacity-0 transition-all text-center">Реквизиты скопированы</p>
         </section>
     </div>
 
@@ -479,7 +479,7 @@
         let cw, ch, stars = [], particles = [];
 
         class Particle {
-            constructor(x, y, color = '#D4AF37') {
+            constructor(x, y, color = '#FFD700') {
                 this.x = x; this.y = y;
                 this.vx = (Math.random() - 0.5) * 2.5; this.vy = (Math.random() - 0.5) * 2.5;
                 this.size = Math.random() * 2 + 1; this.life = 1; this.decay = 0.015 + Math.random() * 0.02;
@@ -503,7 +503,10 @@
         window.onresize = resize; resize();
 
         document.addEventListener('mousemove', (e) => {
-            if(cat) { cat.style.left = (e.clientX - 25) + 'px'; cat.style.top = (e.clientY - 25) + 'px'; }
+            if(cat) { 
+                cat.style.left = (e.clientX - 25) + 'px'; 
+                cat.style.top = (e.clientY - 25) + 'px'; 
+            }
             if(Math.random() > 0.4) particles.push(new Particle(e.clientX, e.clientY));
         });
 
@@ -516,8 +519,17 @@
         }
         anim();
 
-        window.scrollReviews = (dir) => { const container = document.getElementById('gallery-container'); container.scrollBy({ left: dir * 280, behavior: 'smooth' }); };
-        window.openReviewModal = (el) => { const modal = document.getElementById('image-modal'); const modalImg = document.getElementById('modal-image'); modalImg.src = el.querySelector('img').src; modal.style.display = 'flex'; };
+        window.scrollReviews = (dir) => { 
+            const container = document.getElementById('gallery-container'); 
+            const scrollAmount = window.innerWidth < 640 ? 250 : 300;
+            container.scrollBy({ left: dir * scrollAmount, behavior: 'smooth' }); 
+        };
+        window.openReviewModal = (el) => { 
+            const modal = document.getElementById('image-modal'); 
+            const modalImg = document.getElementById('modal-image'); 
+            modalImg.src = el.querySelector('img').src; 
+            modal.style.display = 'flex'; 
+        };
         window.closeReviewModal = () => document.getElementById('image-modal').style.display = 'none';
 
         const tarotCards = [{n:"Солнце",d:"Ясность и успех во всем.",i:"fa-sun"},{n:"Звезда",d:"Надежда и вера в мечту.",i:"fa-star"},{n:"Мир",d:"Гармония и триумф духа.",i:"fa-globe"},{n:"Колесо Фортуны",d:"Перемены к лучшему.",i:"fa-dharmachakra"},{n:"Маг",d:"У тебя есть все ресурсы.",i:"fa-magic"}];
@@ -532,7 +544,7 @@
                 w.onclick = () => {
                     if(w.classList.contains('flipped')) return;
                     const res = tarotCards[Math.floor(Math.random()*tarotCards.length)];
-                    w.querySelector('.card-back').innerHTML = `<i class="fas ${res.i} text-5xl text-gold-500 mb-6 shadow-xl text-center"></i><h4 class="font-heading text-gold-300 text-lg mb-2 uppercase text-center text-center">${res.n}</h4><p class="text-[10px] text-gray-500 uppercase tracking-widest text-center text-center text-center">${res.d}</p>`;
+                    w.querySelector('.card-back').innerHTML = `<i class="fas ${res.i} text-5xl text-gold-500 mb-6 shadow-xl text-center"></i><h4 class="font-heading text-gold-300 text-lg mb-2 uppercase text-center">${res.n}</h4><p class="text-[10px] text-gray-400 uppercase tracking-widest text-center">${res.d}</p>`;
                     w.classList.add('flipped');
                     document.getElementById('tarot-result').classList.remove('hidden');
                     document.getElementById('result-title').textContent = res.n;
@@ -560,7 +572,10 @@
             for(let i=0; i<20; i++) particles.push(new Particle(x, y, '#fff'));
         };
 
-        window.onload = () => setTimeout(() => { const pre = document.getElementById('preloader'); if(pre) { pre.style.opacity = 0; setTimeout(() => pre.remove(), 800); } }, 1000);
+        window.onload = () => setTimeout(() => { 
+            const pre = document.getElementById('preloader'); 
+            if(pre) { pre.style.opacity = 0; setTimeout(() => pre.remove(), 800); }
+        }, 1000);
     </script>
 </body>
 </html>
