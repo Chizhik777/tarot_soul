@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Таро с Душой | Елена</title>
     
-    <!-- ОБНОВЛЕННЫЙ ФАВИКОН: МАГИЧЕСКИЙ КОТ -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='black'/%3E%3Cpath d='M30,45 Q50,15 70,45 L80,35 L75,75 Q50,95 25,75 L20,35 Z' fill='%23D4AF37'/%3E%3Cpath d='M40,55 A3,3 0 0,1 46,55 M54,55 A3,3 0 0,1 60,55' fill='none' stroke='white' stroke-width='2'/%3E%3Cpath d='M45,25 L55,25' stroke='white' stroke-width='1' opacity='0.5'/%3E%3Ccircle cx='50' cy='30' r='2' fill='white'/%3E%3C/svg%3E">
+    <!-- ФАВИКОН: АНИМИРОВАННЫЙ МИЛЫЙ КОТ КАК НА КУРСОРЕ -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M75,65 C90,65 95,45 90,35 C85,25 75,35 80,45' fill='none' stroke='%23D4AF37' stroke-width='4' stroke-linecap='round' /%3E%3Cpath d='M32,45 Q40,15 48,45 Z' fill='%23D4AF37' /%3E%3Cpath d='M68,45 Q60,15 52,45 Z' fill='%23D4AF37' /%3E%3Ccircle cx='50' cy='60' r='24' fill='black' stroke='%23D4AF37' stroke-width='2' /%3E%3Ccircle cx='40' cy='55' r='4' fill='%23D4AF37'%3E%3Canimate attributeName='opacity' values='1;1;0;1;1' dur='4s' repeatCount='indefinite' /%3E%3C/circle%3E%3Ccircle cx='39' cy='53' r='1' fill='white' /%3E%3Ccircle cx='60' cy='55' r='4' fill='%23D4AF37'%3E%3Canimate attributeName='opacity' values='1;1;0;1;1' dur='4s' repeatCount='indefinite' /%3E%3C/circle%3E%3Ccircle cx='59' cy='53' r='1' fill='white' /%3E%3Cpath d='M48,64 L52,64 L50,67 Z' fill='%23F9F1D8' /%3E%3Cellipse cx='40' cy='78' rx='6' ry='4' fill='black' stroke='%23D4AF37' stroke-width='1' /%3E%3Cellipse cx='60' cy='78' rx='6' ry='4' fill='black' stroke='%23D4AF37' stroke-width='1' /%3E%3C/svg%3E">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -414,7 +414,6 @@
 
         let currentUser = null;
 
-        // ПРАВИЛО 3: Сначала авторизация
         const initAuth = async () => {
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
@@ -443,10 +442,10 @@
                 list.innerHTML = revs.length ? revs.map(r => `
                     <div class="glass-panel p-6 md:p-8 text-left border-white/5">
                         <div class="flex justify-between items-center mb-4">
-                            <span class="font-heading text-gold-300 text-[9px] md:text-[10px] uppercase tracking-widest">${r.name}</span>
+                            <span class="font-heading text-gold-300 text-[9px] md:text-[10px] uppercase tracking-widest text-center">${r.name}</span>
                             <div class="text-gold-500 text-[10px]">${'★'.repeat(r.rating || 5)}</div>
                         </div>
-                        <p class="text-xs md:text-sm text-gray-400 italic leading-relaxed">"${r.text}"</p>
+                        <p class="text-xs md:text-sm text-gray-400 italic leading-relaxed text-center">"${r.text}"</p>
                     </div>
                 `).join('') : '';
             }, (err) => console.error("Firestore Permission Error", err));
@@ -529,11 +528,11 @@
             for(let i=0; i<3; i++) {
                 const w = document.createElement('div');
                 w.className = 'tarot-card-wrapper';
-                w.innerHTML = `<div class="tarot-card-inner w-full h-full"><div class="card-face card-front animate-pulse-card-glow"><div class="eye-symbol animate-pulse-eye"></div></div><div class="card-face card-back"></div></div>`;
+                w.innerHTML = `<div class="tarot-card-inner w-full h-full text-center"><div class="card-face card-front animate-pulse-card-glow text-center"><div class="eye-symbol animate-pulse-eye text-center"></div></div><div class="card-face card-back text-center"></div></div>`;
                 w.onclick = () => {
                     if(w.classList.contains('flipped')) return;
                     const res = tarotCards[Math.floor(Math.random()*tarotCards.length)];
-                    w.querySelector('.card-back').innerHTML = `<i class="fas ${res.i} text-5xl text-gold-500 mb-6 shadow-xl"></i><h4 class="font-heading text-gold-300 text-lg mb-2 uppercase text-center">${res.n}</h4><p class="text-[10px] text-gray-500 uppercase tracking-widest text-center">${res.d}</p>`;
+                    w.querySelector('.card-back').innerHTML = `<i class="fas ${res.i} text-5xl text-gold-500 mb-6 shadow-xl text-center"></i><h4 class="font-heading text-gold-300 text-lg mb-2 uppercase text-center text-center">${res.n}</h4><p class="text-[10px] text-gray-500 uppercase tracking-widest text-center text-center text-center">${res.d}</p>`;
                     w.classList.add('flipped');
                     document.getElementById('tarot-result').classList.remove('hidden');
                     document.getElementById('result-title').textContent = res.n;
