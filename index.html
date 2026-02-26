@@ -62,6 +62,10 @@
                         catFloat: {
                             '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
                             '50%': { transform: 'translateY(-10px) rotate(3deg)' },
+                        },
+                        'spin-reverse': {
+                            'from': { transform: 'rotate(360deg)' },
+                            'to': { transform: 'rotate(0deg)' }
                         }
                     }
                 }
@@ -78,7 +82,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* КУРСОР-КОТ (ДЛЯ ДЕСКТОПОВ) */
+        /* КУРСОР-КОТ (ДЛЯ ПК) */
         #magic-cat {
             position: fixed;
             width: 55px;
@@ -88,10 +92,16 @@
             display: none;
             transform-origin: center center;
         }
-        @media (hover: hover) {
+
+        @media (hover: hover) and (min-width: 641px) {
             #magic-cat { display: block; }
             body { cursor: none; }
             a, button, .gallery-item, .tarot-card-wrapper, .portal-container, .interactive-heart { cursor: none !important; }
+        }
+
+        @media (max-width: 640px) {
+            #magic-cat { display: none !important; }
+            body { cursor: auto !important; }
         }
 
         #preloader { background: #000; transition: opacity 0.8s ease-out, visibility 0.8s; }
@@ -103,6 +113,43 @@
             border: 1px solid rgba(212, 175, 55, 0.15);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
             border-radius: 4px;
+        }
+
+        /* ПОРТАЛ ОТВЕТОВ */
+        .portal-container {
+            position: relative; width: 260px; height: 260px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: center;
+            filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.2));
+            transition: transform 0.3s ease;
+        }
+        .portal-container:active { transform: scale(0.95); }
+        
+        .portal-ring {
+            position: absolute; inset: 0; border-radius: 50%;
+            border: 2px solid rgba(212, 175, 55, 0.1);
+            border-top: 3px solid #D4AF37;
+        }
+        .portal-ring-inner {
+            position: absolute; inset: 25px; border-radius: 50%;
+            border: 1px dashed rgba(212, 175, 55, 0.4);
+        }
+        .portal-core {
+            width: 140px; height: 140px; background: radial-gradient(circle, #111 0%, #000 100%);
+            border-radius: 50%; position: relative; z-index: 10;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            overflow: hidden; transition: all 0.5s ease;
+        }
+        .portal-nebula {
+            position: absolute; inset: -50%;
+            background: conic-gradient(from 0deg, transparent, rgba(212, 175, 55, 0.3), transparent, rgba(255,255,255,0.05), transparent);
+            filter: blur(25px); animation: spin 4s linear infinite;
+            opacity: 0.6; transition: all 0.5s;
+        }
+        .portal-text {
+            position: relative; z-index: 20; font-family: 'Cinzel Decorative', serif;
+            font-size: 1.6rem; color: #fff; text-shadow: 0 0 15px #D4AF37;
+            transition: opacity 0.5s ease;
         }
 
         /* ГАЛЕРЕЯ */
@@ -197,34 +244,28 @@
         </div>
     </div>
 
-    <!-- SVG ШАБЛОН КОТИКА (ИСПОЛЬЗУЕТСЯ ДЛЯ КУРСОРA И МОБИЛЬНОЙ КНОПКИ) -->
+    <!-- SVG ШАБЛОН КОТИКА -->
     <svg style="display: none;">
         <symbol id="magic-cat-symbol" viewBox="0 0 100 100">
-            <!-- Хвост -->
             <path d="M75,65 C90,65 95,45 90,35 C85,25 75,35 80,45" fill="none" stroke="#D4AF37" stroke-width="6" stroke-linecap="round" class="animate-cat-tail" />
-            <!-- Ушки -->
             <path d="M32,45 Q40,15 48,45 Z" fill="#D4AF37" />
             <path d="M68,45 Q60,15 52,45 Z" fill="#D4AF37" />
-            <!-- Мордочка -->
             <circle cx="50" cy="60" r="24" fill="#000" stroke="#D4AF37" stroke-width="2.5" />
-            <!-- Глазки с анимацией моргания -->
             <ellipse cx="40" cy="55" rx="5" ry="5" fill="#D4AF37">
-                <animate attributeName="ry" values="5;5;0.2;5" dur="4s" repeatCount="indefinite" keyTimes="0;0.9;0.95;1" />
+                <animate attributeName="ry" values="5;5;0.2;5" dur="4s" repeatCount="indefinite" keyTimes="0;0.8;0.85;1" />
             </ellipse>
             <circle cx="39" cy="53" r="1.5" fill="#fff" opacity="0.8">
-                <animate attributeName="opacity" values="0.8;0.8;0;0.8" dur="4s" repeatCount="indefinite" keyTimes="0;0.9;0.95;1" />
+                <animate attributeName="opacity" values="0.8;0.8;0;0.8" dur="4s" repeatCount="indefinite" keyTimes="0;0.8;0.85;1" />
             </circle>
             <ellipse cx="60" cy="55" rx="5" ry="5" fill="#D4AF37">
-                <animate attributeName="ry" values="5;5;0.2;5" dur="4s" repeatCount="indefinite" keyTimes="0;0.9;0.95;1" />
+                <animate attributeName="ry" values="5;5;0.2;5" dur="4s" repeatCount="indefinite" keyTimes="0;0.8;0.85;1" />
             </ellipse>
             <circle cx="59" cy="53" r="1.5" fill="#fff" opacity="0.8">
-                <animate attributeName="opacity" values="0.8;0.8;0;0.8" dur="4s" repeatCount="indefinite" keyTimes="0;0.9;0.95;1" />
-            </circle>
-            <!-- Нос и усы -->
+                <animate attributeName="opacity" values="0.8;0.8;0;0.8" dur="4s" repeatCount="indefinite" keyTimes="0;0.8;0.85;1" />
+            </ellipse>
             <path d="M48,64 L52,64 L50,67 Z" fill="#F9F1D8" />
             <path d="M35,60 L20,58 M35,63 L18,63 M35,66 L20,68" stroke="#D4AF37" stroke-width="1.2" opacity="0.5" />
             <path d="M65,60 L80,58 M65,63 L82,63 M65,66 L80,68" stroke="#D4AF37" stroke-width="1.2" opacity="0.5" />
-            <!-- Лапки -->
             <g class="animate-heart-beat" style="animation-duration: 3s;">
                 <ellipse cx="40" cy="78" rx="7" ry="5" fill="#000" stroke="#D4AF37" stroke-width="1.5" />
                 <ellipse cx="60" cy="78" rx="7" ry="5" fill="#000" stroke="#D4AF37" stroke-width="1.5" />
@@ -239,7 +280,7 @@
         </symbol>
     </svg>
 
-    <!-- КУРСОР-КОТ (ТОЛЬКО ДЛЯ ДЕСКТОПА) -->
+    <!-- КУРСОР-КОТ (ТОЛЬКО ДЛЯ ПК) -->
     <div id="magic-cat" class="animate-cat-float">
         <svg viewBox="0 0 100 100" style="overflow: visible; width: 100%; height: 100%;">
             <use href="#magic-cat-symbol" />
@@ -270,8 +311,7 @@
         
         <!-- КНОПКА С СИДЯЩИМ КОТИКОМ (МОБИЛЬНАЯ ВЕРСИЯ) -->
         <div class="relative inline-block mt-4">
-            <!-- Котик для мобилок -->
-            <div id="mobile-sitter-cat" class="sm:hidden absolute -top-8 -right-8 w-14 h-14 pointer-events-none animate-cat-float z-10">
+            <div id="mobile-sitter-cat" class="sm:hidden absolute -top-10 -right-4 w-16 h-16 pointer-events-none animate-cat-float z-10">
                 <svg viewBox="0 0 100 100" style="overflow: visible; width: 100%; height: 100%;">
                     <use href="#magic-cat-symbol" />
                 </svg>
@@ -285,42 +325,50 @@
     <div class="container mx-auto px-4 pb-20 max-w-5xl space-y-24 md:space-y-32 relative z-10 text-center">
         <!-- КАРТЫ -->
         <section>
-            <div class="text-center mb-12 text-center">
-                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center">Золотой Расклад</h2>
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Золотой Расклад</h2>
                 <div class="w-10 h-[1px] bg-gold-500 mx-auto opacity-20"></div>
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-4 opacity-60">Открой три карты, чтобы узнать судьбу</p>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10 h-auto" id="tarot-deck"></div>
-            <div id="tarot-result" class="hidden glass-panel p-8 md:p-12 mt-10 text-center max-w-2xl mx-auto border-gold-500/20 text-center">
-                <div id="result-icon" class="text-4xl md:text-5xl text-gold-500 mb-6"></div>
-                <h3 id="result-title" class="font-heading text-xl md:text-2xl text-gold-100 mb-4 uppercase text-center"></h3>
-                <p id="result-desc" class="text-base md:text-lg text-gray-300 italic mb-10 leading-relaxed text-center"></p>
-                <button onclick="resetTarot()" class="btn-gold px-8 md:px-12 py-3 text-[10px] uppercase">Спросить снова</button>
+            
+            <!-- ФИНАЛЬНОЕ ПРЕДСКАЗАНИЕ (ОБНОВЛЕНО) -->
+            <div id="tarot-result" class="hidden glass-panel p-8 md:p-12 mt-10 text-center max-w-2xl mx-auto border-gold-500/20">
+                <div class="flex justify-center gap-4 mb-6 text-gold-500 opacity-40">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-sun"></i>
+                </div>
+                <h3 id="result-title" class="font-heading text-xl md:text-2xl text-gold-100 mb-4 uppercase">Ваше Предсказание</h3>
+                <div id="result-cards-list" class="flex flex-wrap justify-center gap-2 mb-6 text-[10px] uppercase text-gold-300 tracking-tighter italic"></div>
+                <p id="result-desc" class="text-base md:text-lg text-gray-300 italic mb-10 leading-relaxed"></p>
+                <button onclick="resetTarot()" class="btn-gold px-8 md:px-12 py-3 text-[10px] uppercase">Собрать новый расклад</button>
             </div>
         </section>
 
         <!-- ПОРТАЛ -->
         <section class="flex flex-col items-center">
-            <div class="text-center mb-12 text-center">
-                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center">Портал Ответов</h2>
-                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4 text-center">Задай вопрос Вселенной и коснись центра</p>
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Портал Ответов</h2>
+                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4">Задай вопрос Вселенной и коснись центра</p>
             </div>
-            <div class="portal-container scale-90 sm:scale-100 text-center" id="portal-root" onclick="activatePortal()">
+            <div class="portal-container scale-90 sm:scale-100" id="portal-root" onclick="activatePortal()">
                 <div class="portal-ring animate-spin-slow"></div>
                 <div class="portal-ring-inner animate-spin-reverse"></div>
                 <div class="portal-core">
                     <div class="portal-nebula"></div>
-                    <span id="portal-text" class="portal-text text-center">?</span>
+                    <span id="portal-text" class="portal-text">?</span>
                 </div>
             </div>
         </section>
 
         <!-- ОТЗЫВЫ -->
         <section id="reviews-section">
-            <div class="text-center mb-12 text-center">
-                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center">Отзывы</h2>
-                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4 text-center">История вашего доверия</p>
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Отзывы</h2>
+                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4">История вашего доверия</p>
             </div>
-            <div class="relative max-w-4xl mx-auto">
+            <div class="relative max-w-4xl mx-auto text-center">
                 <button onclick="scrollReviews(-1)" class="absolute -left-2 md:-left-12 top-1/2 -translate-y-1/2 w-8 md:w-10 h-8 md:h-10 border border-gold-500/20 flex items-center justify-center hover:bg-gold-500/10 transition-all z-20 bg-black/50 rounded-full text-white">
                     <i class="fas fa-chevron-left text-[10px]"></i>
                 </button>
@@ -338,17 +386,17 @@
         </section>
 
         <!-- ЭНЕРГООБМЕН -->
-        <section class="text-center pt-16 border-t border-white/5 relative overflow-hidden">
-            <div class="flex justify-center mb-6 text-center">
+        <section class="text-center pt-16 border-t border-white/5 relative overflow-hidden text-center">
+            <div class="flex justify-center mb-6">
                 <div class="interactive-heart" onclick="heartBurst(event)">
                     <div class="heart-glow"></div>
                     <i class="fas fa-heart text-gold-500 text-3xl md:text-4xl animate-heart-beat relative z-10 shadow-2xl"></i>
                 </div>
             </div>
-            <h3 class="text-sm font-heading text-gold-300 mb-4 uppercase tracking-[0.5em] text-center">Энергообмен</h3>
-            <div class="max-w-md mx-auto mb-10 px-6">
+            <h3 class="text-sm font-heading text-gold-300 mb-4 uppercase tracking-[0.5em]">Энергообмен</h3>
+            <div class="max-w-md mx-auto mb-10 px-6 text-center">
                 <p class="text-sm md:text-base text-gold-100/90 italic leading-relaxed mb-4 text-center">Благодарность — это живой поток света.</p>
-                <p class="text-[11px] md:text-xs text-gray-400 font-light tracking-wide leading-relaxed mx-auto text-center">Вы можете поддержать мою работу любой комфортной суммой по сердцу.</p>
+                <p class="text-[11px] md:text-xs text-gray-400 font-light tracking-wide leading-relaxed mx-auto">Вы можете поддержать мою работу любой комфортной суммой по сердцу.</p>
             </div>
             <div class="px-4 text-center">
                 <!-- КНОПКА КОПИРОВАНИЯ ЮMONEY -->
@@ -368,7 +416,7 @@
 
     <!-- SCRIPTS -->
     <script>
-        // ЛОГИКА КОПИРОВАНИЯ (ВНЕ FIREBASE)
+        // ЛОГИКА КОПИРОВАНИЯ
         document.addEventListener('DOMContentLoaded', function() {
             const copyBtn = document.getElementById('copy-btn');
             const icon = document.getElementById('copy-icon');
@@ -377,7 +425,6 @@
 
             if (copyBtn) {
                 copyBtn.onclick = function() {
-                    // Используем textarea для максимальной надежности
                     const textArea = document.createElement("textarea");
                     textArea.value = cardNumber;
                     textArea.style.position = "fixed";
@@ -494,11 +541,11 @@
         window.onresize = resize; resize();
 
         document.addEventListener('mousemove', (e) => {
-            if(cat) { 
+            if(cat && window.getComputedStyle(cat).display !== 'none') { 
                 cat.style.left = (e.clientX - 25) + 'px'; 
                 cat.style.top = (e.clientY - 25) + 'px'; 
+                if(Math.random() > 0.4) particles.push(new Particle(e.clientX, e.clientY));
             }
-            if(Math.random() > 0.4) particles.push(new Particle(e.clientX, e.clientY));
         });
 
         function anim() {
@@ -523,28 +570,89 @@
         };
         window.closeReviewModal = () => document.getElementById('image-modal').style.display = 'none';
 
-        const tarotCards = [{n:"Солнце",d:"Ясность и успех во всем.",i:"fa-sun"},{n:"Звезда",d:"Надежда и вера в мечту.",i:"fa-star"},{n:"Мир",d:"Гармония и триумф духа.",i:"fa-globe"},{n:"Колесо Фортуны",d:"Перемены к лучшему.",i:"fa-dharmachakra"},{n:"Маг",d:"У тебя есть все ресурсы.",i:"fa-magic"}];
+        // ОБНОВЛЕННАЯ ЛОГИКА КАРТ ТАРО
+        const tarotCardsPool = [
+            {n:"Маг", d:"У вас есть все ресурсы для успеха. Время действовать смело.", i:"fa-magic"},
+            {n:"Жрица", d:"Доверяйте своей интуиции. Ответ скрыт внутри вас.", i:"fa-scroll"},
+            {n:"Императрица", d:"Период расцвета и плодородия. Творческие идеи принесут плоды.", i:"fa-crown"},
+            {n:"Влюбленные", d:"Важный выбор сердца. Гармония в отношениях возможна.", i:"fa-heart"},
+            {n:"Колесница", d:"Уверенное движение вперед. Победа через самоконтроль.", i:"fa-shuttle-van"},
+            {n:"Сила", d:"Мягкая сила и терпение преодолеют любые преграды.", i:"fa-lion"},
+            {n:"Отшельник", d:"Время для внутреннего поиска и мудрости. Не бойтесь тишины.", i:"fa-lightbulb"},
+            {n:"Колесо Фортуны", d:"Грядут перемены. Судьба поворачивается к вам лицом.", i:"fa-dharmachakra"},
+            {n:"Звезда", d:"Надежда и вдохновение. Ваши мечты начинают сбываться.", i:"fa-star"},
+            {n:"Солнце", d:"Ясность, радость и успех. Всё тайное становится явным.", i:"fa-sun"},
+            {n:"Мир", d:"Завершение цикла и обретение целостности. Вы на своем месте.", i:"fa-globe-europe"},
+            {n:"Луна", d:"Тайны и иллюзии. Прислушайтесь к снам и скрытым чувствам.", i:"fa-moon"},
+            {n:"Справедливость", d:"Честность и баланс. Вы получите то, что заслужили.", i:"fa-balance-scale"},
+            {n:"Умеренность", d:"Найдите золотую середину. Спокойствие — ваш лучший союзник.", i:"fa-water"}
+        ];
+
+        let currentDeckState = [];
+        let flippedIndices = new Set();
+
         function initDeck() {
             const deck = document.getElementById('tarot-deck');
             if(!deck) return;
             deck.innerHTML = '';
+            flippedIndices.clear();
+            
+            // Перемешиваем пул и выбираем 3 уникальные карты
+            const shuffledPool = [...tarotCardsPool].sort(() => Math.random() - 0.5);
+            currentDeckState = shuffledPool.slice(0, 3);
+
             for(let i=0; i<3; i++) {
                 const w = document.createElement('div');
                 w.className = 'tarot-card-wrapper';
-                w.innerHTML = `<div class="tarot-card-inner w-full h-full text-center"><div class="card-face card-front animate-pulse-card-glow text-center"><div class="eye-symbol animate-pulse-eye text-center"></div></div><div class="card-face card-back text-center"></div></div>`;
+                w.innerHTML = `<div class="tarot-card-inner w-full h-full text-center">
+                    <div class="card-face card-front animate-pulse-card-glow text-center">
+                        <div class="eye-symbol animate-pulse-eye text-center"></div>
+                    </div>
+                    <div class="card-face card-back text-center"></div>
+                </div>`;
+                
                 w.onclick = () => {
                     if(w.classList.contains('flipped')) return;
-                    const res = tarotCards[Math.floor(Math.random()*tarotCards.length)];
-                    w.querySelector('.card-back').innerHTML = `<i class="fas ${res.i} text-5xl text-gold-500 mb-6 shadow-xl text-center"></i><h4 class="font-heading text-gold-300 text-lg mb-2 uppercase text-center">${res.n}</h4><p class="text-[10px] text-gray-500 uppercase tracking-widest text-center">${res.d}</p>`;
+                    
+                    const cardData = currentDeckState[i];
+                    w.querySelector('.card-back').innerHTML = `
+                        <i class="fas ${cardData.i} text-5xl text-gold-500 mb-6 shadow-xl text-center"></i>
+                        <h4 class="font-heading text-gold-300 text-lg mb-2 uppercase text-center">${cardData.n}</h4>
+                    `;
                     w.classList.add('flipped');
-                    document.getElementById('tarot-result').classList.remove('hidden');
-                    document.getElementById('result-title').textContent = res.n;
-                    document.getElementById('result-desc').textContent = res.d;
-                    document.getElementById('result-icon').className = `fas ${res.i}`;
+                    flippedIndices.add(i);
+                    
+                    if(flippedIndices.size === 3) {
+                        showFinalPrediction();
+                    }
                 };
                 deck.appendChild(w);
             }
         }
+
+        function showFinalPrediction() {
+            const resultBlock = document.getElementById('tarot-result');
+            const resultDesc = document.getElementById('result-desc');
+            const resultList = document.getElementById('result-cards-list');
+            
+            // Формируем список названий выпавших карт
+            resultList.innerHTML = currentDeckState.map(c => `<span>[${c.n}]</span>`).join(' + ');
+            
+            // Логика общего предсказания (упрощенная комбинация)
+            const meanings = currentDeckState.map(c => c.d.split('.')[0]).join('. ');
+            resultDesc.textContent = `Ваш путь сегодня определяют эти силы: ${meanings}. Объедините их мудрость, чтобы найти истинный ответ на ваш запрос.`;
+            
+            resultBlock.classList.remove('hidden');
+            resultBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        window.resetTarot = () => {
+            const resultBlock = document.getElementById('tarot-result');
+            resultBlock.classList.add('hidden');
+            initDeck();
+            window.scrollTo({ top: document.getElementById('tarot-deck').offsetTop - 150, behavior: 'smooth' });
+        };
+
         initDeck();
 
         window.activatePortal = () => {
