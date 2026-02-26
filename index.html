@@ -145,7 +145,7 @@
         .gallery-item:hover { border-color: rgba(212, 175, 55, 0.4); }
         .gallery-item img { width: 100%; height: 100%; object-fit: contain; }
 
-        /* КАРТЫ */
+        /* КАРТЫ ТАРО */
         .tarot-card-wrapper { perspective: 1200px; height: 420px; }
         .tarot-card-inner {
             position: relative; width: 100%; height: 100%;
@@ -177,41 +177,6 @@
             padding: 20px; text-align: center;
         }
 
-        /* ПОРТАЛ */
-        .portal-container {
-            position: relative; width: 260px; height: 260px; margin: 0 auto;
-            display: flex; align-items: center; justify-content: center;
-            filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.2));
-        }
-        .portal-ring {
-            position: absolute; inset: 0; border-radius: 50%;
-            border: 2px solid rgba(212, 175, 55, 0.1);
-            border-top: 3px solid #D4AF37;
-            animation: spin 12s linear infinite;
-        }
-        .portal-ring-inner {
-            position: absolute; inset: 25px; border-radius: 50%;
-            border: 1px dashed rgba(212, 175, 55, 0.4);
-            animation: spin-reverse 8s linear infinite;
-        }
-        .portal-core {
-            width: 140px; height: 140px; background: radial-gradient(circle, #111 0%, #000 100%);
-            border-radius: 50%; position: relative; z-index: 10;
-            display: flex; align-items: center; justify-content: center;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            overflow: hidden; transition: all 0.5s ease;
-        }
-        .portal-nebula {
-            position: absolute; inset: -50%;
-            background: conic-gradient(from 0deg, transparent, rgba(212, 175, 55, 0.3), transparent, rgba(255,255,255,0.05), transparent);
-            filter: blur(25px); animation: spin 4s linear infinite;
-            opacity: 0.6; transition: all 0.5s;
-        }
-        .portal-text {
-            position: relative; z-index: 20; font-family: 'Cinzel Decorative', serif;
-            font-size: 1.6rem; color: #fff; text-shadow: 0 0 15px #D4AF37;
-        }
-
         /* МОДАЛКА */
         #image-modal {
             position: fixed; inset: 0; z-index: 11000; display: none;
@@ -230,17 +195,6 @@
             text-decoration: none;
         }
         .btn-gold:hover { border-color: #D4AF37; color: #FFFFFF; transform: translateY(-2px); }
-
-        /* СЕРДЦЕ */
-        .interactive-heart {
-            cursor: pointer; transition: all 0.3s ease;
-            position: relative; display: inline-block;
-        }
-        .heart-glow {
-            position: absolute; inset: -15px;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.4) 0%, transparent 70%);
-            border-radius: 50%; z-index: 0; pointer-events: none;
-        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col font-body selection:bg-gold-500 selection:text-black">
@@ -253,7 +207,7 @@
         </div>
     </div>
 
-    <!-- КУРСОР-КОТ -->
+    <!-- КУРСОР-КОТ (АНИМИРОВАННЫЙ С МОРГАЮЩИМИ ГЛАЗКАМИ) -->
     <div id="magic-cat" class="animate-cat-float">
         <svg viewBox="0 0 100 100" style="overflow: visible;">
             <!-- Пушистый Хвостик -->
@@ -263,11 +217,22 @@
             <path d="M68,45 Q60,15 52,45 Z" fill="#D4AF37" />
             <!-- Мордочка -->
             <circle cx="50" cy="60" r="24" fill="#000" stroke="#D4AF37" stroke-width="2.5" />
-            <!-- Глазки -->
-            <circle cx="40" cy="55" r="5" fill="#D4AF37" />
-            <circle cx="39" cy="53" r="1.5" fill="#fff" opacity="0.8" />
-            <circle cx="60" cy="55" r="5" fill="#D4AF37" />
-            <circle cx="59" cy="53" r="1.5" fill="#fff" opacity="0.8" />
+            
+            <!-- ГЛАЗКИ (Моргание) -->
+            <ellipse cx="40" cy="55" rx="5" ry="5" fill="#D4AF37">
+                <animate attributeName="ry" values="5;5;0.2;5" dur="4s" repeatCount="indefinite" keyTimes="0;0.9;0.95;1" />
+            </ellipse>
+            <circle cx="39" cy="53" r="1.5" fill="#fff" opacity="0.8">
+                <animate attributeName="opacity" values="0.8;0.8;0;0.8" dur="4s" repeatCount="indefinite" keyTimes="0;0.9;0.95;1" />
+            </circle>
+            
+            <ellipse cx="60" cy="55" rx="5" ry="5" fill="#D4AF37">
+                <animate attributeName="ry" values="5;5;0.2;5" dur="4s" repeatCount="indefinite" keyTimes="0;0.9;0.95;1" />
+            </ellipse>
+            <circle cx="59" cy="53" r="1.5" fill="#fff" opacity="0.8">
+                <animate attributeName="opacity" values="0.8;0.8;0;0.8" dur="4s" repeatCount="indefinite" keyTimes="0;0.9;0.95;1" />
+            </circle>
+
             <!-- Носик -->
             <path d="M48,64 L52,64 L50,67 Z" fill="#F9F1D8" />
             <!-- Усики -->
@@ -300,12 +265,12 @@
         </div>
     </header>
 
-    <!-- HERO SECTION -->
+    <!-- HERO -->
     <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 relative pt-20 overflow-hidden text-center">
         <div class="absolute top-1/4 left-4 md:left-10 text-gold-900 text-4xl md:text-6xl animate-float opacity-20 pointer-events-none">☾</div>
         <div class="absolute bottom-1/4 right-4 md:right-10 text-gold-900 text-4xl md:text-6xl animate-float opacity-20 pointer-events-none" style="animation-delay: 2s;">🜁</div>
         
-        <h1 class="font-heading text-4xl sm:text-6xl md:text-8xl text-gold-glow animate-float tracking-tighter uppercase mb-6 leading-tight text-center">Таро с Душой</h1>
+        <h1 class="font-heading text-4xl sm:text-6xl md:text-8xl text-gold-glow animate-float tracking-tighter uppercase mb-6 leading-tight">Таро с Душой</h1>
         <p class="text-lg md:text-2xl text-gold-100 italic max-w-2xl font-light mb-12 opacity-80 leading-relaxed mx-auto text-center">
             "Там, где Тьма встречается со Светом,<br class="hidden sm:block">рождается Истина."
         </p>
@@ -315,7 +280,6 @@
     </section>
 
     <div class="container mx-auto px-4 pb-20 max-w-5xl space-y-24 md:space-y-32 relative z-10 text-center">
-        
         <!-- КАРТЫ -->
         <section>
             <div class="text-center mb-12 text-center">
@@ -353,15 +317,13 @@
                 <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center">Отзывы</h2>
                 <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4 text-center">История вашего доверия</p>
             </div>
-            
             <div class="relative max-w-4xl mx-auto text-center">
-                <button onclick="scrollReviews(-1)" class="absolute -left-2 md:-left-12 top-1/2 -translate-y-1/2 w-8 md:w-10 h-8 md:h-10 border border-gold-500/20 flex items-center justify-center hover:bg-gold-500/10 transition-all z-20 bg-black/50 rounded-full text-center">
+                <button onclick="scrollReviews(-1)" class="absolute -left-2 md:-left-12 top-1/2 -translate-y-1/2 w-8 md:w-10 h-8 md:h-10 border border-gold-500/20 flex items-center justify-center hover:bg-gold-500/10 transition-all z-20 bg-black/50 rounded-full text-center text-white">
                     <i class="fas fa-chevron-left text-[10px]"></i>
                 </button>
-                <button onclick="scrollReviews(1)" class="absolute -right-2 md:-right-12 top-1/2 -translate-y-1/2 w-8 md:w-10 h-8 md:h-10 border border-gold-500/20 flex items-center justify-center hover:bg-gold-500/10 transition-all z-20 bg-black/50 rounded-full text-center">
+                <button onclick="scrollReviews(1)" class="absolute -right-2 md:-right-12 top-1/2 -translate-y-1/2 w-8 md:w-10 h-8 md:h-10 border border-gold-500/20 flex items-center justify-center hover:bg-gold-500/10 transition-all z-20 bg-black/50 rounded-full text-center text-white">
                     <i class="fas fa-chevron-right text-[10px]"></i>
                 </button>
-
                 <div id="gallery-container" class="gallery-scroll gap-6 px-4 text-center">
                     <div class="gallery-item" onclick="openReviewModal(this)"><img src="photo_2026-01-16_12-10-08.jpg" alt="Отзыв 1"></div>
                     <div class="gallery-item" onclick="openReviewModal(this)"><img src="photo_2026-01-16_12-10-09.jpg" alt="Отзыв 2"></div>
@@ -386,21 +348,22 @@
                 <p class="text-[11px] md:text-xs text-gray-400 font-light tracking-wide leading-relaxed mx-auto text-center">Вы можете поддержать мою работу любой комфортной суммой по сердцу.</p>
             </div>
             <div class="px-4 text-center">
+                <!-- НОМЕР КАРТЫ ЮMONEY -->
                 <button id="copy-btn" onclick="copyToClipboard('5599002127322628')" class="btn-gold min-w-full sm:min-w-[320px]">
                     <span id="copy-btn-text" class="text-sm md:text-base">5599 0021 2732 2628</span>
                     <i id="copy-icon" class="far fa-copy ml-4 opacity-60"></i>
                 </button>
             </div>
-            <p id="copy-status-msg" class="mt-4 text-[10px] text-green-500 font-bold uppercase opacity-0 transition-all text-center">Реквизиты скопированы</p>
+            <p id="copy-status-msg" class="mt-4 text-[10px] text-green-500 font-bold uppercase opacity-0 transition-all text-center">Скопировано успешно</p>
         </section>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО -->
+    <!-- МОДАЛКА -->
     <div id="image-modal" onclick="closeReviewModal()">
         <img id="modal-image" src="" alt="Full Review">
     </div>
 
-    <!-- FIREBASE & LOGIC -->
+    <!-- SCRIPTS -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
@@ -451,25 +414,60 @@
             }, (err) => console.error("Firestore Permission Error", err));
         }
 
+        // ПРОВЕРЕННАЯ ФУНКЦИЯ КОПИРОВАНИЯ (РОБАСТНАЯ ВЕРСИЯ ДЛЯ ЛОКАЛЬНОГО И САНДБОКС ЗАПУСКА)
         window.copyToClipboard = function(text) {
             const icon = document.getElementById('copy-icon');
             const msg = document.getElementById('copy-status-msg');
-            const input = document.createElement("input");
-            input.value = text;
-            input.style.position = "fixed"; input.style.opacity = "0";
-            document.body.appendChild(input);
-            input.focus(); input.select();
-            input.setSelectionRange(0, 99999);
+            
+            const handleSuccess = () => {
+                msg.style.opacity = '1';
+                icon.className = 'fas fa-check text-green-500 ml-4';
+                setTimeout(() => {
+                    msg.style.opacity = '0';
+                    icon.className = 'far fa-copy ml-4 opacity-60';
+                }, 3000);
+            };
+
+            // Метод 1: Современный Clipboard API (требует HTTPS или localhost)
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text)
+                    .then(() => handleSuccess())
+                    .catch(() => fallbackCopy(text, handleSuccess));
+            } else {
+                // Метод 2: Резервный через textarea (работает локально и в iframe)
+                fallbackCopy(text, handleSuccess);
+            }
+        };
+
+        function fallbackCopy(text, callback) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            
+            // Обеспечиваем невидимость, но оставляем в DOM для работы execCommand
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            textArea.style.top = "0";
+            textArea.style.width = '2em';
+            textArea.style.height = '2em';
+            textArea.style.padding = '0';
+            textArea.style.border = 'none';
+            textArea.style.outline = 'none';
+            textArea.style.boxShadow = 'none';
+            textArea.style.background = 'transparent';
+            
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
             try {
                 const successful = document.execCommand('copy');
-                if (successful) {
-                    msg.style.opacity = '1';
-                    icon.className = 'fas fa-check text-green-500';
-                    setTimeout(() => { msg.style.opacity = '0'; icon.className = 'far fa-copy opacity-60'; }, 2500);
-                }
-            } catch (err) { console.error(err); }
-            document.body.removeChild(input);
-        };
+                if (successful) callback();
+            } catch (err) {
+                console.error('Критическая ошибка копирования:', err);
+            }
+            
+            document.body.removeChild(textArea);
+        }
     </script>
 
     <script>
@@ -503,10 +501,7 @@
         window.onresize = resize; resize();
 
         document.addEventListener('mousemove', (e) => {
-            if(cat) { 
-                cat.style.left = (e.clientX - 25) + 'px'; 
-                cat.style.top = (e.clientY - 25) + 'px'; 
-            }
+            if(cat) { cat.style.left = (e.clientX - 25) + 'px'; cat.style.top = (e.clientY - 25) + 'px'; }
             if(Math.random() > 0.4) particles.push(new Particle(e.clientX, e.clientY));
         });
 
@@ -562,7 +557,11 @@
             const t = document.getElementById('portal-text');
             portal.classList.add('animate-pulse');
             t.style.opacity = '0';
-            setTimeout(() => { portal.classList.remove('animate-pulse'); t.textContent = answers[Math.floor(Math.random()*answers.length)]; t.style.opacity = '1'; }, 800);
+            setTimeout(() => { 
+                portal.classList.remove('animate-pulse'); 
+                t.textContent = answers[Math.floor(Math.random()*answers.length)]; 
+                t.style.opacity = '1'; 
+            }, 800);
         };
 
         window.heartBurst = (e) => {
