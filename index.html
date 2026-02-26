@@ -33,10 +33,12 @@
                         'spin-slow': 'spin 12s linear infinite',
                         'spin-reverse': 'spin-reverse 8s linear infinite',
                         'pulse-gold-btn': 'pulseGoldBtn 4s infinite ease-in-out',
-                        'pulse-eye': 'pulseEye 3s infinite ease-in-out',
                         'pulse-card-glow': 'pulseCardGlow 3s infinite ease-in-out',
                         'float': 'float 6s ease-in-out infinite',
                         'heart-beat': 'heartBeat 1.5s ease-in-out infinite',
+                        'cat-tail': 'catTail 2s ease-in-out infinite alternate',
+                        'cat-float': 'catFloat 4s ease-in-out infinite',
+                        'pulse-eye': 'pulseEye 3s infinite ease-in-out',
                     },
                     keyframes: {
                         pulseGoldBtn: {
@@ -44,27 +46,20 @@
                             '50%': { opacity: '1', transform: 'scale(1.02)', boxShadow: '0 0 20px rgba(212, 175, 55, 0.3)' },
                         },
                         pulseCardGlow: {
-                            '0%, 100%': { 
-                                boxShadow: 'inset 0 0 15px rgba(212, 175, 55, 0.1)', 
-                                borderColor: 'rgba(153, 123, 30, 0.3)',
-                                filter: 'drop-shadow(0 0 5px rgba(212, 175, 55, 0.1))'
-                            },
-                            '50%': { 
-                                boxShadow: 'inset 0 0 35px rgba(212, 175, 55, 0.3)', 
-                                borderColor: 'rgba(212, 175, 55, 0.6)',
-                                filter: 'drop-shadow(0 0 15px rgba(212, 175, 55, 0.3))'
-                            },
+                            '0%, 100%': { boxShadow: 'inset 0 0 15px rgba(212, 175, 55, 0.1)', borderColor: 'rgba(153, 123, 30, 0.3)' },
+                            '50%': { boxShadow: 'inset 0 0 35px rgba(212, 175, 55, 0.3)', borderColor: 'rgba(212, 175, 55, 0.6)' },
                         },
                         heartBeat: {
-                            '0%': { transform: 'scale(1)', opacity: '0.8' },
-                            '14%': { transform: 'scale(1.2)' },
-                            '28%': { transform: 'scale(1)' },
-                            '42%': { transform: 'scale(1.2)' },
-                            '70%': { transform: 'scale(1)', opacity: '1' },
+                            '0%, 100%': { transform: 'scale(1)', opacity: '0.8' },
+                            '50%': { transform: 'scale(1.15)', opacity: '1' },
                         },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
+                        catTail: {
+                            'from': { transform: 'rotate(-5deg)' },
+                            'to': { transform: 'rotate(15deg)' }
+                        },
+                        catFloat: {
+                            '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-6px) rotate(2deg)' },
                         },
                         pulseEye: {
                             '0%, 100%': { transform: 'rotate(45deg) scale(1)', opacity: '0.8' },
@@ -89,14 +84,21 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Кастомный курсор */
-        #custom-cursor {
-            position: fixed; width: 12px; height: 12px;
-            background: #fff; border-radius: 50%; pointer-events: none; z-index: 9999;
-            transform: translate(-50%, -50%); box-shadow: 0 0 15px 2px #D4AF37;
+        /* КУРСОР-КОТ (МИЛЫЙ С ЛАПКАМИ) */
+        #magic-cat {
+            position: fixed;
+            width: 55px;
+            height: 55px;
+            pointer-events: none;
+            z-index: 10000;
             display: none;
+            transform-origin: center center;
         }
-        @media (hover: hover) { #custom-cursor { display: block; } body { cursor: none; } }
+        @media (hover: hover) {
+            #magic-cat { display: block; }
+            body { cursor: none; }
+            a, button, .gallery-item, .tarot-card-wrapper, .portal-container, .interactive-heart { cursor: none !important; }
+        }
 
         #preloader { background: #000; transition: opacity 0.8s ease-out, visibility 0.8s; }
         #chaos-bg, #magic-dust { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; pointer-events: none; }
@@ -109,6 +111,35 @@
             border-radius: 4px;
         }
 
+        /* ГАЛЕРЕЯ */
+        .gallery-scroll::-webkit-scrollbar { display: none; }
+        .gallery-scroll { 
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+            overflow-x: auto;
+            white-space: nowrap; 
+            display: flex; 
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+        }
+        .gallery-item { 
+            scroll-snap-align: center; 
+            flex: 0 0 auto; 
+            width: 280px; 
+            height: 480px; 
+            background: #080808;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+        }
+        .gallery-item:hover { border-color: rgba(212, 175, 55, 0.4); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: contain; }
+
+        /* КАРТЫ */
         .tarot-card-wrapper { perspective: 1200px; height: 420px; }
         .tarot-card-inner {
             position: relative; width: 100%; height: 100%;
@@ -117,18 +148,14 @@
         }
         .flipped .tarot-card-inner { transform: rotateY(180deg); }
         .card-face {
-            position: absolute; inset: 0; backface-visibility: hidden; border-radius: 8px; border: 1px solid rgba(153, 123, 30, 0.3);
+            position: absolute; inset: 0; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid rgba(153, 123, 30, 0.3);
         }
-        .card-front {
-            background: #050505;
-            background-image: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
-            display: flex; align-items: center; justify-content: center;
-        }
+        .card-front { background: #050505; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         
         .eye-symbol {
             width: 50px; height: 50px;
             border: 2px solid #D4AF37; border-radius: 0 70%; 
-            transform: rotate(45deg); position: relative;
+            transform: rotate(45deg); position: relative; z-index: 2;
         }
         .eye-symbol::after {
             content: ''; position: absolute; width: 16px; height: 16px;
@@ -144,42 +171,22 @@
             padding: 20px; text-align: center;
         }
 
-        /* КНОПКА-КАРТА */
+        /* КНОПКА */
         .btn-gold {
-            background: #050505;
-            color: #D4AF37;
-            font-weight: 700;
-            border-radius: 4px; 
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            font-family: 'Cinzel Decorative', serif;
-            letter-spacing: 0.15em;
-            z-index: 1;
+            background: #050505; color: #D4AF37; font-weight: 700; border-radius: 4px; 
+            position: relative; overflow: hidden; transition: all 0.4s;
+            font-family: 'Cinzel Decorative', serif; letter-spacing: 0.1em;
             display: inline-flex; align-items: center; justify-content: center;
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            padding: 0.8rem 1.5rem;
-            cursor: pointer;
+            border: 1px solid rgba(212, 175, 55, 0.4); padding: 0.8rem 1.5rem;
             text-decoration: none;
-        }
-        
-        .btn-gold::before {
-            content: ''; position: absolute; inset: 3px;
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            transition: all 0.4s ease; pointer-events: none;
         }
         .btn-gold:hover { border-color: #D4AF37; color: #FFFFFF; transform: translateY(-2px); }
 
         /* ПОРТАЛ */
         .portal-container {
-            position: relative; width: 280px; height: 280px; margin: 0 auto;
+            position: relative; width: 260px; height: 260px; margin: 0 auto;
             display: flex; align-items: center; justify-content: center;
             filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.2));
-        }
-        .portal-aura {
-            position: absolute; inset: 20px; border-radius: 50%;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
         }
         .portal-ring {
             position: absolute; inset: 0; border-radius: 50%;
@@ -193,67 +200,35 @@
             animation: spin-reverse 8s linear infinite;
         }
         .portal-core {
-            width: 150px; height: 150px; background: radial-gradient(circle, #111 0%, #000 100%);
+            width: 140px; height: 140px; background: radial-gradient(circle, #111 0%, #000 100%);
             border-radius: 50%; position: relative; z-index: 10;
             display: flex; align-items: center; justify-content: center;
             border: 1px solid rgba(212, 175, 55, 0.2);
-            overflow: hidden; cursor: pointer; transition: all 0.5s ease;
+            overflow: hidden; transition: all 0.5s ease;
         }
-        .portal-core:hover { transform: scale(1.05); border-color: #D4AF37; }
         .portal-nebula {
             position: absolute; inset: -50%;
             background: conic-gradient(from 0deg, transparent, rgba(212, 175, 55, 0.3), transparent, rgba(255,255,255,0.05), transparent);
             filter: blur(25px); animation: spin 4s linear infinite;
             opacity: 0.6; transition: all 0.5s;
         }
-        .portal-searching .portal-nebula {
-            opacity: 1; animation: spin 0.6s linear infinite;
-            background: conic-gradient(from 0deg, #D4AF37, #E6C87C, #fff, #D4AF37);
-        }
         .portal-text {
             position: relative; z-index: 20; font-family: 'Cinzel Decorative', serif;
-            font-size: 1.8rem; color: #fff; text-shadow: 0 0 15px #D4AF37;
-            transition: all 0.5s;
+            font-size: 1.6rem; color: #fff; text-shadow: 0 0 15px #D4AF37;
         }
 
-        .gallery-scroll::-webkit-scrollbar { display: none; }
-        .gallery-scroll { 
-            scrollbar-width: none; 
-            -ms-overflow-style: none; 
-            overflow-y: hidden; 
-            overflow-x: auto;
-            white-space: nowrap; 
-            display: flex; 
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            padding-bottom: 20px;
+        /* МОДАЛКА */
+        #image-modal {
+            position: fixed; inset: 0; z-index: 11000; display: none;
+            background: rgba(0,0,0,0.95); align-items: center; justify-content: center; padding: 20px;
         }
-        .gallery-item { 
-            scroll-snap-align: center; 
-            flex: 0 0 auto; 
-            width: 300px; 
-            height: 520px; 
-            background: #080808;
-            border: 1px solid rgba(212, 175, 55, 0.1);
-            border-radius: 12px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        .gallery-item img {
-            width: 100%; height: 100%;
-            object-fit: contain; 
-            transition: transform 0.5s ease;
-        }
+        #modal-image { max-width: 95%; max-height: 95%; object-fit: contain; box-shadow: 0 0 40px rgba(212, 175, 55, 0.2); }
 
-        /* МАГИЧЕСКОЕ СЕРДЦЕ */
+        /* СЕРДЦЕ */
         .interactive-heart {
             cursor: pointer; transition: all 0.3s ease;
             position: relative; display: inline-block;
         }
-        .interactive-heart:active { transform: scale(0.8); }
         .heart-glow {
             position: absolute; inset: -15px;
             background: radial-gradient(circle, rgba(212, 175, 55, 0.4) 0%, transparent 70%);
@@ -263,49 +238,82 @@
 </head>
 <body class="min-h-screen flex flex-col font-body selection:bg-gold-500 selection:text-black">
 
-    <!-- PRELOADER -->
-    <div id="preloader" class="fixed inset-0 z-[9999] flex items-center justify-center text-gold-500">
+    <!-- ПРЕЛОАДЕР -->
+    <div id="preloader" class="fixed inset-0 z-[12000] flex items-center justify-center text-gold-500">
         <div class="text-center">
             <i class="fas fa-circle-notch fa-spin text-4xl mb-4"></i>
             <h2 class="font-heading text-xl tracking-[0.3em] uppercase opacity-70">Soul Tarot</h2>
         </div>
     </div>
 
-    <div id="custom-cursor"></div>
+    <!-- КУРСОР-КОТ (МИЛЫЙ ДИЗАЙН С ЛАПКАМИ) -->
+    <div id="magic-cat" class="animate-cat-float">
+        <svg viewBox="0 0 100 100" style="overflow: visible;">
+            <!-- Пушистый Хвостик -->
+            <path d="M75,65 C90,65 95,45 90,35 C85,25 75,35 80,45" fill="none" stroke="#D4AF37" stroke-width="6" stroke-linecap="round" class="animate-cat-tail" />
+            <!-- Милые Ушки (Округлые) -->
+            <path d="M32,45 Q40,15 48,45 Z" fill="#D4AF37" />
+            <path d="M68,45 Q60,15 52,45 Z" fill="#D4AF37" />
+            <!-- Круглая милая мордочка -->
+            <circle cx="50" cy="60" r="24" fill="#000" stroke="#D4AF37" stroke-width="2.5" />
+            <!-- Глазки (Большие и блестящие) -->
+            <circle cx="40" cy="55" r="5" fill="#D4AF37" />
+            <circle cx="39" cy="53" r="1.5" fill="#fff" opacity="0.8" /> <!-- Блик -->
+            <circle cx="60" cy="55" r="5" fill="#D4AF37" />
+            <circle cx="59" cy="53" r="1.5" fill="#fff" opacity="0.8" /> <!-- Блик -->
+            <!-- Маленький носик -->
+            <path d="M48,64 L52,64 L50,67 Z" fill="#F9F1D8" />
+            <!-- Усики -->
+            <path d="M35,60 L20,58 M35,63 L18,63 M35,66 L20,68" stroke="#D4AF37" stroke-width="1.2" opacity="0.5" />
+            <path d="M65,60 L80,58 M65,63 L82,63 M65,66 L80,68" stroke="#D4AF37" stroke-width="1.2" opacity="0.5" />
+            
+            <!-- ПЕРЕДНИЕ ЛАПКИ (Теперь они точно видны и мило расположены) -->
+            <g class="animate-heart-beat" style="animation-duration: 3s;">
+                <ellipse cx="40" cy="78" rx="7" ry="5" fill="#000" stroke="#D4AF37" stroke-width="1.5" />
+                <circle cx="40" cy="76" r="1.5" fill="#fff" opacity="0.4" />
+                <ellipse cx="60" cy="78" rx="7" ry="5" fill="#000" stroke="#D4AF37" stroke-width="1.5" />
+                <circle cx="60" cy="76" r="1.5" fill="#fff" opacity="0.4" />
+            </g>
+
+            <!-- Сияющая аура -->
+            <circle cx="50" cy="60" r="35" fill="url(#catGlow)" opacity="0.25" />
+            <defs>
+                <radialGradient id="catGlow">
+                    <stop offset="0%" stop-color="#D4AF37" />
+                    <stop offset="100%" stop-color="transparent" />
+                </radialGradient>
+            </defs>
+        </svg>
+    </div>
+
     <canvas id="chaos-bg"></canvas>
     <canvas id="magic-dust"></canvas>
 
-    <!-- HEADER -->
-    <header class="fixed w-full z-50 top-0 left-0 bg-void/80 backdrop-blur-xl border-b border-white/5" id="navbar">
+    <header class="fixed w-full z-50 top-0 left-0 bg-void/80 backdrop-blur-xl border-b border-white/5">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <span class="font-heading text-xl text-gold-300 tracking-wider">Soul Tarot</span>
             </div>
-            <!-- ССЫЛКА НА БОТ -->
-            <a href="https://t.me/elena_tarot_soul_bot" target="_blank" class="btn-gold px-6 py-1.5 text-[10px] uppercase">
-                Записаться
-            </a>
+            <a href="https://t.me/elena_tarot_soul_bot" target="_blank" class="btn-gold text-[10px] py-1 px-4 uppercase">Записаться</a>
         </div>
     </header>
 
     <!-- HERO -->
     <section class="min-h-screen flex flex-col items-center justify-center text-center px-4 relative pt-20">
-        <div class="absolute top-1/4 left-10 text-gold-900 text-6xl animate-float opacity-30 pointer-events-none">☾</div>
-        <div class="absolute bottom-1/4 right-10 text-gold-900 text-6xl animate-float opacity-30 pointer-events-none" style="animation-delay: 2s;">🜁</div>
+        <div class="absolute top-1/4 left-10 text-gold-900 text-6xl animate-float opacity-20 pointer-events-none">☾</div>
+        <div class="absolute bottom-1/4 right-10 text-gold-900 text-6xl animate-float opacity-20 pointer-events-none" style="animation-delay: 2s;">🜁</div>
         
-        <div class="relative mb-6 text-center">
-            <h1 class="font-heading text-5xl md:text-8xl text-gold-glow animate-float relative z-10 tracking-tighter uppercase text-center text-center">Таро с Душой</h1>
-        </div>
-        <p class="text-xl md:text-2xl text-gold-100 italic max-w-2xl font-light mb-12 relative z-10 opacity-80 leading-relaxed text-center text-center text-center">
+        <h1 class="font-heading text-5xl md:text-8xl text-gold-glow animate-float tracking-tighter uppercase mb-6 text-center">Таро с Душой</h1>
+        <p class="text-xl md:text-2xl text-gold-100 italic max-w-2xl font-light mb-12 opacity-80 leading-relaxed text-center">
             "Там, где Тьма встречается со Светом,<br>рождается Истина."
         </p>
-        <!-- ССЫЛКА НА БОТ -->
-        <a href="https://t.me/elena_tarot_soul_bot" target="_blank" class="btn-gold py-4 text-sm uppercase tracking-widest animate-pulse-gold-btn relative z-10">
+        <a href="https://t.me/elena_tarot_soul_bot" target="_blank" class="btn-gold py-4 text-sm uppercase tracking-widest animate-pulse-gold-btn">
             Начать консультацию
         </a>
     </section>
 
     <div class="container mx-auto px-4 pb-20 max-w-5xl space-y-32 relative z-10">
+        
         <!-- КАРТЫ -->
         <section>
             <div class="text-center mb-16">
@@ -315,20 +323,19 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10 h-auto" id="tarot-deck"></div>
             <div id="tarot-result" class="hidden glass-panel p-10 mt-10 text-center max-w-2xl mx-auto border-gold-500/20">
                 <div id="result-icon" class="text-5xl text-gold-500 mb-6"></div>
-                <h3 id="result-title" class="font-heading text-2xl text-gold-100 mb-4 uppercase tracking-widest"></h3>
-                <p id="result-desc" class="text-lg text-gray-300 italic mb-10 leading-relaxed"></p>
-                <button onclick="resetTarot()" class="btn-gold px-10 py-3 text-[10px] uppercase tracking-widest">Спросить снова</button>
+                <h3 id="result-title" class="font-heading text-2xl text-gold-100 mb-4 uppercase text-center"></h3>
+                <p id="result-desc" class="text-lg text-gray-300 italic mb-10 leading-relaxed text-center"></p>
+                <button onclick="resetTarot()" class="btn-gold px-10 py-3 text-[10px] uppercase">Спросить снова</button>
             </div>
         </section>
 
         <!-- ПОРТАЛ -->
         <section class="flex flex-col items-center">
             <div class="text-center mb-16">
-                <h2 class="font-heading text-2xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center">Портал Ответов</h2>
-                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60">Сосредоточьтесь на вопросе и коснитесь центра</p>
+                <h2 class="font-heading text-2xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center text-center">Портал Ответов</h2>
+                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 text-center">Задай вопрос Вселенной и коснись центра</p>
             </div>
             <div class="portal-container" id="portal-root" onclick="activatePortal()">
-                <div class="portal-aura"></div>
                 <div class="portal-ring animate-spin-slow"></div>
                 <div class="portal-ring-inner animate-spin-reverse"></div>
                 <div class="portal-core">
@@ -340,74 +347,60 @@
 
         <!-- ОТЗЫВЫ -->
         <section id="reviews-section">
-            <div class="text-center mb-16">
-                <h2 class="font-heading text-2xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center text-center">Отзывы</h2>
-                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60">История вашего доверия</p>
+            <div class="text-center mb-16 text-center">
+                <h2 class="font-heading text-2xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center">Отзывы</h2>
+                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 text-center">История вашего доверия</p>
             </div>
             
-            <div class="relative max-w-4xl mx-auto px-4">
-                <button onclick="scrollReviews(-1)" class="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 w-10 h-10 border border-gold-500/20 items-center justify-center hover:bg-gold-500/10 transition-all z-20">
+            <div class="relative max-w-4xl mx-auto">
+                <button onclick="scrollReviews(-1)" class="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 w-10 h-10 border border-gold-500/20 flex items-center justify-center hover:bg-gold-500/10 transition-all z-20 bg-black/40 text-center">
                     <i class="fas fa-chevron-left text-xs"></i>
                 </button>
-                <button onclick="scrollReviews(1)" class="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 w-10 h-10 border border-gold-500/20 items-center justify-center hover:bg-gold-500/10 transition-all z-20">
+                <button onclick="scrollReviews(1)" class="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 w-10 h-10 border border-gold-500/20 flex items-center justify-center hover:bg-gold-500/10 transition-all z-20 bg-black/40 text-center">
                     <i class="fas fa-chevron-right text-xs"></i>
                 </button>
 
-                <div id="gallery-container" class="gallery-scroll gap-8">
-                    <div class="gallery-item cursor-pointer transform hover:translate-y-[-5px] transition-all" onclick="openImageModal(this)">
-                        <img src="photo_2026-01-16_12-10-08.jpg" alt="Отзыв 1">
-                    </div>
-                    <div class="gallery-item cursor-pointer transform hover:translate-y-[-5px] transition-all" onclick="openImageModal(this)">
-                        <img src="photo_2026-01-16_12-10-09.jpg" alt="Отзыв 2">
-                    </div>
-                    <div class="gallery-item cursor-pointer transform hover:translate-y-[-5px] transition-all" onclick="openImageModal(this)">
-                        <img src="photo_2026-01-16_12-10-10.jpg" alt="Отзыв 3">
-                    </div>
-                    <div class="gallery-item cursor-pointer transform hover:translate-y-[-5px] transition-all" onclick="openImageModal(this)">
-                        <img src="photo_2026-01-16_12-10-11.jpg" alt="Отзыв 4">
-                    </div>
+                <div id="gallery-container" class="gallery-scroll gap-6 px-2">
+                    <div class="gallery-item" onclick="openReviewModal(this)"><img src="photo_2026-01-16_12-10-08.jpg" alt="Отзыв 1"></div>
+                    <div class="gallery-item" onclick="openReviewModal(this)"><img src="photo_2026-01-16_12-10-09.jpg" alt="Отзыв 2"></div>
+                    <div class="gallery-item" onclick="openReviewModal(this)"><img src="photo_2026-01-16_12-10-10.jpg" alt="Отзыв 3"></div>
+                    <div class="gallery-item" onclick="openReviewModal(this)"><img src="photo_2026-01-16_12-10-11.jpg" alt="Отзыв 4"></div>
                 </div>
             </div>
-            <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16 mt-12"></div>
+            <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-16 text-center"></div>
         </section>
 
-        <!-- ДОНАТ -->
-        <section class="text-center pt-20 border-t border-white/5 relative overflow-hidden">
-            <div class="flex justify-center mb-6">
+        <!-- ЭНЕРГООБМЕН -->
+        <section class="text-center pt-20 border-t border-white/5 relative overflow-hidden text-center">
+            <div class="flex justify-center mb-6 text-center">
                 <div class="interactive-heart" onclick="heartBurst(event)">
                     <div class="heart-glow"></div>
-                    <i class="fas fa-heart text-gold-500 text-4xl animate-heart-beat relative z-10"></i>
+                    <i class="fas fa-heart text-gold-500 text-4xl animate-heart-beat relative z-10 shadow-2xl"></i>
                 </div>
             </div>
-            <h3 class="text-sm font-heading text-gold-300 mb-4 uppercase tracking-[0.5em]">Энергообмен</h3>
-            <div class="max-w-md mx-auto mb-12 px-6">
-                <p class="text-[14px] md:text-[16px] text-gold-100/90 italic leading-relaxed mb-4 text-center">
-                    Благодарность — это живой поток света. 
-                </p>
-                <p class="text-[12px] text-gray-400 font-light tracking-wide leading-relaxed text-center">
-                    Вы можете поддержать мою работу и сбалансировать нашу энергию любой комфортной суммой, которую подскажет ваше сердце.
-                </p>
+            <h3 class="text-sm font-heading text-gold-300 mb-4 uppercase tracking-[0.5em] text-center">Энергообмен</h3>
+            <div class="max-w-md mx-auto mb-10 px-6 text-center text-center">
+                <p class="text-[14px] text-gold-100/90 italic leading-relaxed mb-4 text-center">Благодарность — это живой поток света.</p>
+                <p class="text-[12px] text-gray-400 font-light tracking-wide leading-relaxed text-center">Вы можете поддержать мою работу любой комфортной суммой по сердцу.</p>
             </div>
-            <div class="flex flex-col items-center">
-                <button id="copy-btn" onclick="copyToClipboard('5599002127322628')" class="btn-gold px-12 py-5 shadow-lg group min-w-[320px] transition-all hover:border-gold-300">
-                    <span id="copy-btn-text" class="font-heading tracking-[0.1em] text-lg">5599 0021 2732 2628</span>
-                    <i id="copy-icon" class="far fa-copy ml-4 opacity-60 group-hover:opacity-100"></i>
-                </button>
-                <p id="copy-status-msg" class="mt-4 text-[10px] text-green-500 font-bold tracking-widest opacity-0 transition-all uppercase">Реквизиты успешно скопированы</p>
-            </div>
+            <button id="copy-btn" onclick="copyToClipboard('5599002127322628')" class="btn-gold min-w-[300px]">
+                <span id="copy-btn-text">5599 0021 2732 2628</span>
+                <i id="copy-icon" class="far fa-copy ml-4 opacity-60"></i>
+            </button>
+            <p id="copy-status-msg" class="mt-4 text-[10px] text-green-500 font-bold uppercase opacity-0 transition-all text-center">Реквизиты скопированы</p>
         </section>
     </div>
 
-    <!-- IMAGE MODAL -->
-    <div id="image-modal" class="fixed inset-0 z-[110] hidden bg-black/95 flex items-center justify-center p-4 cursor-pointer text-center" onclick="closeImageModal()">
-        <img id="modal-image" src="" class="max-h-[90vh] max-w-full rounded-[2px] border border-white/10 shadow-2xl">
+    <!-- МОДАЛЬНОЕ ОКНО ГАЛЕРЕИ -->
+    <div id="image-modal" onclick="closeReviewModal()">
+        <img id="modal-image" src="" alt="Full Review">
     </div>
 
-    <!-- SCRIPTS -->
+    <!-- FIREBASE & LOGIC -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
-        import { getFirestore, collection, onSnapshot, getDocs } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+        import { getFirestore, collection, onSnapshot } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
         const firebaseConfig = JSON.parse(__firebase_config);
         const app = initializeApp(firebaseConfig);
@@ -416,28 +409,30 @@
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
         let currentUser = null;
-        let unsubscribeReviews = null;
 
-        const initApp = async () => {
+        // ПРАВИЛО 3: Сначала авторизация, потом Firestore
+        const initAuth = async () => {
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
                     await signInAnonymously(auth);
                 }
-                onAuthStateChanged(auth, (user) => {
-                    currentUser = user;
-                    if (unsubscribeReviews) unsubscribeReviews();
-                    if (user) loadReviews();
-                });
-            } catch (error) { console.error("Firebase Auth Error:", error); }
+            } catch (err) { console.error("Auth Failure", err); }
         };
-        initApp();
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user) loadReviews();
+        });
+
+        initAuth();
 
         function loadReviews() {
             if (!currentUser) return;
+            // ПРАВИЛО 1: Строгий путь
             const q = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
-            unsubscribeReviews = onSnapshot(q, (snap) => {
+            onSnapshot(q, (snap) => {
                 const list = document.getElementById('reviews-list');
                 const revs = [];
                 snap.forEach(d => revs.push(d.data()));
@@ -445,13 +440,13 @@
                 list.innerHTML = revs.length ? revs.map(r => `
                     <div class="glass-panel p-8 text-left border-white/5">
                         <div class="flex justify-between items-center mb-4">
-                            <span class="font-heading text-gold-300 text-[10px] uppercase tracking-widest">${r.name}</span>
+                            <span class="font-heading text-gold-300 text-[10px] uppercase tracking-widest text-center">${r.name}</span>
                             <div class="text-gold-500 text-[10px]">${'★'.repeat(r.rating || 5)}</div>
                         </div>
-                        <p class="text-gray-400 italic text-sm leading-relaxed">"${r.text}"</p>
+                        <p class="text-gray-400 italic text-sm leading-relaxed text-center">"${r.text}"</p>
                     </div>
                 `).join('') : '';
-            }, (err) => console.error(err));
+            }, (err) => console.error("Snapshot Listener Error", err));
         }
 
         window.copyToClipboard = function(text) {
@@ -468,122 +463,105 @@
                 if (successful) {
                     msg.style.opacity = '1';
                     icon.className = 'fas fa-check text-green-500';
-                    setTimeout(() => { msg.style.opacity = '0'; icon.className = 'far fa-copy opacity-50'; }, 2500);
+                    setTimeout(() => { msg.style.opacity = '0'; icon.className = 'far fa-copy opacity-60'; }, 2500);
                 }
             } catch (err) { console.error(err); }
             document.body.removeChild(input);
         };
-
-        window.openImageModal = (el) => { 
-            const img = el.querySelector('img');
-            if(img && img.src) {
-                document.getElementById('modal-image').src = img.src; 
-                document.getElementById('image-modal').classList.remove('hidden');
-            }
-        }
-        window.closeImageModal = () => document.getElementById('image-modal').classList.add('hidden');
-        window.scrollReviews = (dir) => { document.getElementById('gallery-container').scrollBy({ left: dir * 320, behavior: 'smooth' }); };
     </script>
 
     <script>
-        // АНИМАЦИИ ФОНА
-        const chaos = document.getElementById('chaos-bg'), ctx = chaos.getContext('2d');
+        // ЧАСТИЦЫ И ФОН
+        const cat = document.getElementById('magic-cat');
         const dust = document.getElementById('magic-dust'), dCtx = dust.getContext('2d');
-        let cw, ch, blobs = [], stars = [], particles = [];
-
-        class Star {
-            constructor() { this.init(); }
-            init() { 
-                this.x = Math.random() * cw; this.y = Math.random() * ch; 
-                this.size = Math.random() * 1.5; this.twinkle = Math.random() * Math.PI * 2; 
-                this.speed = 0.01 + Math.random() * 0.03; 
-            }
-            draw() {
-                this.twinkle += this.speed;
-                const alpha = 0.1 + (Math.sin(this.twinkle) + 1) * 0.4;
-                ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-            }
-        }
-
-        class Blob {
-            constructor() { this.init(); }
-            init() { 
-                this.r = Math.random() * 400 + 400; this.x = Math.random() * cw; this.y = Math.random() * ch; 
-                this.vx = (Math.random() - 0.5) * 0.15; this.vy = (Math.random() - 0.5) * 0.15; 
-                this.color = Math.random() > 0.5 ? 'rgba(212,175,55,0.03)' : 'rgba(66, 50, 6, 0.04)';
-            }
-            update() { 
-                this.x += this.vx; this.y += this.vy; 
-                if(this.x < -this.r) this.x = cw + this.r; if(this.x > cw + this.r) this.x = -this.r; 
-                if(this.y < -this.r) this.y = ch + this.r; if(this.y > ch + this.r) this.y = -this.r; 
-            }
-            draw() {
-                const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r);
-                g.addColorStop(0, this.color); g.addColorStop(1, 'transparent');
-                ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2); ctx.fill();
-                ctx.globalCompositeOperation = 'source-over';
-            }
-        }
+        const chaos = document.getElementById('chaos-bg'), ctx = chaos.getContext('2d');
+        let cw, ch, stars = [], particles = [];
 
         class Particle {
-            constructor(x, y) {
+            constructor(x, y, color = '#D4AF37') {
                 this.x = x; this.y = y;
-                this.vx = (Math.random() - 0.5) * 3; this.vy = (Math.random() - 0.5) * 3;
-                this.size = Math.random() * 3 + 1; this.life = 1; this.decay = 0.02 + Math.random() * 0.03;
+                this.vx = (Math.random() - 0.5) * 2.5; this.vy = (Math.random() - 0.5) * 2.5;
+                this.size = Math.random() * 2 + 1; this.life = 1; this.decay = 0.015 + Math.random() * 0.02;
+                this.color = color;
             }
             update() { this.x += this.vx; this.y += this.vy; this.life -= this.decay; }
             draw() {
-                dCtx.fillStyle = `rgba(212, 175, 55, ${this.life})`;
+                dCtx.globalAlpha = this.life;
+                dCtx.fillStyle = this.color;
                 dCtx.beginPath(); dCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2); dCtx.fill();
+            }
+        }
+
+        class BGStar {
+            constructor() { this.init(); }
+            init() { 
+                this.x = Math.random() * cw; this.y = Math.random() * ch; 
+                this.size = Math.random() * 1.5; this.tw = Math.random() * Math.PI * 2; 
+                this.sp = 0.01 + Math.random() * 0.03; 
+            }
+            draw() {
+                this.tw += this.sp;
+                const alpha = 0.1 + (Math.sin(this.tw) + 1) * 0.4;
+                ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
             }
         }
 
         function resize() {
             cw = chaos.width = dust.width = window.innerWidth;
             ch = chaos.height = dust.height = window.innerHeight;
-            stars = Array.from({length: 150}, () => new Star());
-            blobs = Array.from({length: 6}, () => new Blob());
+            stars = Array.from({length: 150}, () => new BGStar());
         }
         window.onresize = resize; resize();
+
+        document.addEventListener('mousemove', (e) => {
+            if(cat) {
+                cat.style.left = (e.clientX - 25) + 'px';
+                cat.style.top = (e.clientY - 25) + 'px';
+            }
+            // Звездный след от кота (летит от лапок/хвостика)
+            if(Math.random() > 0.4) particles.push(new Particle(e.clientX, e.clientY));
+        });
 
         function anim() {
             ctx.fillStyle = '#000'; ctx.fillRect(0,0,cw,ch);
             stars.forEach(s => s.draw());
-            blobs.forEach(b => { b.update(); b.draw(); });
             dCtx.clearRect(0,0,cw,ch);
-            particles.forEach((p, i) => { p.update(); p.draw(); if(p.life <= 0) particles.splice(i, 1); });
+            particles.forEach((p, i) => { 
+                p.update(); p.draw(); 
+                if(p.life <= 0) particles.splice(i, 1);
+            });
             requestAnimationFrame(anim);
         }
         anim();
 
-        const cursor = document.getElementById('custom-cursor');
-        document.addEventListener('mousemove', (e) => {
-            if(cursor) { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; }
-            if(Math.random() > 0.5) particles.push(new Particle(e.clientX, e.clientY));
-        });
-
-        // HEART ACTION
-        window.heartBurst = (e) => {
-            const rect = e.currentTarget.getBoundingClientRect();
-            const x = rect.left + rect.width / 2;
-            const y = rect.top + rect.height / 2;
-            for(let i=0; i<15; i++) particles.push(new Particle(x, y));
+        // ФУНКЦИИ ГАЛЕРЕИ (ИСПРАВЛЕНО)
+        window.scrollReviews = (dir) => {
+            const container = document.getElementById('gallery-container');
+            container.scrollBy({ left: dir * 300, behavior: 'smooth' });
         };
+        window.openReviewModal = (el) => {
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-image');
+            modalImg.src = el.querySelector('img').src;
+            modal.style.display = 'flex';
+        };
+        window.closeReviewModal = () => document.getElementById('image-modal').style.display = 'none';
 
-        // TAROT DECK
-        const tarotCards = [{n:"Солнце",d:"Ясность и успех во всем.",i:"fa-sun"},{n:"Звезда",d:"Надежда и вера в мечту.",i:"fa-star"},{n:"Мир",d:"Гармония и триумф духа.",i:"fa-globe"},{n:"Колесо Фортуны",d:"Перемены к лучшему уже близко.",i:"fa-dharmachakra"},{n:"Маг",d:"У тебя есть все ресурсы.",i:"fa-magic"}];
+        // ТАРО
+        const tarotCards = [{n:"Солнце",d:"Ясность и успех во всем.",i:"fa-sun"},{n:"Звезда",d:"Надежда и вера в мечту.",i:"fa-star"},{n:"Мир",d:"Гармония и триумф духа.",i:"fa-globe"},{n:"Колесо Фортуны",d:"Перемены к лучшему.",i:"fa-dharmachakra"},{n:"Маг",d:"У тебя есть все ресурсы.",i:"fa-magic"}];
         function initDeck() {
             const deck = document.getElementById('tarot-deck');
-            if(!deck) return; deck.innerHTML = '';
+            if(!deck) return;
+            deck.innerHTML = '';
             for(let i=0; i<3; i++) {
                 const w = document.createElement('div');
-                w.className = 'tarot-card-wrapper cursor-pointer';
-                w.innerHTML = `<div class="tarot-card-inner w-full h-full"><div class="card-face card-front rounded-xl animate-pulse-card-glow"><div class="eye-symbol animate-pulse-eye"></div></div><div class="card-face card-back flex flex-col items-center justify-center p-6 text-center text-center"></div></div>`;
+                w.className = 'tarot-card-wrapper';
+                w.innerHTML = `<div class="tarot-card-inner w-full h-full text-center"><div class="card-face card-front animate-pulse-card-glow text-center"><div class="eye-symbol animate-pulse-eye text-center"></div></div><div class="card-face card-back text-center"></div></div>`;
                 w.onclick = () => {
                     if(w.classList.contains('flipped')) return;
                     const res = tarotCards[Math.floor(Math.random()*tarotCards.length)];
-                    w.querySelector('.card-back').innerHTML = `<i class="fas ${res.i} text-5xl text-gold-500 mb-6 shadow-xl"></i><h4 class="font-heading text-gold-300 text-lg mb-2 uppercase text-center text-center">${res.n}</h4><p class="text-[10px] text-gray-500 uppercase tracking-widest text-center text-center">${res.d}</p>`;
+                    w.querySelector('.card-back').innerHTML = `<i class="fas ${res.i} text-5xl text-gold-500 mb-6 shadow-xl text-center"></i><h4 class="font-heading text-gold-300 text-lg mb-2 uppercase text-center text-center">${res.n}</h4><p class="text-[10px] text-gray-500 uppercase tracking-widest text-center text-center text-center">${res.d}</p>`;
                     w.classList.add('flipped');
                     document.getElementById('tarot-result').classList.remove('hidden');
                     document.getElementById('result-title').textContent = res.n;
@@ -596,17 +574,29 @@
         initDeck();
 
         window.activatePortal = () => {
-            const portal = document.getElementById('portal-root'), t = document.getElementById('portal-text');
+            const portal = document.getElementById('portal-root');
             const answers = ["ДА", "НЕТ", "ВЕРЬ", "ЖДИ", "СКОРО", "ШАНС"];
-            portal.classList.add('portal-searching'); t.style.opacity = '0';
-            setTimeout(() => { 
-                portal.classList.remove('portal-searching'); 
+            const t = document.getElementById('portal-text');
+            portal.classList.add('animate-pulse');
+            t.style.opacity = '0';
+            setTimeout(() => {
+                portal.classList.remove('animate-pulse');
                 t.textContent = answers[Math.floor(Math.random()*answers.length)];
                 t.style.opacity = '1';
-            }, 1800);
+            }, 800);
         };
-        
-        window.onload = () => setTimeout(() => { const pre = document.getElementById('preloader'); if(pre) { pre.style.opacity = 0; setTimeout(() => pre.remove(), 800); } }, 1000);
+
+        window.heartBurst = (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            for(let i=0; i<20; i++) particles.push(new Particle(x, y, '#fff'));
+        };
+
+        window.onload = () => setTimeout(() => { 
+            const pre = document.getElementById('preloader'); 
+            if(pre) { pre.style.opacity = 0; setTimeout(() => pre.remove(), 800); }
+        }, 1000);
     </script>
 </body>
 </html>
