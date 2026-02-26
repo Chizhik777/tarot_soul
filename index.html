@@ -41,7 +41,6 @@
                         'heart-beat': 'heartBeat 1.5s ease-in-out infinite',
                         'cat-tail': 'catTail 2s ease-in-out infinite alternate',
                         'cat-float': 'catFloat 4s ease-in-out infinite',
-                        'pulse-eye': 'pulseEye 3s infinite ease-in-out',
                     },
                     keyframes: {
                         pulseGoldBtn: {
@@ -63,14 +62,6 @@
                         catFloat: {
                             '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
                             '50%': { transform: 'translateY(-10px) rotate(3deg)' },
-                        },
-                        pulseEye: {
-                            '0%, 100%': { transform: 'rotate(45deg) scale(1)', opacity: '0.8' },
-                            '50%': { transform: 'rotate(45deg) scale(1.1)', opacity: '1' },
-                        },
-                        'spin-reverse': {
-                            'from': { transform: 'rotate(360deg)' },
-                            'to': { transform: 'rotate(0deg)' }
                         }
                     }
                 }
@@ -185,7 +176,6 @@
         }
         #modal-image { max-width: 95%; max-height: 90vh; object-fit: contain; box-shadow: 0 0 60px rgba(212, 175, 55, 0.3); border-radius: 4px; }
 
-        /* КНОПКА */
         .btn-gold {
             background: #050505; color: #D4AF37; font-weight: 700; border-radius: 4px; 
             position: relative; overflow: hidden; transition: all 0.4s;
@@ -207,35 +197,31 @@
         </div>
     </div>
 
-    <!-- КУРСОР-КОТ (АНИМИРОВАННЫЙ С МОРГАЮЩИМИ ГЛАЗКАМИ) -->
-    <div id="magic-cat" class="animate-cat-float">
-        <svg viewBox="0 0 100 100" style="overflow: visible;">
-            <!-- Пушистый Хвостик -->
+    <!-- SVG ШАБЛОН КОТИКА (ИСПОЛЬЗУЕТСЯ ДЛЯ КУРСОРA И МОБИЛЬНОЙ КНОПКИ) -->
+    <svg style="display: none;">
+        <symbol id="magic-cat-symbol" viewBox="0 0 100 100">
+            <!-- Хвост -->
             <path d="M75,65 C90,65 95,45 90,35 C85,25 75,35 80,45" fill="none" stroke="#D4AF37" stroke-width="6" stroke-linecap="round" class="animate-cat-tail" />
-            <!-- Милые Ушки -->
+            <!-- Ушки -->
             <path d="M32,45 Q40,15 48,45 Z" fill="#D4AF37" />
             <path d="M68,45 Q60,15 52,45 Z" fill="#D4AF37" />
             <!-- Мордочка -->
             <circle cx="50" cy="60" r="24" fill="#000" stroke="#D4AF37" stroke-width="2.5" />
-            
-            <!-- ГЛАЗКИ (Моргание) -->
+            <!-- Глазки с анимацией моргания -->
             <ellipse cx="40" cy="55" rx="5" ry="5" fill="#D4AF37">
                 <animate attributeName="ry" values="5;5;0.2;5" dur="4s" repeatCount="indefinite" keyTimes="0;0.9;0.95;1" />
             </ellipse>
             <circle cx="39" cy="53" r="1.5" fill="#fff" opacity="0.8">
                 <animate attributeName="opacity" values="0.8;0.8;0;0.8" dur="4s" repeatCount="indefinite" keyTimes="0;0.9;0.95;1" />
             </circle>
-            
             <ellipse cx="60" cy="55" rx="5" ry="5" fill="#D4AF37">
                 <animate attributeName="ry" values="5;5;0.2;5" dur="4s" repeatCount="indefinite" keyTimes="0;0.9;0.95;1" />
             </ellipse>
             <circle cx="59" cy="53" r="1.5" fill="#fff" opacity="0.8">
                 <animate attributeName="opacity" values="0.8;0.8;0;0.8" dur="4s" repeatCount="indefinite" keyTimes="0;0.9;0.95;1" />
             </circle>
-
-            <!-- Носик -->
+            <!-- Нос и усы -->
             <path d="M48,64 L52,64 L50,67 Z" fill="#F9F1D8" />
-            <!-- Усики -->
             <path d="M35,60 L20,58 M35,63 L18,63 M35,66 L20,68" stroke="#D4AF37" stroke-width="1.2" opacity="0.5" />
             <path d="M65,60 L80,58 M65,63 L82,63 M65,66 L80,68" stroke="#D4AF37" stroke-width="1.2" opacity="0.5" />
             <!-- Лапки -->
@@ -243,13 +229,20 @@
                 <ellipse cx="40" cy="78" rx="7" ry="5" fill="#000" stroke="#D4AF37" stroke-width="1.5" />
                 <ellipse cx="60" cy="78" rx="7" ry="5" fill="#000" stroke="#D4AF37" stroke-width="1.5" />
             </g>
-            <circle cx="50" cy="60" r="35" fill="url(#catGlow)" opacity="0.25" />
+            <circle cx="50" cy="60" r="35" fill="url(#catGlowSymbol)" opacity="0.25" />
             <defs>
-                <radialGradient id="catGlow">
+                <radialGradient id="catGlowSymbol">
                     <stop offset="0%" stop-color="#D4AF37" />
                     <stop offset="100%" stop-color="transparent" />
                 </radialGradient>
             </defs>
+        </symbol>
+    </svg>
+
+    <!-- КУРСОР-КОТ (ТОЛЬКО ДЛЯ ДЕСКТОПА) -->
+    <div id="magic-cat" class="animate-cat-float">
+        <svg viewBox="0 0 100 100" style="overflow: visible; width: 100%; height: 100%;">
+            <use href="#magic-cat-symbol" />
         </svg>
     </div>
 
@@ -265,8 +258,8 @@
         </div>
     </header>
 
-    <!-- HERO -->
-    <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 relative pt-20 overflow-hidden text-center">
+    <!-- HERO SECTION -->
+    <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 relative pt-20 overflow-hidden">
         <div class="absolute top-1/4 left-4 md:left-10 text-gold-900 text-4xl md:text-6xl animate-float opacity-20 pointer-events-none">☾</div>
         <div class="absolute bottom-1/4 right-4 md:right-10 text-gold-900 text-4xl md:text-6xl animate-float opacity-20 pointer-events-none" style="animation-delay: 2s;">🜁</div>
         
@@ -274,9 +267,19 @@
         <p class="text-lg md:text-2xl text-gold-100 italic max-w-2xl font-light mb-12 opacity-80 leading-relaxed mx-auto text-center">
             "Там, где Тьма встречается со Светом,<br class="hidden sm:block">рождается Истина."
         </p>
-        <a href="https://t.me/elena_tarot_soul_bot" target="_blank" class="btn-gold py-4 px-10 text-xs md:text-sm uppercase tracking-widest animate-pulse-gold-btn">
-            Начать консультацию
-        </a>
+        
+        <!-- КНОПКА С СИДЯЩИМ КОТИКОМ (МОБИЛЬНАЯ ВЕРСИЯ) -->
+        <div class="relative inline-block mt-4">
+            <!-- Котик для мобилок -->
+            <div id="mobile-sitter-cat" class="sm:hidden absolute -top-8 -right-8 w-14 h-14 pointer-events-none animate-cat-float z-10">
+                <svg viewBox="0 0 100 100" style="overflow: visible; width: 100%; height: 100%;">
+                    <use href="#magic-cat-symbol" />
+                </svg>
+            </div>
+            <a href="https://t.me/elena_tarot_soul_bot" target="_blank" class="btn-gold py-4 px-10 text-xs md:text-sm uppercase tracking-widest animate-pulse-gold-btn">
+                Начать консультацию
+            </a>
+        </div>
     </section>
 
     <div class="container mx-auto px-4 pb-20 max-w-5xl space-y-24 md:space-y-32 relative z-10 text-center">
@@ -317,14 +320,14 @@
                 <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center">Отзывы</h2>
                 <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4 text-center">История вашего доверия</p>
             </div>
-            <div class="relative max-w-4xl mx-auto text-center">
-                <button onclick="scrollReviews(-1)" class="absolute -left-2 md:-left-12 top-1/2 -translate-y-1/2 w-8 md:w-10 h-8 md:h-10 border border-gold-500/20 flex items-center justify-center hover:bg-gold-500/10 transition-all z-20 bg-black/50 rounded-full text-center text-white">
+            <div class="relative max-w-4xl mx-auto">
+                <button onclick="scrollReviews(-1)" class="absolute -left-2 md:-left-12 top-1/2 -translate-y-1/2 w-8 md:w-10 h-8 md:h-10 border border-gold-500/20 flex items-center justify-center hover:bg-gold-500/10 transition-all z-20 bg-black/50 rounded-full text-white">
                     <i class="fas fa-chevron-left text-[10px]"></i>
                 </button>
-                <button onclick="scrollReviews(1)" class="absolute -right-2 md:-right-12 top-1/2 -translate-y-1/2 w-8 md:w-10 h-8 md:h-10 border border-gold-500/20 flex items-center justify-center hover:bg-gold-500/10 transition-all z-20 bg-black/50 rounded-full text-center text-white">
+                <button onclick="scrollReviews(1)" class="absolute -right-2 md:-right-12 top-1/2 -translate-y-1/2 w-8 md:w-10 h-8 md:h-10 border border-gold-500/20 flex items-center justify-center hover:bg-gold-500/10 transition-all z-20 bg-black/50 rounded-full text-white">
                     <i class="fas fa-chevron-right text-[10px]"></i>
                 </button>
-                <div id="gallery-container" class="gallery-scroll gap-6 px-4 text-center">
+                <div id="gallery-container" class="gallery-scroll gap-6 px-4">
                     <div class="gallery-item" onclick="openReviewModal(this)"><img src="photo_2026-01-16_12-10-08.jpg" alt="Отзыв 1"></div>
                     <div class="gallery-item" onclick="openReviewModal(this)"><img src="photo_2026-01-16_12-10-09.jpg" alt="Отзыв 2"></div>
                     <div class="gallery-item" onclick="openReviewModal(this)"><img src="photo_2026-01-16_12-10-10.jpg" alt="Отзыв 3"></div>
@@ -335,7 +338,7 @@
         </section>
 
         <!-- ЭНЕРГООБМЕН -->
-        <section class="text-center pt-16 border-t border-white/5 relative overflow-hidden text-center">
+        <section class="text-center pt-16 border-t border-white/5 relative overflow-hidden">
             <div class="flex justify-center mb-6 text-center">
                 <div class="interactive-heart" onclick="heartBurst(event)">
                     <div class="heart-glow"></div>
@@ -343,18 +346,18 @@
                 </div>
             </div>
             <h3 class="text-sm font-heading text-gold-300 mb-4 uppercase tracking-[0.5em] text-center">Энергообмен</h3>
-            <div class="max-w-md mx-auto mb-10 px-6 text-center">
+            <div class="max-w-md mx-auto mb-10 px-6">
                 <p class="text-sm md:text-base text-gold-100/90 italic leading-relaxed mb-4 text-center">Благодарность — это живой поток света.</p>
                 <p class="text-[11px] md:text-xs text-gray-400 font-light tracking-wide leading-relaxed mx-auto text-center">Вы можете поддержать мою работу любой комфортной суммой по сердцу.</p>
             </div>
             <div class="px-4 text-center">
-                <!-- НОМЕР КАРТЫ ЮMONEY -->
-                <button id="copy-btn" onclick="copyToClipboard('5599002127322628')" class="btn-gold min-w-full sm:min-w-[320px]">
-                    <span id="copy-btn-text" class="text-sm md:text-base">5599 0021 2732 2628</span>
-                    <i id="copy-icon" class="far fa-copy ml-4 opacity-60"></i>
+                <!-- КНОПКА КОПИРОВАНИЯ ЮMONEY -->
+                <button id="copy-btn" class="btn-gold min-w-full sm:min-w-[320px]">
+                    <span id="copy-btn-text" class="text-sm md:text-base tracking-widest pointer-events-none">5599 0021 2732 2628</span>
+                    <i id="copy-icon" class="far fa-copy ml-4 opacity-60 pointer-events-none"></i>
                 </button>
             </div>
-            <p id="copy-status-msg" class="mt-4 text-[10px] text-green-500 font-bold uppercase opacity-0 transition-all text-center">Скопировано успешно</p>
+            <p id="copy-status-msg" class="mt-4 text-[11px] text-green-500 font-bold uppercase opacity-0 transition-opacity duration-300">Скопировано успешно</p>
         </section>
     </div>
 
@@ -364,6 +367,50 @@
     </div>
 
     <!-- SCRIPTS -->
+    <script>
+        // ЛОГИКА КОПИРОВАНИЯ (ВНЕ FIREBASE)
+        document.addEventListener('DOMContentLoaded', function() {
+            const copyBtn = document.getElementById('copy-btn');
+            const icon = document.getElementById('copy-icon');
+            const msg = document.getElementById('copy-status-msg');
+            const cardNumber = "5599002127322628";
+
+            if (copyBtn) {
+                copyBtn.onclick = function() {
+                    // Используем textarea для максимальной надежности
+                    const textArea = document.createElement("textarea");
+                    textArea.value = cardNumber;
+                    textArea.style.position = "fixed";
+                    textArea.style.left = "-9999px";
+                    textArea.style.top = "0";
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    
+                    try {
+                        const successful = document.execCommand('copy');
+                        if (successful) {
+                            showSuccess();
+                        }
+                    } catch (err) {
+                        console.error('Ошибка копирования', err);
+                    }
+                    document.body.removeChild(textArea);
+
+                    function showSuccess() {
+                        msg.style.opacity = '1';
+                        icon.className = 'fas fa-check text-green-500 ml-4';
+                        setTimeout(() => {
+                            msg.style.opacity = '0';
+                            icon.className = 'far fa-copy ml-4 opacity-60';
+                        }, 3000);
+                    }
+                };
+            }
+        });
+    </script>
+
+    <!-- FIREBASE -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
@@ -413,64 +460,10 @@
                 `).join('') : '';
             }, (err) => console.error("Firestore Permission Error", err));
         }
-
-        // ПРОВЕРЕННАЯ ФУНКЦИЯ КОПИРОВАНИЯ (РОБАСТНАЯ ВЕРСИЯ ДЛЯ ЛОКАЛЬНОГО И САНДБОКС ЗАПУСКА)
-        window.copyToClipboard = function(text) {
-            const icon = document.getElementById('copy-icon');
-            const msg = document.getElementById('copy-status-msg');
-            
-            const handleSuccess = () => {
-                msg.style.opacity = '1';
-                icon.className = 'fas fa-check text-green-500 ml-4';
-                setTimeout(() => {
-                    msg.style.opacity = '0';
-                    icon.className = 'far fa-copy ml-4 opacity-60';
-                }, 3000);
-            };
-
-            // Метод 1: Современный Clipboard API (требует HTTPS или localhost)
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text)
-                    .then(() => handleSuccess())
-                    .catch(() => fallbackCopy(text, handleSuccess));
-            } else {
-                // Метод 2: Резервный через textarea (работает локально и в iframe)
-                fallbackCopy(text, handleSuccess);
-            }
-        };
-
-        function fallbackCopy(text, callback) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            
-            // Обеспечиваем невидимость, но оставляем в DOM для работы execCommand
-            textArea.style.position = "fixed";
-            textArea.style.left = "-9999px";
-            textArea.style.top = "0";
-            textArea.style.width = '2em';
-            textArea.style.height = '2em';
-            textArea.style.padding = '0';
-            textArea.style.border = 'none';
-            textArea.style.outline = 'none';
-            textArea.style.boxShadow = 'none';
-            textArea.style.background = 'transparent';
-            
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) callback();
-            } catch (err) {
-                console.error('Критическая ошибка копирования:', err);
-            }
-            
-            document.body.removeChild(textArea);
-        }
     </script>
 
     <script>
+        // ЭФФЕКТЫ ЧАСТИЦ И КУРСОР
         const cat = document.getElementById('magic-cat');
         const dust = document.getElementById('magic-dust'), dCtx = dust.getContext('2d');
         const chaos = document.getElementById('chaos-bg'), ctx = chaos.getContext('2d');
@@ -501,7 +494,10 @@
         window.onresize = resize; resize();
 
         document.addEventListener('mousemove', (e) => {
-            if(cat) { cat.style.left = (e.clientX - 25) + 'px'; cat.style.top = (e.clientY - 25) + 'px'; }
+            if(cat) { 
+                cat.style.left = (e.clientX - 25) + 'px'; 
+                cat.style.top = (e.clientY - 25) + 'px'; 
+            }
             if(Math.random() > 0.4) particles.push(new Particle(e.clientX, e.clientY));
         });
 
@@ -539,7 +535,7 @@
                 w.onclick = () => {
                     if(w.classList.contains('flipped')) return;
                     const res = tarotCards[Math.floor(Math.random()*tarotCards.length)];
-                    w.querySelector('.card-back').innerHTML = `<i class="fas ${res.i} text-5xl text-gold-500 mb-6 shadow-xl text-center"></i><h4 class="font-heading text-gold-300 text-lg mb-2 uppercase text-center">${res.n}</h4><p class="text-[10px] text-gray-400 uppercase tracking-widest text-center">${res.d}</p>`;
+                    w.querySelector('.card-back').innerHTML = `<i class="fas ${res.i} text-5xl text-gold-500 mb-6 shadow-xl text-center"></i><h4 class="font-heading text-gold-300 text-lg mb-2 uppercase text-center">${res.n}</h4><p class="text-[10px] text-gray-500 uppercase tracking-widest text-center">${res.d}</p>`;
                     w.classList.add('flipped');
                     document.getElementById('tarot-result').classList.remove('hidden');
                     document.getElementById('result-title').textContent = res.n;
