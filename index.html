@@ -14,6 +14,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- DIKIDI WIDGET SCRIPT -->
+    <script type="text/javascript" src="https://dikidi.net/assets/js/widget_record/widget2.min.js?v=1773811740"></script>
+    
     <script>
         tailwind.config = {
             theme: {
@@ -310,7 +313,7 @@
             <div class="flex items-center gap-3">
                 <span class="font-heading text-lg md:text-xl text-gold-300 tracking-wider">Soul Tarot</span>
             </div>
-            <a href="https://t.me/elena_tarot_soul_bot" target="_blank" class="btn-gold text-[9px] md:text-[10px] py-1.5 px-4 uppercase">Записаться</a>
+            <a href="#services" class="btn-gold text-[9px] md:text-[10px] py-1.5 px-4 uppercase">Записаться</a>
         </div>
     </header>
 
@@ -319,32 +322,97 @@
         <div class="absolute top-1/4 left-4 md:left-10 text-gold-900 text-4xl md:text-6xl animate-float opacity-20 pointer-events-none">☾</div>
         <div class="absolute bottom-1/4 right-4 md:right-10 text-gold-900 text-4xl md:text-6xl animate-float opacity-20 pointer-events-none" style="animation-delay: 2s;">🜁</div>
         
-        <h1 class="font-heading text-4xl sm:text-6xl md:text-8xl text-gold-glow animate-float tracking-tighter uppercase mb-6 leading-tight">Таро с Душой</h1>
+        <h1 class="font-heading text-3xl sm:text-5xl md:text-6xl text-gold-glow animate-float tracking-tighter uppercase mb-6 leading-tight">Таро с Душой</h1>
         <p class="text-lg md:text-2xl text-gold-100 italic max-w-2xl font-light mb-12 opacity-80 leading-relaxed mx-auto text-center">
             "Там, где Тьма встречается со Светом,<br class="hidden sm:block">рождается Истина."
         </p>
         
-        <!-- КНОПКА С "СИДЯЩИМ" КОТИКОМ (МОБИЛЬНАЯ ВЕРСИЯ - УМЕНЬШЕН) -->
+        <!-- КНОПКА С СИДЯЩИМ КОТИКОМ (МОБИЛЬНАЯ ВЕРСИЯ) -->
         <div class="relative inline-block mt-4">
-            <!-- Котик для мобилок: теперь w-16 и аккуратнее посажен -->
             <div id="mobile-sitter-cat" class="sm:hidden absolute -top-10 -right-4 w-16 h-16 pointer-events-none animate-cat-float z-10">
                 <svg viewBox="0 0 100 100" style="overflow: visible; width: 100%; height: 100%;">
                     <use href="#magic-cat-symbol" />
                 </svg>
             </div>
-            <a href="https://t.me/elena_tarot_soul_bot" target="_blank" class="btn-gold py-4 px-10 text-xs md:text-sm uppercase tracking-widest animate-pulse-gold-btn">
-                Начать консультацию
+            <a href="#services" class="btn-gold py-4 px-10 text-xs md:text-sm uppercase tracking-widest animate-pulse-gold-btn">
+                Выбрать расклад
             </a>
         </div>
     </section>
 
     <div class="container mx-auto px-4 pb-20 max-w-5xl space-y-24 md:space-y-32 relative z-10 text-center">
-        <!-- КАРТЫ ТАРО -->
+        
+        <!-- ВИТРИНА УСЛУГ -->
+        <section class="tarot-pricing pt-8" id="services">
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Выбрать расклад</h2>
+                <div class="w-10 h-[1px] bg-gold-500 mx-auto opacity-20"></div>
+                <p class="text-xs text-gold-300 uppercase tracking-[0.2em] opacity-80 mt-4">Отношения • Финансы и карьера • Предназначение • Энергия и здоровье</p>
+            </div>
+            
+            <div class="pricing-grid grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                
+                <!-- Карточка 1 -->
+                <div class="price-card glass-panel p-8 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-heading text-xl text-gold-100 mb-2">Базовая диагностика</h3>
+                        <p class="price-subtitle text-sm text-gray-400 mb-4">Экспресс-ответ</p>
+                        <div class="price-value font-heading text-lg text-gold-300 mb-6">Оплата по сердцу (от 300 ₽)</div>
+                        <ul class="price-features space-y-2 text-sm text-gray-300 mb-8 border-t border-b border-white/5 py-4">
+                            <li>Длительность: 15 минут</li>
+                            <li>Формат: Онлайн-консультация</li>
+                        </ul>
+                    </div>
+                    <div class="card-buttons flex flex-col gap-3">
+                        <a href="https://dikidi.net/#widget=214061" class="btn-gold py-3 text-xs uppercase text-center" target="_blank">Записаться</a>
+                        <button class="btn-gold bg-black/40 text-gold-300 py-3 text-xs uppercase" onclick="openPaymentModal('Базовая диагностика (от 300 ₽)')">Оплатить</button>
+                    </div>
+                </div>
+
+                <!-- Карточка 2 -->
+                <div class="price-card popular glass-panel p-8 flex flex-col justify-between border-gold-500/60 relative">
+                    <span class="badge absolute -top-3 right-5 bg-gold-500 text-black px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full">Популярный</span>
+                    <div>
+                        <h3 class="font-heading text-xl text-gold-100 mb-2">Детальный разбор</h3>
+                        <p class="price-subtitle text-sm text-gray-400 mb-4">Глубокий анализ одного запроса</p>
+                        <div class="price-value font-heading text-lg text-gold-300 mb-6">2 500 ₽</div>
+                        <ul class="price-features space-y-2 text-sm text-gray-300 mb-8 border-t border-b border-white/5 py-4">
+                            <li>Длительность: 1 час</li>
+                            <li>Подробный ответ и рекомендации</li>
+                        </ul>
+                    </div>
+                    <div class="card-buttons flex flex-col gap-3">
+                        <a href="https://dikidi.net/#widget=214062" class="btn-gold py-3 text-xs uppercase text-center" target="_blank">Записаться</a>
+                        <button class="btn-gold bg-black/40 text-gold-300 py-3 text-xs uppercase" onclick="openPaymentModal('Детальный разбор — 2 500 ₽')">Оплатить</button>
+                    </div>
+                </div>
+
+                <!-- Карточка 3 -->
+                <div class="price-card glass-panel p-8 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-heading text-xl text-gold-100 mb-2">VIP-стратегия</h3>
+                        <p class="price-subtitle text-sm text-gray-400 mb-4">Фундаментальный разбор ситуации</p>
+                        <div class="price-value font-heading text-lg text-gold-300 mb-6">7 000 ₽</div>
+                        <ul class="price-features space-y-2 text-sm text-gray-300 mb-8 border-t border-b border-white/5 py-4">
+                            <li>Длительность: 3 часа</li>
+                            <li>Глубокий анализ</li>
+                        </ul>
+                    </div>
+                    <div class="card-buttons flex flex-col gap-3">
+                        <a href="https://dikidi.net/#widget=214063" class="btn-gold py-3 text-xs uppercase text-center" target="_blank">Записаться</a>
+                        <button class="btn-gold bg-black/40 text-gold-300 py-3 text-xs uppercase" onclick="openPaymentModal('VIP-стратегия — 7 000 ₽')">Оплатить</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ТРИ КАРТЫ СУДЬБЫ -->
         <section>
             <div class="text-center mb-12">
-                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center">Золотой Расклад</h2>
+                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Три карты судьбы</h2>
                 <div class="w-10 h-[1px] bg-gold-500 mx-auto opacity-20"></div>
-                <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-4 opacity-60">Открой три уникальные карты</p>
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-4 opacity-60">Открой три уникальные карты для подсказки от Вселенной</p>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10 h-auto" id="tarot-deck"></div>
             
@@ -355,17 +423,17 @@
                 <h3 id="result-title" class="font-heading text-xl md:text-2xl text-gold-100 mb-4 uppercase">Ваш Итог</h3>
                 <div id="result-cards-list" class="flex flex-wrap justify-center gap-2 mb-6 text-[11px] uppercase text-gold-300 tracking-tighter italic font-semibold"></div>
                 <p id="result-desc" class="text-base md:text-lg text-gray-300 italic mb-10 leading-relaxed"></p>
-                <button onclick="resetTarot()" class="btn-gold px-8 md:px-12 py-3 text-[10px] uppercase">Обновить расклад</button>
+                <button onclick="resetTarot()" class="btn-gold px-8 md:px-12 py-3 text-[10px] uppercase">Собрать новый расклад</button>
             </div>
         </section>
 
         <!-- ПОРТАЛ ОТВЕТОВ -->
         <section class="flex flex-col items-center">
-            <div class="text-center mb-12 text-center">
-                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center">Портал Ответов</h2>
-                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4 text-center">Задай вопрос Вселенной и коснись центра</p>
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Портал Ответов</h2>
+                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4">Задай вопрос Вселенной и коснись центра</p>
             </div>
-            <div class="portal-container scale-90 sm:scale-100 text-center" id="portal-root" onclick="activatePortal()">
+            <div class="portal-container scale-90 sm:scale-100" id="portal-root" onclick="activatePortal()">
                 <div class="portal-ring animate-spin-slow"></div>
                 <div class="portal-ring-inner animate-spin-reverse"></div>
                 <div class="portal-core">
@@ -376,10 +444,10 @@
         </section>
 
         <!-- ОТЗЫВЫ -->
-        <section id="reviews-section">
-            <div class="text-center mb-12 text-center">
-                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase text-center">Отзывы</h2>
-                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4 text-center">История вашего доверия</p>
+        <section id="reviews-section" class="pb-10">
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Отзывы</h2>
+                <p class="text-xs text-gray-500 uppercase tracking-[0.2em] opacity-60 px-4">История вашего доверия</p>
             </div>
             <div class="relative max-w-4xl mx-auto text-center">
                 <button onclick="scrollReviews(-1)" class="absolute -left-2 md:-left-12 top-1/2 -translate-y-1/2 w-8 md:w-10 h-8 md:h-10 border border-gold-500/20 flex items-center justify-center hover:bg-gold-500/10 transition-all z-20 bg-black/50 rounded-full text-white">
@@ -398,69 +466,93 @@
             <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16 px-4 text-center"></div>
         </section>
 
-        <!-- ЭНЕРГООБМЕН -->
-        <section class="text-center pt-16 border-t border-white/5 relative overflow-hidden text-center">
-            <div class="flex justify-center mb-6 text-center">
-                <div class="interactive-heart" onclick="heartBurst(event)">
-                    <div class="heart-glow"></div>
-                    <i class="fas fa-heart text-gold-500 text-3xl md:text-4xl animate-heart-beat relative z-10 shadow-2xl"></i>
-                </div>
-            </div>
-            <h3 class="text-sm font-heading text-gold-300 mb-4 uppercase tracking-[0.5em] text-center">Энергообмен</h3>
-            <div class="max-w-md mx-auto mb-10 px-6 text-center">
-                <p class="text-sm md:text-base text-gold-100/90 italic leading-relaxed mb-4 text-center">Благодарность — это живой поток света.</p>
-                <p class="text-[11px] md:text-xs text-gray-400 font-light tracking-wide leading-relaxed mx-auto text-center">Вы можете поддержать мою работу любой комфортной суммой по сердцу.</p>
-            </div>
-            <div class="px-4 text-center">
-                <button id="copy-btn" class="btn-gold min-w-full sm:min-w-[320px]">
-                    <span id="copy-btn-text" class="text-sm md:text-base tracking-widest pointer-events-none">5599 0021 2732 2628</span>
-                    <i id="copy-icon" class="far fa-copy ml-4 opacity-60 pointer-events-none"></i>
-                </button>
-            </div>
-            <p id="copy-status-msg" class="mt-4 text-[11px] text-green-500 font-bold uppercase opacity-0 transition-opacity duration-300">Скопировано успешно</p>
-        </section>
     </div>
 
-    <!-- МОДАЛКА -->
+    <!-- МОДАЛЬНОЕ ОКНО ОПЛАТЫ (YOMONEY И ИНСТАГРАМ) -->
+    <div id="paymentModal" class="fixed inset-0 z-[10000] bg-black/85 backdrop-blur-md flex items-center justify-center p-4" style="display: none;">
+        <div class="glass-panel p-8 max-w-md w-full relative text-left">
+            <button class="absolute top-4 right-5 text-2xl text-gray-400 hover:text-gold-300 transition-colors" onclick="closePaymentModal()">&times;</button>
+            <h3 class="font-heading text-lg text-gold-100 uppercase tracking-widest mb-1 text-center">Оплата услуг</h3>
+            <p id="modalServiceTitle" class="text-xs text-gold-500 uppercase tracking-widest mb-6 text-center"></p>
+            
+            <div class="bg-black/60 p-4 rounded border border-gold-500/20 mb-6">
+                <p class="text-[10px] text-gray-400 uppercase tracking-[0.2em] mb-2 text-center">Перевод по реквизитам (ЮMoney):</p>
+                <div class="flex justify-between items-center bg-black border border-gold-500/30 px-3 py-2 rounded mb-2">
+                    <span id="cardNumber" class="font-mono text-base font-bold text-gold-100 tracking-wider">5599 0021 2732 2628</span>
+                    <button class="bg-gold-500/20 text-gold-300 border border-gold-500/40 px-3 py-1 rounded text-[10px] uppercase font-bold hover:bg-gold-500/30 transition-colors" onclick="copyCardNumber()">Копировать</button>
+                </div>
+                <p id="copyHint" class="text-[10px] text-gray-400 text-center">Нажмите, чтобы скопировать номер кошелька / карты</p>
+            </div>
+
+            <div class="text-xs text-gray-300 space-y-2 mb-6">
+                <p class="text-gold-300 uppercase tracking-widest font-bold text-center mb-2">Как завершить запись:</p>
+                <ol class="list-decimal pl-5 space-y-1 leading-relaxed">
+                    <li>Запишитесь на удобное время через кнопку «Записаться».</li>
+                    <li>Скопируйте номер карты и переведите точную сумму.</li>
+                    <li>Отправьте скриншот чека мне в Директ.</li>
+                </ol>
+            </div>
+            
+            <a href="https://instagram.com/elena.tarot" target="_blank" class="btn-gold py-3 text-xs uppercase w-full block text-center flex items-center justify-center gap-2">
+                <i class="fab fa-instagram text-base"></i> Директ
+            </a>
+        </div>
+    </div>
+
+    <!-- МОДАЛКА ПРОСМОТРА КАРТИНОК ИЗ ОТЗЫВОВ -->
     <div id="image-modal" onclick="closeReviewModal()">
         <img id="modal-image" src="" alt="Full Review">
     </div>
 
-    <!-- КОПИРОВАНИЕ (БЕЗОТКАЗНЫЙ СКРИПТ) -->
+    <!-- SCRIPTS -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const copyBtn = document.getElementById('copy-btn');
-            const cardNumber = "5599002127322628";
-            if (copyBtn) {
-                copyBtn.onclick = function() {
-                    const textArea = document.createElement("textarea");
-                    textArea.value = cardNumber;
-                    textArea.style.position = "fixed";
-                    textArea.style.left = "-9999px";
-                    textArea.style.top = "0";
-                    document.body.appendChild(textArea);
-                    textArea.focus();
-                    textArea.select();
-                    try {
-                        const successful = document.execCommand('copy');
-                        if (successful) {
-                            const msg = document.getElementById('copy-status-msg');
-                            const icon = document.getElementById('copy-icon');
-                            msg.style.opacity = '1';
-                            icon.className = 'fas fa-check text-green-500 ml-4';
-                            setTimeout(() => {
-                                msg.style.opacity = '0';
-                                icon.className = 'far fa-copy ml-4 opacity-60';
-                            }, 3000);
-                        }
-                    } catch (err) { console.error('Copy failed', err); }
-                    document.body.removeChild(textArea);
-                };
+        function openPaymentModal(serviceName) {
+            document.getElementById('modalServiceTitle').innerText = "Вы выбрали: " + serviceName;
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+
+        function copyCardNumber() {
+            const cardNumberText = document.getElementById('cardNumber').innerText.replace(/\s/g, '');
+            const textArea = document.createElement("textarea");
+            textArea.value = cardNumberText;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            textArea.style.top = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    const hint = document.getElementById('copyHint');
+                    hint.innerText = "Реквизиты успешно скопированы!";
+                    hint.style.color = "#22c55e";
+                    
+                    setTimeout(() => {
+                        hint.innerText = "Нажмите, чтобы скопировать номер кошелька / карты";
+                        hint.style.color = "#888";
+                    }, 3000);
+                }
+            } catch (err) {
+                console.error('Ошибка копирования', err);
             }
-        });
+            document.body.removeChild(textArea);
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('paymentModal');
+            if (event.target === modal) {
+                closePaymentModal();
+            }
+        }
     </script>
 
-    <!-- FIREBASE -->
+    <!-- FIREBASE ПОДКЛЮЧЕНИЕ -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
@@ -513,7 +605,7 @@
     </script>
 
     <script>
-        // ЧАСТИЦЫ И КУРСОР
+        // АНИМАЦИЯ ЧАСТИЦ И КУРСОР
         const cat = document.getElementById('magic-cat');
         const dust = document.getElementById('magic-dust'), dCtx = dust.getContext('2d');
         const chaos = document.getElementById('chaos-bg'), ctx = chaos.getContext('2d');
