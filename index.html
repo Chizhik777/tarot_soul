@@ -239,7 +239,6 @@
 </head>
 <body class="min-h-screen flex flex-col font-body selection:bg-gold-500 selection:text-black">
 
-    <!-- PRELOADER -->
     <div id="preloader" class="fixed inset-0 z-[12000] flex items-center justify-center text-gold-500">
         <div class="text-center">
             <i class="fas fa-circle-notch fa-spin text-4xl mb-4"></i>
@@ -342,72 +341,70 @@
 
     <div class="container mx-auto px-4 pb-20 max-w-5xl space-y-24 md:space-y-32 relative z-10 text-center">
         
-        <!-- ВИТРИНА УСЛУГ -->
         <section class="tarot-pricing pt-8" id="services">
-            <div class="text-center mb-12">
-                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Выбрать расклад</h2>
-                <div class="w-10 h-[1px] bg-gold-500 mx-auto opacity-20"></div>
-                <p class="text-xs text-gold-300 uppercase tracking-[0.2em] opacity-80 mt-4">Отношения • Финансы и карьера • Предназначение • Энергия и здоровье</p>
-            </div>
-            
-            <div class="pricing-grid grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+            <div class="container mx-auto">
+                <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-2 tracking-[0.3em] uppercase text-center">Выбрать расклад</h2>
+                <p class="text-xs text-gold-500/80 uppercase tracking-widest text-center mb-4 italic">Отношения • Финансы и карьера • Предназначение • Энергия и здоровье</p>
+                <div class="w-10 h-[1px] bg-gold-500 mx-auto opacity-20 mb-12"></div>
                 
-                <!-- Карточка 1 -->
-                <div class="price-card glass-panel p-8 flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-heading text-xl text-gold-100 mb-2">Базовая диагностика</h3>
-                        <p class="price-subtitle text-sm text-gray-400 mb-4">Экспресс-ответ</p>
-                        <div class="price-value font-heading text-lg text-gold-300 mb-6">Оплата по сердцу (от 300 ₽)</div>
-                        <ul class="price-features space-y-2 text-sm text-gray-300 mb-8 border-t border-b border-white/5 py-4">
-                            <li>Длительность: 15 минут</li>
-                            <li>Формат: Онлайн-консультация</li>
-                        </ul>
+                <div class="pricing-grid grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                    
+                    <!-- Карточка 1: База / Донат -->
+                    <div class="price-card glass-panel p-8 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-heading text-xl text-gold-100 mb-2">Базовая диагностика</h3>
+                            <p class="price-subtitle text-sm text-gray-400 mb-4">Экспресс-ответ</p>
+                            <div class="price-value font-heading text-lg text-gold-300 mb-6">Оплата по сердцу (от 300 ₽)</div>
+                            <ul class="price-features space-y-2 text-sm text-gray-300 mb-8 border-t border-b border-white/5 py-4">
+                                <li>Длительность: 15 минут</li>
+                                <li>Формат: Онлайн-консультация</li>
+                            </ul>
+                        </div>
+                        <div class="card-buttons flex flex-col gap-3">
+                            <a href="https://dikidi.net/#widget=214061" class="btn-gold py-3 text-xs uppercase text-center" target="_blank">Записаться</a>
+                            <button class="btn-gold bg-black/40 text-gold-300 py-3 text-xs uppercase" onclick="openPaymentModal('Базовая диагностика (от 300 ₽)')">Оплатить</button>
+                        </div>
                     </div>
-                    <div class="card-buttons flex flex-col gap-3">
-                        <a href="https://dikidi.net/#widget=214061" class="btn-gold py-3 text-xs uppercase text-center" target="_blank">Записаться</a>
-                        <button class="btn-gold bg-black/40 text-gold-300 py-3 text-xs uppercase" onclick="openPaymentModal('Базовая диагностика (от 300 ₽)')">Оплатить</button>
-                    </div>
-                </div>
 
-                <!-- Карточка 2 -->
-                <div class="price-card popular glass-panel p-8 flex flex-col justify-between border-gold-500/60 relative">
-                    <span class="badge absolute -top-3 right-5 bg-gold-500 text-black px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full">Популярный</span>
-                    <div>
-                        <h3 class="font-heading text-xl text-gold-100 mb-2">Детальный разбор</h3>
-                        <p class="price-subtitle text-sm text-gray-400 mb-4">Глубокий анализ одного запроса</p>
-                        <div class="price-value font-heading text-lg text-gold-300 mb-6">2 500 ₽</div>
-                        <ul class="price-features space-y-2 text-sm text-gray-300 mb-8 border-t border-b border-white/5 py-4">
-                            <li>Длительность: 1 час</li>
-                            <li>Подробный ответ и рекомендации</li>
-                        </ul>
+                    <!-- Карточка 2: Стандарт -->
+                    <div class="price-card popular glass-panel p-8 flex flex-col justify-between border-gold-500/60 relative">
+                        <span class="badge absolute -top-3 right-5 bg-gold-500 text-black px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full">Популярный</span>
+                        <div>
+                            <h3 class="font-heading text-xl text-gold-100 mb-2">Детальный разбор</h3>
+                            <p class="price-subtitle text-sm text-gray-400 mb-4">Глубокий анализ одного запроса</p>
+                            <div class="price-value font-heading text-lg text-gold-300 mb-6">2 500 ₽</div>
+                            <ul class="price-features space-y-2 text-sm text-gray-300 mb-8 border-t border-b border-white/5 py-4">
+                                <li>Длительность: 1 час</li>
+                                <li>Подробный ответ и рекомендации</li>
+                            </ul>
+                        </div>
+                        <div class="card-buttons flex flex-col gap-3">
+                            <a href="https://dikidi.net/#widget=214062" class="btn-gold py-3 text-xs uppercase text-center" target="_blank">Записаться</a>
+                            <button class="btn-gold bg-black/40 text-gold-300 py-3 text-xs uppercase" onclick="openPaymentModal('Детальный разбор — 2 500 ₽')">Оплатить</button>
+                        </div>
                     </div>
-                    <div class="card-buttons flex flex-col gap-3">
-                        <a href="https://dikidi.net/#widget=214062" class="btn-gold py-3 text-xs uppercase text-center" target="_blank">Записаться</a>
-                        <button class="btn-gold bg-black/40 text-gold-300 py-3 text-xs uppercase" onclick="openPaymentModal('Детальный разбор — 2 500 ₽')">Оплатить</button>
-                    </div>
-                </div>
 
-                <!-- Карточка 3 -->
-                <div class="price-card glass-panel p-8 flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-heading text-xl text-gold-100 mb-2">VIP-стратегия</h3>
-                        <p class="price-subtitle text-sm text-gray-400 mb-4">Фундаментальный разбор ситуации</p>
-                        <div class="price-value font-heading text-lg text-gold-300 mb-6">7 000 ₽</div>
-                        <ul class="price-features space-y-2 text-sm text-gray-300 mb-8 border-t border-b border-white/5 py-4">
-                            <li>Длительность: 3 часа</li>
-                            <li>Глубокий анализ</li>
-                        </ul>
+                    <!-- Карточка 3: VIP -->
+                    <div class="price-card glass-panel p-8 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-heading text-xl text-gold-100 mb-2">VIP-стратегия</h3>
+                            <p class="price-subtitle text-sm text-gray-400 mb-4">Глубокий анализ</p>
+                            <div class="price-value font-heading text-lg text-gold-300 mb-6">7 000 ₽</div>
+                            <ul class="price-features space-y-2 text-sm text-gray-300 mb-8 border-t border-b border-white/5 py-4">
+                                <li>Длительность: 3 часа</li>
+                                <li>Глубокий анализ ситуации</li>
+                            </ul>
+                        </div>
+                        <div class="card-buttons flex flex-col gap-3">
+                            <a href="https://dikidi.net/#widget=214063" class="btn-gold py-3 text-xs uppercase text-center" target="_blank">Записаться</a>
+                            <button class="btn-gold bg-black/40 text-gold-300 py-3 text-xs uppercase" onclick="openPaymentModal('VIP-стратегия — 7 000 ₽')">Оплатить</button>
+                        </div>
                     </div>
-                    <div class="card-buttons flex flex-col gap-3">
-                        <a href="https://dikidi.net/#widget=214063" class="btn-gold py-3 text-xs uppercase text-center" target="_blank">Записаться</a>
-                        <button class="btn-gold bg-black/40 text-gold-300 py-3 text-xs uppercase" onclick="openPaymentModal('VIP-стратегия — 7 000 ₽')">Оплатить</button>
-                    </div>
-                </div>
 
+                </div>
             </div>
         </section>
 
-        <!-- ТРИ КАРТЫ СУДЬБЫ -->
         <section>
             <div class="text-center mb-12">
                 <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Три карты судьбы</h2>
@@ -427,7 +424,6 @@
             </div>
         </section>
 
-        <!-- ПОРТАЛ ОТВЕТОВ -->
         <section class="flex flex-col items-center">
             <div class="text-center mb-12">
                 <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Портал Ответов</h2>
@@ -443,7 +439,6 @@
             </div>
         </section>
 
-        <!-- ОТЗЫВЫ -->
         <section id="reviews-section" class="pb-10">
             <div class="text-center mb-12">
                 <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-4 tracking-[0.3em] uppercase">Отзывы</h2>
@@ -468,7 +463,7 @@
 
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО ОПЛАТЫ (YOMONEY И ИНСТАГРАМ) -->
+    <!-- МОДАЛКА ОПЛАТЫ (ЮMONEY) -->
     <div id="paymentModal" class="fixed inset-0 z-[10000] bg-black/85 backdrop-blur-md flex items-center justify-center p-4" style="display: none;">
         <div class="glass-panel p-8 max-w-md w-full relative text-left">
             <button class="absolute top-4 right-5 text-2xl text-gray-400 hover:text-gold-300 transition-colors" onclick="closePaymentModal()">&times;</button>
@@ -478,7 +473,7 @@
             <div class="bg-black/60 p-4 rounded border border-gold-500/20 mb-6">
                 <p class="text-[10px] text-gray-400 uppercase tracking-[0.2em] mb-2 text-center">Перевод по реквизитам (ЮMoney):</p>
                 <div class="flex justify-between items-center bg-black border border-gold-500/30 px-3 py-2 rounded mb-2">
-                    <span id="cardNumber" class="font-mono text-base font-bold text-gold-100 tracking-wider">5599 0021 2732 2628</span>
+                    <span id="cardNumber" class="font-mono text-base font-bold text-gold-100 tracking-wider">5599002127322628</span>
                     <button class="bg-gold-500/20 text-gold-300 border border-gold-500/40 px-3 py-1 rounded text-[10px] uppercase font-bold hover:bg-gold-500/30 transition-colors" onclick="copyCardNumber()">Копировать</button>
                 </div>
                 <p id="copyHint" class="text-[10px] text-gray-400 text-center">Нажмите, чтобы скопировать номер кошелька / карты</p>
@@ -488,14 +483,100 @@
                 <p class="text-gold-300 uppercase tracking-widest font-bold text-center mb-2">Как завершить запись:</p>
                 <ol class="list-decimal pl-5 space-y-1 leading-relaxed">
                     <li>Запишитесь на удобное время через кнопку «Записаться».</li>
-                    <li>Скопируйте номер карты и переведите точную сумму.</li>
-                    <li>Отправьте скриншот чека мне в Директ.</li>
+                    <li>Скопируйте номер и переведите точную сумму.</li>
+                    <li>Отправьте скриншот чека в Директ.</li>
                 </ol>
             </div>
             
-            <a href="https://instagram.com/elena.tarot" target="_blank" class="btn-gold py-3 text-xs uppercase w-full block text-center flex items-center justify-center gap-2">
-                <i class="fab fa-instagram text-base"></i> Директ
+            <a href="https://instagram.com/elena.tarot" target="_blank" id="directBtn" class="btn-gold py-3 text-xs uppercase w-full block text-center flex items-center justify-center gap-2">
+                <i class="fab fa-instagram text-base"></i> Отправить чек в Директ
             </a>
+        </div>
+    </div>
+
+    <!-- ОБЯЗАТЕЛЬНОЕ МОДАЛЬНОЕ ОКНО ПУБЛИЧНОЙ ОФЕРТЫ (ПЕРВЫЙ ШАГ) -->
+    <div id="mandatoryOfferModal" class="fixed inset-0 z-[11000] bg-black/90 backdrop-blur-md flex items-center justify-center p-4" style="display: none;">
+        <div class="glass-panel p-6 md:p-8 max-w-lg w-full relative text-left">
+            <button class="absolute top-4 right-5 text-2xl text-gray-400 hover:text-gold-300 transition-colors" onclick="closeMandatoryOfferModal()">&times;</button>
+            <h3 class="font-heading text-lg text-gold-100 uppercase tracking-widest mb-3 text-center">Публичная оферта</h3>
+            <p class="text-[11px] text-gold-500 uppercase tracking-widest mb-4 text-center">Обязательное условие перед оплатой услуг</p>
+            
+            <div class="bg-black/70 p-4 rounded border border-gold-500/20 max-h-48 overflow-y-auto mb-5 text-[11px] text-gray-300 space-y-3 leading-relaxed">
+                <p>1. Настоящий документ является официальным предложением (публичной офертой) и содержит все существенные условия предоставления информационно-консультационных услуг Таро.</p>
+                <p>2. Услуги носят информационный и рекомендательный характер. Окончательные жизненные решения Заказчик принимает самостоятельно.</p>
+                <p>3. Стоимость оплачивается в порядке 100% предоплаты. В случае отмены менее чем за 24 часа предоплата не возвращается.</p>
+                <p class="text-gold-300"><a href="javascript:void(0)" onclick="openFullOfferModal()" class="underline hover:text-white">Нажмите здесь, чтобы прочитать полный текст договора-оферты</a></p>
+            </div>
+
+            <!-- БЛОК УСПЕШНОГО СОГЛАСИЯ (Скрыт по умолчанию) -->
+            <div id="offerSuccessAnim" class="hidden flex-col items-center justify-center py-6">
+                <div class="w-16 h-16 rounded-full border-2 border-gold-500 flex items-center justify-center mb-4 text-gold-500 text-3xl animate-pulse-card-glow transition-all duration-500 transform scale-0" id="offerSuccessCheck">
+                    <i class="fas fa-check"></i>
+                </div>
+                <p class="font-heading text-gold-300 uppercase tracking-widest text-center animate-pulse">Условия успешно приняты</p>
+            </div>
+
+            <div id="offerInteractionBlock">
+                <!-- ГАЛОЧКА СОГЛАСИЯ -->
+                <div class="flex items-start gap-3 mb-6 bg-black/50 p-3.5 rounded border border-gold-500/30">
+                    <input type="checkbox" id="mandatoryAgreementCheckbox" class="mt-0.5 w-4 h-4 accent-gold-500 cursor-pointer">
+                    <label for="mandatoryAgreementCheckbox" class="text-[10px] text-gold-100/90 leading-normal cursor-pointer select-none">
+                        Я ознакомлен(а) и полностью принимаю условия <a href="javascript:void(0)" onclick="openFullOfferModal()" class="underline text-gold-300 font-bold">Публичной оферты</a> и согласен(а) на обработку персональных данных.
+                    </label>
+                </div>
+
+                <button id="proceedToPaymentBtn" onclick="acceptOfferAndProceed()" class="btn-gold py-3 text-xs uppercase w-full block text-center opacity-40 pointer-events-none transition-opacity">
+                    Продолжить к оплате
+                </button>
+                <p id="offerErrorHint" class="text-[9px] text-amber-400/90 text-center mt-2 italic">⚠️ Пожалуйста, подтвердите согласие с офертой, чтобы перейти к реквизитам.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО ПОЛНОГО ТЕКСТА ОФЕРТЫ -->
+    <div id="offerModal" class="fixed inset-0 z-[12000] bg-black/90 backdrop-blur-md flex items-center justify-center p-4" style="display: none;">
+        <div class="glass-panel p-6 md:p-8 max-w-2xl w-full relative text-left max-h-[85vh] overflow-y-auto">
+            <button class="absolute top-4 right-5 text-2xl text-gray-400 hover:text-gold-300 transition-colors" onclick="closeOfferModal()">&times;</button>
+            <h3 class="font-heading text-lg text-gold-100 uppercase tracking-widest mb-6 text-center">ДОГОВОР-ОФЕРТА (Условия оказания услуг)</h3>
+            
+            <div class="text-xs text-gray-300 space-y-4 leading-relaxed font-light">
+                <div>
+                    <h4 class="font-bold text-gold-300 uppercase mb-1">1. Общие положения</h4>
+                    <p>1.1. Настоящий документ является официальным предложением (публичной офертой) самозанятого специалиста (далее — «Исполнитель») и содержит все существенные условия предоставления информационно-консультационных услуг в сфере эзотерического анализа и глубоких раскладов Таро (далее — «Услуги»).</p>
+                    <p>1.2. В соответствии со статьей 437 Гражданского кодекса РФ (ГК РФ), в случае принятия изложенных ниже условий и оплаты услуг, лицо, производящее акцепт этой оферты, становится Заказчиком.</p>
+                    <p>1.3. Акцептом (полным и безоговорочным принятием) условий настоящей оферты является факт оформления заявки, записи на сеанс и/или совершения оплаты услуг Исполнителя.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-gold-300 uppercase mb-1">2. Предмет и порядок оказания услуг</h4>
+                    <p>2.1. Исполнитель обязуется оказать Заказчику выбранную им Услугу (экспресс-расклад, базовый, стандартный или VIP-сеанс), а Заказчик обязуется оплатить ее в соответствии с действующими тарифами, указанными на сайте.</p>
+                    <p>2.2. Услуги носят исключительно информационно-аналитический, консультационный и рекомендательный характер. Консультации проводятся с использованием метафорических систем и карт Таро для анализа жизненных ситуаций и внутренних состояний Заказчика.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-gold-300 uppercase mb-1">3. Финансовые условия и порядок возврата</h4>
+                    <p>3.1. Стоимость услуг указывается на сайте и оплачивается Заказчиком в порядке 100% предоплаты.</p>
+                    <p>3.2. Услуга считается оказанной надлежащим образом и в полном объеме с момента проведения сеанса или отправки результатов расклада в текстовом/видеоформате.</p>
+                    <p>3.3. В случае отмены сеанса по инициативе Заказчика менее чем за 24 часа до назначенного времени, предоплата не возвращается, так как время Исполнителя зарезервировано под конкретного клиента.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-gold-300 uppercase mb-1">4. Отказ от ответственности (Важно)</h4>
+                    <p>4.1. Все консультации и расклады предоставляются по принципу «как есть». Информация, полученная в ходе сеанса, является субъективной трактовкой символов и не является гарантией наступления определенных событий, а также медицинским, юридическим, финансовым или психологическим диагнозом.</p>
+                    <p>4.2. Исполнитель не несет ответственности за любые решения, действия или бездействие, которые Заказчик предпринимает на основе полученной в ходе консультации информации.</p>
+                    <p>4.3. Окончательные решения в своей жизни, личных отношениях, финансах и других сферах Заказчик принимает самостоятельно и несет за них полную личную ответственность.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-gold-300 uppercase mb-1">5. Конфиденциальность и персональные данные</h4>
+                    <p>5.1. Исполнитель обязуется не разглашать личную информацию и детали запросов Заказчика, ставшие известными в ходе оказания услуг.</p>
+                    <p>5.2. Оформляя заявку на сайте или в социальных сетях, Заказчик дает согласие на обработку своих персональных данных исключительно в рамках исполнения настоящего договора.</p>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <button onclick="closeOfferModal()" class="btn-gold py-2.5 px-8 text-xs uppercase">Закрыть оферту</button>
+            </div>
         </div>
     </div>
 
@@ -506,252 +587,317 @@
 
     <!-- SCRIPTS -->
     <script>
+        let pendingServiceName = "";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const mandatoryCheckbox = document.getElementById('mandatoryAgreementCheckbox');
+            const proceedBtn = document.getElementById('proceedToPaymentBtn');
+            const errorHint = document.getElementById('offerErrorHint');
+
+            if(mandatoryCheckbox && proceedBtn) {
+                mandatoryCheckbox.addEventListener('change', function() {
+                    if(this.checked) {
+                        proceedBtn.style.opacity = '1';
+                        proceedBtn.classList.remove('pointer-events-none');
+                        if(errorHint) errorHint.style.display = 'none';
+                    } else {
+                        proceedBtn.style.opacity = '0.5';
+                        proceedBtn.classList.add('pointer-events-none');
+                        if(errorHint) errorHint.style.display = 'block';
+                    }
+                });
+            }
+
+            // Remove preloader
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                if(preloader) {
+                    preloader.style.opacity = '0';
+                    setTimeout(() => preloader.style.display = 'none', 800);
+                }
+            }, 500);
+
+            // Initialize Tarot Deck & Portal
+            initTarotDeck();
+            initChaosBackground();
+        });
+
         function openPaymentModal(serviceName) {
-            document.getElementById('modalServiceTitle').innerText = "Вы выбрали: " + serviceName;
-            document.getElementById('paymentModal').style.display = 'flex';
+            pendingServiceName = serviceName;
+            
+            /* Сбрасываем состояние окна перед открытием, если оно открывается повторно */
+            document.getElementById('offerInteractionBlock').style.display = 'block';
+            document.getElementById('offerSuccessAnim').classList.add('hidden');
+            document.getElementById('offerSuccessAnim').classList.remove('flex');
+            document.getElementById('offerSuccessCheck').classList.remove('scale-100');
+            document.getElementById('offerSuccessCheck').classList.add('scale-0');
+            
+            const checkbox = document.getElementById('mandatoryAgreementCheckbox');
+            if(checkbox) checkbox.checked = false;
+            
+            const proceedBtn = document.getElementById('proceedToPaymentBtn');
+            if(proceedBtn) {
+                proceedBtn.style.opacity = '0.4';
+                proceedBtn.classList.add('pointer-events-none');
+            }
+            const errorHint = document.getElementById('offerErrorHint');
+            if(errorHint) errorHint.style.display = 'block';
+
+            document.getElementById('mandatoryOfferModal').style.display = 'flex';
+        }
+
+        function closeMandatoryOfferModal() {
+            document.getElementById('mandatoryOfferModal').style.display = 'none';
+        }
+
+        function acceptOfferAndProceed() {
+            const checkbox = document.getElementById('mandatoryAgreementCheckbox');
+            if(!checkbox || !checkbox.checked) return;
+
+            /* Скрываем блок взаимодействия и показываем анимацию успеха */
+            document.getElementById('offerInteractionBlock').style.display = 'none';
+            
+            const successAnim = document.getElementById('offerSuccessAnim');
+            const checkIcon = document.getElementById('offerSuccessCheck');
+            
+            successAnim.classList.remove('hidden');
+            successAnim.classList.add('flex');
+            
+            /* Запускаем анимацию галочки с небольшой задержкой для плавности */
+            setTimeout(() => {
+                checkIcon.classList.remove('scale-0');
+                checkIcon.classList.add('scale-100');
+            }, 50);
+
+            /* Через 1.8 секунды плавно переходим к окну оплаты */
+            setTimeout(() => {
+                closeMandatoryOfferModal();
+                document.getElementById('modalServiceTitle').innerText = "Вы выбрали: " + pendingServiceName;
+                document.getElementById('paymentModal').style.display = 'flex';
+            }, 1800);
         }
 
         function closePaymentModal() {
             document.getElementById('paymentModal').style.display = 'none';
         }
 
+        function openFullOfferModal() {
+            document.getElementById('offerModal').style.display = 'flex';
+        }
+
+        function closeOfferModal() {
+            document.getElementById('offerModal').style.display = 'none';
+        }
+
         function copyCardNumber() {
-            const cardNumberText = document.getElementById('cardNumber').innerText.replace(/\s/g, '');
-            const textArea = document.createElement("textarea");
-            textArea.value = cardNumberText;
-            textArea.style.position = "fixed";
-            textArea.style.left = "-9999px";
-            textArea.style.top = "0";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
+            const cardNum = document.getElementById('cardNumber').innerText;
+            const hint = document.getElementById('copyHint');
             
+            const textArea = document.createElement("textarea");
+            textArea.value = cardNum;
+            document.body.appendChild(textArea);
+            textArea.select();
             try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    const hint = document.getElementById('copyHint');
-                    hint.innerText = "Реквизиты успешно скопированы!";
-                    hint.style.color = "#22c55e";
-                    
-                    setTimeout(() => {
-                        hint.innerText = "Нажмите, чтобы скопировать номер кошелька / карты";
-                        hint.style.color = "#888";
-                    }, 3000);
-                }
+                document.execCommand('copy');
+                hint.innerText = "✓ Номер успешно скопирован!";
+                hint.style.color = "#D4AF37";
+                setTimeout(() => {
+                    hint.innerText = "Нажмите, чтобы скопировать номер кошелька / карты";
+                    hint.style.color = "";
+                }, 3000);
             } catch (err) {
-                console.error('Ошибка копирования', err);
+                hint.innerText = "Не удалось скопировать автоматически";
             }
             document.body.removeChild(textArea);
         }
 
-        window.onclick = function(event) {
-            const modal = document.getElementById('paymentModal');
-            if (event.target === modal) {
-                closePaymentModal();
+        function openReviewModal(item) {
+            const img = item.querySelector('img');
+            if(!img) return;
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-image');
+            modalImg.src = img.src;
+            modal.style.display = 'flex';
+        }
+
+        function closeReviewModal() {
+            document.getElementById('image-modal').style.display = 'none';
+        }
+
+        function scrollReviews(direction) {
+            const container = document.getElementById('gallery-container');
+            if(container) {
+                container.scrollBy({ left: direction * 300, behavior: 'smooth' });
             }
         }
-    </script>
 
-    <!-- FIREBASE ПОДКЛЮЧЕНИЕ -->
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
-        import { getFirestore, collection, onSnapshot } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
-
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-
-        let currentUser = null;
-
-        const initAuth = async () => {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (err) { console.error("Auth Failure", err); }
-        };
-
-        onAuthStateChanged(auth, (user) => {
-            currentUser = user;
-            if (user) loadReviews();
-        });
-
-        initAuth();
-
-        function loadReviews() {
-            if (!currentUser) return;
-            const q = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
-            onSnapshot(q, (snap) => {
-                const list = document.getElementById('reviews-list');
-                const revs = [];
-                snap.forEach(d => revs.push(d.data()));
-                revs.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-                list.innerHTML = revs.length ? revs.map(r => `
-                    <div class="glass-panel p-6 md:p-8 text-left border-white/5">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="font-heading text-gold-300 text-[9px] md:text-[10px] uppercase tracking-widest text-center">${r.name}</span>
-                            <div class="text-gold-500 text-[10px]">${'★'.repeat(r.rating || 5)}</div>
-                        </div>
-                        <p class="text-xs md:text-sm text-gray-400 italic leading-relaxed text-center">"${r.text}"</p>
-                    </div>
-                `).join('') : '';
-            }, (err) => console.error("Firestore Permission Error", err));
-        }
-    </script>
-
-    <script>
-        // АНИМАЦИЯ ЧАСТИЦ И КУРСОР
-        const cat = document.getElementById('magic-cat');
-        const dust = document.getElementById('magic-dust'), dCtx = dust.getContext('2d');
-        const chaos = document.getElementById('chaos-bg'), ctx = chaos.getContext('2d');
-        let cw, ch, stars = [], particles = [];
-
-        class Particle {
-            constructor(x, y, color = '#FFD700') {
-                this.x = x; this.y = y;
-                this.vx = (Math.random() - 0.5) * 2.5; this.vy = (Math.random() - 0.5) * 2.5;
-                this.size = Math.random() * 2 + 1; this.life = 1; this.decay = 0.015 + Math.random() * 0.02;
-                this.color = color;
-            }
-            update() { this.x += this.vx; this.y += this.vy; this.life -= this.decay; }
-            draw() { dCtx.globalAlpha = this.life; dCtx.fillStyle = this.color; dCtx.beginPath(); dCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2); dCtx.fill(); }
-        }
-
-        class BGStar {
-            constructor() { this.init(); }
-            init() { this.x = Math.random() * cw; this.y = Math.random() * ch; this.size = Math.random() * 1.5; this.tw = Math.random() * Math.PI * 2; this.sp = 0.01 + Math.random() * 0.03; }
-            draw() { this.tw += this.sp; const alpha = 0.1 + (Math.sin(this.tw) + 1) * 0.4; ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
-        }
-
-        function resize() {
-            cw = chaos.width = dust.width = window.innerWidth;
-            ch = chaos.height = dust.height = window.innerHeight;
-            stars = Array.from({length: 150}, () => new BGStar());
-        }
-        window.onresize = resize; resize();
-
-        document.addEventListener('mousemove', (e) => {
-            if(cat && window.getComputedStyle(cat).display !== 'none') { 
-                cat.style.left = (e.clientX - 32) + 'px'; 
-                cat.style.top = (e.clientY - 32) + 'px'; 
-                if(Math.random() > 0.4) particles.push(new Particle(e.clientX, e.clientY));
-            }
-        });
-
-        function anim() {
-            ctx.fillStyle = '#000'; ctx.fillRect(0,0,cw,ch);
-            stars.forEach(s => s.draw());
-            dCtx.clearRect(0,0,cw,ch);
-            particles.forEach((p, i) => { p.update(); p.draw(); if(p.life <= 0) particles.splice(i, 1); });
-            requestAnimationFrame(anim);
-        }
-        anim();
-
-        window.scrollReviews = (dir) => { 
-            const container = document.getElementById('gallery-container'); 
-            const scrollAmount = window.innerWidth < 640 ? 250 : 300;
-            container.scrollBy({ left: dir * scrollAmount, behavior: 'smooth' }); 
-        };
-        window.openReviewModal = (el) => { 
-            const modal = document.getElementById('image-modal'); 
-            const modalImg = document.getElementById('modal-image'); 
-            modalImg.src = el.querySelector('img').src; 
-            modal.style.display = 'flex'; 
-        };
-        window.closeReviewModal = () => document.getElementById('image-modal').style.display = 'none';
-
-        // ЛОГИКА ТАРО (БЕЗ ПОВТОРОВ)
-        const tarotCardsPool = [
-            {n:"Маг", d:"Сила воли и решимость. Используйте свои таланты прямо сейчас.", i:"fa-magic"},
-            {n:"Жрица", d:"Интуиция ведет вас. Доверьтесь внутреннему голосу.", i:"fa-scroll"},
-            {n:"Императрица", d:"Расцвет и созидание. Ваши идеи скоро принесут богатые плоды.", i:"fa-crown"},
-            {n:"Влюбленные", d:"Гармония и важный выбор. Слушайте то, что говорит ваше сердце.", i:"fa-heart"},
-            {n:"Колесница", d:"Прорыв и победа. Вы движетесь в верном направлении к триумфу.", i:"fa-shuttle-van"},
-            {n:"Сила", d:"Внутренняя стойкость. Мягкость и терпение сильнее грубого напора.", i:"fa-lion"},
-            {n:"Отшельник", d:"Мудрость в тишине. Время для самопознания и спокойных раздумий.", i:"fa-lightbulb"},
-            {n:"Колесо Фортуны", d:"Цикл перемен. Судьба готовит для вас новый счастливый поворот.", i:"fa-dharmachakra"},
-            {n:"Звезда", d:"Яркая надежда. Ваши мечты обретают форму под защитой небес.", i:"fa-star"},
-            {n:"Солнце", d:"Чистая радость. Период ясности, успеха и большого вдохновения.", i:"fa-sun"},
-            {n:"Мир", d:"Завершение и успех. Вы достигли гармонии и готовы к новому этапу.", i:"fa-globe-europe"},
-            {n:"Луна", d:"Тайные знаки. Будьте внимательны к снам и скрытым мотивам других.", i:"fa-moon"},
-            {n:"Справедливость", d:"Честность во всем. Порядок будет восстановлен, правда на вашей стороне.", i:"fa-balance-scale"},
-            {n:"Умеренность", d:"Золотая середина. Баланс и спокойствие — ключи к решению проблем.", i:"fa-water"}
+        // Tarot Deck Logic
+        const tarotCardsData = [
+            { name: "Императрица", desc: "Энергия плодородия, изобилия, гармонии и материнской заботы. Время созидания." },
+            { name: "Колесо Фортуны", desc: "Поворотный момент судьбы. Перемены к лучшему, удача и выход на новый жизненный виток." },
+            { name: "Звезда", desc: "Надежда, вдохновение и духовное исцеление. Путеводная нить освещает ваш путь." },
+            { name: "Солнце", desc: "Триумф, радость, ясность и чистая энергия жизни. Все тайное становится явным." },
+            { name: "Верховная Жрица", desc: "Интуиция, тайные знания и доверие своему внутреннему голосу. Прислушайтесь к тишине." }
         ];
 
-        let currentDeckState = [];
-        let flippedIndices = new Set();
+        let chosenCardsCount = 0;
+        let selectedCardsResult = [];
 
-        function initDeck() {
+        function initTarotDeck() {
             const deck = document.getElementById('tarot-deck');
             if(!deck) return;
             deck.innerHTML = '';
-            flippedIndices.clear();
-            const shuffledPool = [...tarotCardsPool].sort(() => Math.random() - 0.5);
-            currentDeckState = shuffledPool.slice(0, 3);
             
-            for(let i=0; i<3; i++) {
-                const w = document.createElement('div');
-                w.className = 'tarot-card-wrapper';
-                w.innerHTML = `<div class="tarot-card-inner w-full h-full text-center"><div class="card-face card-front animate-pulse-card-glow text-center"><div class="eye-symbol animate-pulse-eye text-center"></div></div><div class="card-face card-back text-center"></div></div>`;
-                w.onclick = () => {
-                    if(w.classList.contains('flipped')) return;
-                    const cardData = currentDeckState[i];
-                    w.querySelector('.card-back').innerHTML = `<i class="fas ${cardData.i} text-5xl text-gold-500 mb-6 shadow-xl text-center"></i><h4 class="font-heading text-gold-300 text-lg mb-2 uppercase text-center">${cardData.n}</h4>`;
-                    w.classList.add('flipped');
-                    flippedIndices.add(i);
-                    if(flippedIndices.size === 3) showFinalPrediction();
-                };
-                deck.appendChild(w);
+            // Pick 3 random cards
+            const shuffled = [...tarotCardsData].sort(() => 0.5 - Math.random()).slice(0, 3);
+            
+            shuffled.forEach((card, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'tarot-card-wrapper cursor-pointer';
+                wrapper.innerHTML = `
+                    <div class="tarot-card-inner">
+                        <div class="card-face card-front flex flex-col items-center justify-center p-6 text-center">
+                            <div class="eye-symbol mb-4"></div>
+                            <span class="font-heading text-xs text-gold-300 tracking-widest uppercase">Карта #${index + 1}</span>
+                            <p class="text-[10px] text-gray-500 mt-2 uppercase tracking-wider">Нажмите, чтобы открыть</p>
+                        </div>
+                        <div class="card-face card-back">
+                            <span class="text-gold-500 text-xs uppercase tracking-widest mb-2 font-heading">Аркан #${index + 1}</span>
+                            <h4 class="font-heading text-lg text-gold-100 mb-3">${card.name}</h4>
+                            <p class="text-xs text-gray-300 italic leading-relaxed">${card.desc}</p>
+                        </div>
+                    </div>
+                `;
+                
+                wrapper.addEventListener('click', function() {
+                    if(!wrapper.classList.contains('flipped')) {
+                        wrapper.classList.add('flipped');
+                        chosenCardsCount++;
+                        selectedCardsResult.push(card.name);
+                        
+                        if(chosenCardsCount === 3) {
+                            showTarotResult();
+                        }
+                    }
+                });
+                
+                deck.appendChild(wrapper);
+            });
+        }
+
+        function showTarotResult() {
+            const resultBox = document.getElementById('tarot-result');
+            const listEl = document.getElementById('result-cards-list');
+            const descEl = document.getElementById('result-desc');
+            
+            if(resultBox && listEl && descEl) {
+                listEl.innerHTML = selectedCardsResult.map(c => `<span class="bg-gold-500/10 border border-gold-500/30 px-3 py-1 rounded">${c}</span>`).join('');
+                descEl.innerText = "Ваш расклад сформирован. Эти три энергии указывают на текущий этап трансформации. Доверьтесь своему пути и выбирайте сердцем.";
+                resultBox.classList.remove('hidden');
+                resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
 
-        function showFinalPrediction() {
-            const resultBlock = document.getElementById('tarot-result');
-            const resultDesc = document.getElementById('result-desc');
-            const resultList = document.getElementById('result-cards-list');
-            resultList.innerHTML = currentDeckState.map(c => `<span>[${c.n}]</span>`).join(' + ');
-            const meanings = currentDeckState.map(c => c.d.split('.')[0]).join('. ');
-            resultDesc.textContent = `Ваш расклад сегодня говорит о следующем: ${meanings}. Эти силы объединяются, чтобы дать вам необходимый ответ и поддержку.`;
-            resultBlock.classList.remove('hidden');
-            resultBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        function resetTarot() {
+            chosenCardsCount = 0;
+            selectedCardsResult = [];
+            const resultBox = document.getElementById('tarot-result');
+            if(resultBox) resultBox.classList.add('hidden');
+            initTarotDeck();
         }
 
-        window.resetTarot = () => {
-            document.getElementById('tarot-result').classList.add('hidden');
-            initDeck();
-            window.scrollTo({ top: document.getElementById('tarot-deck').offsetTop - 150, behavior: 'smooth' });
-        };
-        initDeck();
+        // Portal Logic
+        const portalAnswers = [
+            "Да, все знаки говорят в вашу пользу.",
+            "Сделайте паузу и прислушайтесь к интуиции.",
+            "Отпустите контроль, ситуация разрешится сама.",
+            "Время действовать смело и решительно.",
+            "Ответ кроется внутри вас, медитируйте."
+        ];
 
-        window.activatePortal = () => {
-            const portal = document.getElementById('portal-root');
-            const answers = ["ДА", "НЕТ", "ВЕРЬ", "ЖДИ", "СКОРО", "ШАНС"];
-            const t = document.getElementById('portal-text');
-            portal.classList.add('animate-pulse');
-            t.style.opacity = '0';
-            setTimeout(() => { 
-                portal.classList.remove('animate-pulse'); 
-                t.textContent = answers[Math.floor(Math.random()*answers.length)]; 
-                t.style.opacity = '1'; 
-            }, 800);
-        };
+        function activatePortal() {
+            const portalText = document.getElementById('portal-text');
+            if(portalText) {
+                const randomAns = portalAnswers[Math.floor(Math.random() * portalAnswers.length)];
+                portalText.style.opacity = '0';
+                setTimeout(() => {
+                    portalText.innerText = randomAns;
+                    portalText.style.fontSize = '0.9rem';
+                    portalText.style.textAlign = 'center';
+                    portalText.style.padding = '10px';
+                    portalText.style.opacity = '1';
+                }, 300);
+            }
+        }
 
-        window.heartBurst = (e) => {
-            const rect = e.currentTarget.getBoundingClientRect();
-            const x = rect.left + rect.width / 2;
-            const y = rect.top + rect.height / 2;
-            for(let i=0; i<20; i++) particles.push(new Particle(x, y, '#fff'));
-        };
+        // Canvas Background Dust & Stars
+        function initChaosBackground() {
+            const canvas = document.getElementById('chaos-bg');
+            if(!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
 
-        window.onload = () => setTimeout(() => { 
-            const pre = document.getElementById('preloader'); 
-            if(pre) { pre.style.opacity = 0; setTimeout(() => pre.remove(), 800); }
-        }, 1000);
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            const particles = [];
+            for(let i=0; i<60; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 1.5,
+                    vx: (Math.random() - 0.5) * 0.2,
+                    vy: (Math.random() - 0.5) * 0.2,
+                    alpha: Math.random()
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                ctx.fillStyle = '#D4AF37';
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if(p.x < 0) p.x = width;
+                    if(p.x > width) p.x = 0;
+                    if(p.y < 0) p.y = height;
+                    if(p.y > height) p.y = 0;
+
+                    ctx.globalAlpha = p.alpha * 0.5;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+
+            // Mouse follower cat for desktop
+            const cat = document.getElementById('magic-cat');
+            if(cat) {
+                let mouseX = width / 2;
+                let mouseY = height / 2;
+                let catX = mouseX;
+                let catY = mouseY;
+
+                window.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+
+                function followMouse() {
+                    catX += (mouseX - catX - 30) * 0.1;
+                    catY += (mouseY - catY - 30) * 0.1;
+                    cat.style.left = catX + 'px';
+                    cat.style.top = catY + 'px';
+                    requestAnimationFrame(followMouse);
+                }
+                followMouse();
+            }
+        }
     </script>
 </body>
 </html>
