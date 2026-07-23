@@ -42,7 +42,7 @@
                         'pulse-card-glow': 'pulseCardGlow 3s infinite ease-in-out',
                         'float': 'float 6s ease-in-out infinite',
                         'heart-beat': 'heartBeat 1.5s ease-in-out infinite',
-                        'cat-tail': 'catTail 2s ease-in-out infinite alternate',
+                        'cat-tail': 'catTail 2s ease-in-out alternate infinite',
                         'cat-float': 'catFloat 4s ease-in-out infinite',
                     },
                     keyframes: {
@@ -99,7 +99,7 @@
         @media (hover: hover) and (min-width: 641px) {
             #magic-cat { display: block; }
             body { cursor: none; }
-            a, button, .gallery-item, .tarot-card-wrapper, .portal-container, .interactive-heart { cursor: none !important; }
+            a, button, .gallery-item, .tarot-card-wrapper, .portal-container, .interactive-heart, input[type="checkbox"], label { cursor: none !important; }
         }
 
         @media (max-width: 640px) {
@@ -233,6 +233,7 @@
             display: inline-flex; align-items: center; justify-content: center;
             border: 1px solid rgba(212, 175, 55, 0.4); padding: 0.8rem 1.5rem;
             text-decoration: none;
+            cursor: pointer;
         }
         .btn-gold:hover { border-color: #D4AF37; color: #FFFFFF; transform: translateY(-2px); }
     </style>
@@ -344,6 +345,7 @@
         <section class="tarot-pricing pt-8" id="services">
             <div class="container mx-auto">
                 <h2 class="font-heading text-xl md:text-3xl text-gold-300 mb-2 tracking-[0.3em] uppercase text-center">Выбрать расклад</h2>
+                <!-- Восстановленная строка с темами -->
                 <p class="text-xs text-gold-500/80 uppercase tracking-widest text-center mb-4 italic">Отношения • Финансы и карьера • Предназначение • Энергия и здоровье</p>
                 <div class="w-10 h-[1px] bg-gold-500 mx-auto opacity-20 mb-12"></div>
                 
@@ -463,7 +465,46 @@
 
     </div>
 
-    <!-- МОДАЛКА ОПЛАТЫ (ЮMONEY) -->
+    <!-- ОБЯЗАТЕЛЬНОЕ МОДАЛЬНОЕ ОКНО ПУБЛИЧНОЙ ОФЕРТЫ (ПЕРВЫЙ ШАГ) -->
+    <div id="mandatoryOfferModal" class="fixed inset-0 z-[11000] bg-black/90 backdrop-blur-md flex items-center justify-center p-4" style="display: none;">
+        <div class="glass-panel p-6 md:p-8 max-w-lg w-full relative text-left">
+            <button class="absolute top-4 right-5 text-2xl text-gray-400 hover:text-gold-300 transition-colors" onclick="closeMandatoryOfferModal()">&times;</button>
+            <h3 class="font-heading text-lg text-gold-100 uppercase tracking-widest mb-3 text-center">Публичная оферта</h3>
+            <p class="text-[11px] text-gold-500 uppercase tracking-widest mb-4 text-center">Обязательное условие перед оплатой услуг</p>
+            
+            <div class="bg-black/70 p-4 rounded border border-gold-500/20 max-h-48 overflow-y-auto mb-5 text-[11px] text-gray-300 space-y-3 leading-relaxed">
+                <p>1. Настоящий документ является официальным предложением (публичной офертой) и содержит все существенные условия предоставления информационно-консультационных услуг.</p>
+                <p>2. Услуги носят информационный и рекомендательный характер. Окончательные жизненные решения Заказчик принимает самостоятельно.</p>
+                <p>3. Стоимость оплачивается в порядке 100% предоплаты. В случае отмены менее чем за 24 часа предоплата не возвращается.</p>
+                <p class="text-gold-300"><a href="javascript:void(0)" onclick="openFullOfferModal()" class="underline hover:text-white">Нажмите здесь, чтобы прочитать полный текст договора-оферты</a></p>
+            </div>
+
+            <!-- БЛОК УСПЕШНОГО СОГЛАСИЯ (Скрыт по умолчанию) -->
+            <div id="offerSuccessAnim" class="hidden flex-col items-center justify-center py-6">
+                <div class="w-16 h-16 rounded-full border-2 border-gold-500 flex items-center justify-center mb-4 text-gold-500 text-3xl animate-pulse-card-glow transition-all duration-500 transform scale-0" id="offerSuccessCheck">
+                    <i class="fas fa-check"></i>
+                </div>
+                <p class="font-heading text-gold-300 uppercase tracking-widest text-center animate-pulse">Условия успешно приняты</p>
+            </div>
+
+            <div id="offerInteractionBlock">
+                <!-- ГАЛОЧКА СОГЛАСИЯ С НОВЫМ ТЕКСТОМ -->
+                <div class="flex items-start gap-3 mb-6 bg-black/50 p-3.5 rounded border border-gold-500/30">
+                    <input type="checkbox" id="mandatoryAgreementCheckbox" class="mt-0.5 w-4 h-4 accent-gold-500 cursor-pointer">
+                    <label for="mandatoryAgreementCheckbox" class="text-[10px] text-gold-100/90 leading-normal cursor-pointer select-none">
+                        Совершая перевод и отправляя чек, вы принимаете условия <a href="javascript:void(0)" onclick="openFullOfferModal()" class="underline text-gold-300 font-bold">Публичной оферты</a> и даете согласие на обработку персональных данных.
+                    </label>
+                </div>
+
+                <button id="proceedToPaymentBtn" onclick="acceptOfferAndProceed()" class="btn-gold py-3 text-xs uppercase w-full block text-center opacity-40 pointer-events-none transition-opacity">
+                    Продолжить к оплате
+                </button>
+                <p id="offerErrorHint" class="text-[9px] text-amber-400/90 text-center mt-2 italic">⚠️ Пожалуйста, подтвердите согласие с офертой, чтобы перейти к реквизитам.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛКА ОПЛАТЫ (ЮMONEY) (ВТОРОЙ ШАГ) -->
     <div id="paymentModal" class="fixed inset-0 z-[10000] bg-black/85 backdrop-blur-md flex items-center justify-center p-4" style="display: none;">
         <div class="glass-panel p-8 max-w-md w-full relative text-left">
             <button class="absolute top-4 right-5 text-2xl text-gray-400 hover:text-gold-300 transition-colors" onclick="closePaymentModal()">&times;</button>
@@ -494,83 +535,44 @@
         </div>
     </div>
 
-    <!-- ОБЯЗАТЕЛЬНОЕ МОДАЛЬНОЕ ОКНО ПУБЛИЧНОЙ ОФЕРТЫ (ПЕРВЫЙ ШАГ) -->
-    <div id="mandatoryOfferModal" class="fixed inset-0 z-[11000] bg-black/90 backdrop-blur-md flex items-center justify-center p-4" style="display: none;">
-        <div class="glass-panel p-6 md:p-8 max-w-lg w-full relative text-left">
-            <button class="absolute top-4 right-5 text-2xl text-gray-400 hover:text-gold-300 transition-colors" onclick="closeMandatoryOfferModal()">&times;</button>
-            <h3 class="font-heading text-lg text-gold-100 uppercase tracking-widest mb-3 text-center">Публичная оферта</h3>
-            <p class="text-[11px] text-gold-500 uppercase tracking-widest mb-4 text-center">Обязательное условие перед оплатой услуг</p>
-            
-            <div class="bg-black/70 p-4 rounded border border-gold-500/20 max-h-48 overflow-y-auto mb-5 text-[11px] text-gray-300 space-y-3 leading-relaxed">
-                <p>1. Настоящий документ является официальным предложением (публичной офертой) и содержит все существенные условия предоставления информационно-консультационных услуг Таро.</p>
-                <p>2. Услуги носят информационный и рекомендательный характер. Окончательные жизненные решения Заказчик принимает самостоятельно.</p>
-                <p>3. Стоимость оплачивается в порядке 100% предоплаты. В случае отмены менее чем за 24 часа предоплата не возвращается.</p>
-                <p class="text-gold-300"><a href="javascript:void(0)" onclick="openFullOfferModal()" class="underline hover:text-white">Нажмите здесь, чтобы прочитать полный текст договора-оферты</a></p>
-            </div>
-
-            <!-- БЛОК УСПЕШНОГО СОГЛАСИЯ (Скрыт по умолчанию) -->
-            <div id="offerSuccessAnim" class="hidden flex-col items-center justify-center py-6">
-                <div class="w-16 h-16 rounded-full border-2 border-gold-500 flex items-center justify-center mb-4 text-gold-500 text-3xl animate-pulse-card-glow transition-all duration-500 transform scale-0" id="offerSuccessCheck">
-                    <i class="fas fa-check"></i>
-                </div>
-                <p class="font-heading text-gold-300 uppercase tracking-widest text-center animate-pulse">Условия успешно приняты</p>
-            </div>
-
-            <div id="offerInteractionBlock">
-                <!-- ГАЛОЧКА СОГЛАСИЯ -->
-                <div class="flex items-start gap-3 mb-6 bg-black/50 p-3.5 rounded border border-gold-500/30">
-                    <input type="checkbox" id="mandatoryAgreementCheckbox" class="mt-0.5 w-4 h-4 accent-gold-500 cursor-pointer">
-                    <label for="mandatoryAgreementCheckbox" class="text-[10px] text-gold-100/90 leading-normal cursor-pointer select-none">
-                        Я ознакомлен(а) и полностью принимаю условия <a href="javascript:void(0)" onclick="openFullOfferModal()" class="underline text-gold-300 font-bold">Публичной оферты</a> и согласен(а) на обработку персональных данных.
-                    </label>
-                </div>
-
-                <button id="proceedToPaymentBtn" onclick="acceptOfferAndProceed()" class="btn-gold py-3 text-xs uppercase w-full block text-center opacity-40 pointer-events-none transition-opacity">
-                    Продолжить к оплате
-                </button>
-                <p id="offerErrorHint" class="text-[9px] text-amber-400/90 text-center mt-2 italic">⚠️ Пожалуйста, подтвердите согласие с офертой, чтобы перейти к реквизитам.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- МОДАЛЬНОЕ ОКНО ПОЛНОГО ТЕКСТА ОФЕРТЫ -->
+    <!-- МОДАЛЬНОЕ ОКНО ПОЛНОГО ТЕКСТА ОФЕРТЫ (ОБНОВЛЕННЫЙ ТЕКСТ) -->
     <div id="offerModal" class="fixed inset-0 z-[12000] bg-black/90 backdrop-blur-md flex items-center justify-center p-4" style="display: none;">
         <div class="glass-panel p-6 md:p-8 max-w-2xl w-full relative text-left max-h-[85vh] overflow-y-auto">
             <button class="absolute top-4 right-5 text-2xl text-gray-400 hover:text-gold-300 transition-colors" onclick="closeOfferModal()">&times;</button>
-            <h3 class="font-heading text-lg text-gold-100 uppercase tracking-widest mb-6 text-center">ДОГОВОР-ОФЕРТА (Условия оказания услуг)</h3>
+            <h3 class="font-heading text-lg text-gold-100 uppercase tracking-widest mb-6 text-center">ДОГОВОР-ОФЕРТА (Условия оказания информационно-развлекательных услуг)</h3>
             
             <div class="text-xs text-gray-300 space-y-4 leading-relaxed font-light">
                 <div>
                     <h4 class="font-bold text-gold-300 uppercase mb-1">1. Общие положения</h4>
-                    <p>1.1. Настоящий документ является официальным предложением (публичной офертой) самозанятого специалиста (далее — «Исполнитель») и содержит все существенные условия предоставления информационно-консультационных услуг в сфере эзотерического анализа и глубоких раскладов Таро (далее — «Услуги»).</p>
+                    <p>1.1. Настоящий документ является официальным предложением (публичной офертой) самозанятого специалиста (далее — «Исполнитель») и содержит все существенные условия предоставления информационно-консультационных и развлекательных услуг в сфере анализа личных состояний с использованием метафорических и проективных методик (далее — «Услуги»).</p>
                     <p>1.2. В соответствии со статьей 437 Гражданского кодекса РФ (ГК РФ), в случае принятия изложенных ниже условий и оплаты услуг, лицо, производящее акцепт этой оферты, становится Заказчиком.</p>
                     <p>1.3. Акцептом (полным и безоговорочным принятием) условий настоящей оферты является факт оформления заявки, записи на сеанс и/или совершения оплаты услуг Исполнителя.</p>
                 </div>
 
                 <div>
                     <h4 class="font-bold text-gold-300 uppercase mb-1">2. Предмет и порядок оказания услуг</h4>
-                    <p>2.1. Исполнитель обязуется оказать Заказчику выбранную им Услугу (экспресс-расклад, базовый, стандартный или VIP-сеанс), а Заказчик обязуется оплатить ее в соответствии с действующими тарифами, указанными на сайте.</p>
-                    <p>2.2. Услуги носят исключительно информационно-аналитический, консультационный и рекомендательный характер. Консультации проводятся с использованием метафорических систем и карт Таро для анализа жизненных ситуаций и внутренних состояний Заказчика.</p>
+                    <p>2.1. Исполнитель обязуется оказать Заказчику выбранную им Услугу (экспресс-разбор, базовую или расширенную сессию), а Заказчик обязуется оплатить ее в соответствии с действующими тарифами, указанными на сайте tarot-soul.ru.</p>
+                    <p>2.2. Услуги носят исключительно информационно-развлекательный и досуговый характер. Консультации проводятся в формате творческого анализа ситуаций с применением ассоциативных и метафорических инструментов для расширения кругозора и самопознания Заказчика.</p>
                 </div>
 
                 <div>
                     <h4 class="font-bold text-gold-300 uppercase mb-1">3. Финансовые условия и порядок возврата</h4>
-                    <p>3.1. Стоимость услуг указывается на сайте и оплачивается Заказчиком в порядке 100% предоплаты.</p>
-                    <p>3.2. Услуга считается оказанной надлежащим образом и в полном объеме с момента проведения сеанса или отправки результатов расклада в текстовом/видеоформате.</p>
+                    <p>3.1. Стоимость услуг указывается на сайте tarot-soul.ru и оплачивается Заказчиком в порядке 100% предоплаты.</p>
+                    <p>3.2. Услуга считается оказанной надлежащим образом и в полном объеме с момента проведения сеанса или отправки материалов в текстовом/видеоформате.</p>
                     <p>3.3. В случае отмены сеанса по инициативе Заказчика менее чем за 24 часа до назначенного времени, предоплата не возвращается, так как время Исполнителя зарезервировано под конкретного клиента.</p>
                 </div>
 
                 <div>
                     <h4 class="font-bold text-gold-300 uppercase mb-1">4. Отказ от ответственности (Важно)</h4>
-                    <p>4.1. Все консультации и расклады предоставляются по принципу «как есть». Информация, полученная в ходе сеанса, является субъективной трактовкой символов и не является гарантией наступления определенных событий, а также медицинским, юридическим, финансовым или психологическим диагнозом.</p>
-                    <p>4.2. Исполнитель не несет ответственности за любые решения, действия или бездействие, которые Заказчик предпринимает на основе полученной в ходе консультации информации.</p>
+                    <p>4.1. Все сессии предоставляются по принципу «как есть». Информация и материалы, полученные в ходе сеанса, носят развлекательный характер, являются субъективной трактовкой визуальных образов и не являются прогнозом будущего, гарантией наступления событий, а также медицинским, юридическим, финансовым или психологическим диагнозом.</p>
+                    <p>4.2. Исполнитель не несет ответственности за любые решения, действия или бездействие, которые Заказчик предпринимает на основе полученной в ходе сеанса информации.</p>
                     <p>4.3. Окончательные решения в своей жизни, личных отношениях, финансах и других сферах Заказчик принимает самостоятельно и несет за них полную личную ответственность.</p>
                 </div>
 
                 <div>
                     <h4 class="font-bold text-gold-300 uppercase mb-1">5. Конфиденциальность и персональные данные</h4>
                     <p>5.1. Исполнитель обязуется не разглашать личную информацию и детали запросов Заказчика, ставшие известными в ходе оказания услуг.</p>
-                    <p>5.2. Оформляя заявку на сайте или в социальных сетях, Заказчик дает согласие на обработку своих персональных данных исключительно в рамках исполнения настоящего договора.</p>
+                    <p>5.2. Оформляя заявку на сайте или переводя оплату, Заказчик дает согласие на обработку своих персональных данных исключительно в рамках исполнения настоящего договора.</p>
                 </div>
             </div>
 
@@ -585,7 +587,6 @@
         <img id="modal-image" src="" alt="Full Review">
     </div>
 
-    <!-- SCRIPTS -->
     <script>
         let pendingServiceName = "";
 
@@ -601,7 +602,7 @@
                         proceedBtn.classList.remove('pointer-events-none');
                         if(errorHint) errorHint.style.display = 'none';
                     } else {
-                        proceedBtn.style.opacity = '0.5';
+                        proceedBtn.style.opacity = '0.4';
                         proceedBtn.classList.add('pointer-events-none');
                         if(errorHint) errorHint.style.display = 'block';
                     }
@@ -625,7 +626,7 @@
         function openPaymentModal(serviceName) {
             pendingServiceName = serviceName;
             
-            /* Сбрасываем состояние окна перед открытием, если оно открывается повторно */
+            // Подготовка окна обязательной оферты перед показом (сброс состояния)
             document.getElementById('offerInteractionBlock').style.display = 'block';
             document.getElementById('offerSuccessAnim').classList.add('hidden');
             document.getElementById('offerSuccessAnim').classList.remove('flex');
@@ -643,6 +644,7 @@
             const errorHint = document.getElementById('offerErrorHint');
             if(errorHint) errorHint.style.display = 'block';
 
+            // Открываем окно оферты
             document.getElementById('mandatoryOfferModal').style.display = 'flex';
         }
 
@@ -654,7 +656,7 @@
             const checkbox = document.getElementById('mandatoryAgreementCheckbox');
             if(!checkbox || !checkbox.checked) return;
 
-            /* Скрываем блок взаимодействия и показываем анимацию успеха */
+            // Скрываем блок взаимодействия и показываем анимацию успеха
             document.getElementById('offerInteractionBlock').style.display = 'none';
             
             const successAnim = document.getElementById('offerSuccessAnim');
@@ -663,13 +665,13 @@
             successAnim.classList.remove('hidden');
             successAnim.classList.add('flex');
             
-            /* Запускаем анимацию галочки с небольшой задержкой для плавности */
+            // Запускаем анимацию галочки с небольшой задержкой для плавности
             setTimeout(() => {
                 checkIcon.classList.remove('scale-0');
                 checkIcon.classList.add('scale-100');
             }, 50);
 
-            /* Через 1.8 секунды плавно переходим к окну оплаты */
+            // Через 1.8 секунды плавно переходим к окну оплаты
             setTimeout(() => {
                 closeMandatoryOfferModal();
                 document.getElementById('modalServiceTitle').innerText = "Вы выбрали: " + pendingServiceName;
